@@ -6,11 +6,12 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/05/13 18:42:35 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/05/24 12:49:52 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
+#include "lexer.h"
 
 t_line	*g_line;
 
@@ -35,7 +36,8 @@ int		main(void)
 		return (-1);
 	while (readline(line))
 	{
-		ft_putendl(line->line);
+		ft_printf("line = %s\n", line->line);
+		ft_print_strlist(lex_line(line->line));
 		ft_strdel(&line->line);
 	}
 	return (0);

@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/23 17:39:13 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/05/23 19:11:21 by alagroy-         ###   ########.fr       */
+/*   Created: 2019/05/24 09:54:01 by alagroy-          #+#    #+#             */
+/*   Updated: 2019/05/24 12:49:50 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#ifndef LEXER_H
+# define LEXER_H
+# include "libft.h"
 
-void	get_back_to_index(t_line *line)
-{
-	int		cursor;
-	
-	cursor = ft_strlen(line->line);
-	while (--cursor >= line->index + 1)
-		tputs(line->caps.le, 0, ft_putc);
-}
+t_list			*lex_line(char *line);
+
+#endif

@@ -6,7 +6,7 @@
 #    By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/13 09:44:51 by alagroy-          #+#    #+#              #
-#    Updated: 2019/05/23 17:39:04 by alagroy-         ###   ########.fr        #
+#    Updated: 2019/05/24 11:28:03 by alagroy-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = 21sh
 
 CC = gcc
 
-SRCS_NAME = main.c readline.c terminit.c move.c tools.c
+SRCS_NAME = main.c readline.c terminit.c move.c readline_tools.c lexer.c
 
 SRCS = $(addprefix srcs/, $(SRCS_NAME))
 
