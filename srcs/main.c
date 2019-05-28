@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/05/24 12:49:52 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/05/28 06:25:17 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ft_restore(int sig)
 int		main(void)
 {
 	t_line	*line;
+	t_list	*lex;
 
 	if (!(line = (t_line *)malloc(sizeof(t_line))))
 		return (-1);
@@ -37,7 +38,7 @@ int		main(void)
 	while (readline(line))
 	{
 		ft_printf("line = %s\n", line->line);
-		ft_print_strlist(lex_line(line->line));
+		lex = lex_line(line->line);
 		ft_strdel(&line->line);
 	}
 	return (0);
