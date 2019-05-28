@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 09:53:09 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/05/28 07:11:14 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/05/28 16:27:01 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,57 @@ int		(*g_func[NBR_FUNC])(char) =\
 	ft_is_semicol
 };
 
-int		g_state_tab[8][NBR_FUNC] =\
+int		g_state_tab[9][NBR_FUNC] =\
 {
 	{0, -17, 3, 2, 1, 4, 5, 6, 7, -16},
 	{-25, -25, -26, -26, 1, -25, -25, -25, -25},
-	{2, -2, 2, -45, 2, 2, 2, 2, 2, 2},
-	{3, -3, -45, 3, 3, 3, 3, 3, 3, 3},
-	{-7, -1, -27, -27, -27, -8, -1, -1, -1, -1},
+	{2, -2, 2, 8, 2, 2, 2, 2, 2, 2},
+	{3, -3, 8, 3, 3, 3, 3, 3, 3, 3},
+	{-7, -4, -27, -27, -27, -8, -1, -1, -1, -1},
 	{-8, -1, -8, -8, -8, -1, -9, -1, -1, -1},
 	{-10, -1, -30, -30, -30, -1, -14, -12, -1, -1},
-	{-11, -1, -31, -31, -31, -1, -15, -1, -13, -1}
+	{-11, -1, -31, -31, -31, -1, -15, -1, -13, -1},
+	{-65, -65, -66, -66, -66, -65, -65, -65, -65, -65}
 };
 
-t_token	*make_next_token(t_token *token, char *line)
+void			ft_del_token(void *content, size_t content_size)
+{
+	free(((t_token *)content)->lexem);
+	((t_token *)content)->lexem = NULL;
+	free(content);
+	content = NULL;
+	(void)content_size;
+}
+
+static t_list	*merge_token(t_list *token_list)
+{
+	t_list	*tmp;
+	t_list	*tmp_free;
+	char	*lexem_free;
+
+	tmp = token_list;
+	while (tmp)
+	{
+		if (((t_token *)tmp->content)->type == WORD_JOIN)
+		{
+			tmp_free = tmp->next;
+			lexem_free = ((t_token *)tmp->content)->lexem;
+			((t_token *)tmp->content)->lexem =
+				ft_strjoin(lexem_free, ((t_token *)tmp->next->content)->lexem);
+			if (!((t_token *)tmp->content)->lexem)
+				return (NULL);
+			((t_token *)tmp->content)->type =
+				((t_token *)tmp->next->content)->type;
+			tmp->next = tmp->next->next;
+			ft_lstdelone(&tmp_free, ft_del_token);
+		}
+		else
+			tmp = tmp->next;
+	}
+	return (token_list);
+}
+
+static void		make_next_token(t_token *token, char *line)
 {
 	static int	i = 0;
 	int			j;
@@ -58,15 +96,14 @@ t_token	*make_next_token(t_token *token, char *line)
 		i++;
 	}
 	i -= (state < -17 ? 1 : 0);
+	i -= (state < -60 ? 1 : 0);
 	begin += (state < -40 ? 1 : 0);
 	token->lexem = ft_strsub(line, begin, i - begin);
 	state < -40 ? i++ : 0;
-	token->type = state + (state < -17 ? 20 : 0);
-	(state < -40 ? token->type += 20 : 0);
-	return (token);
+	token->type = state % 20;
 }
-#include <stdio.h>
-t_list	*lex_line(char *line)
+
+t_list			*lex_line(char *line)
 {
 	t_list	*begin;
 	t_list	*elem;
@@ -79,11 +116,8 @@ t_list	*lex_line(char *line)
 	token->type = -42;
 	while (token->type != EOI && token->type < -4)
 	{
-		token = make_next_token(token, line);
-		ft_printf("lexem = %s, type = %d\n", token->lexem, token->type);
-		getchar();
-		ft_strdel(&token->lexem);
-		if (!(elem = ft_lstnew(token, sizeof(token))))
+		make_next_token(token, line);
+		if (!(elem = ft_lstnew(token, sizeof(t_token))))
 			return (NULL);
 		if (!begin)
 			begin = elem;
@@ -91,5 +125,6 @@ t_list	*lex_line(char *line)
 			ft_lstend(&begin, elem);
 	}
 	free(token);
+	merge_token(begin);
 	return (begin);
 }

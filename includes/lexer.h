@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 09:54:01 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/05/28 07:10:10 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/05/28 13:55:34 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,15 @@
 # define ERROR -1
 # define QUOTE -2
 # define DQUOTE -3
-# define BQUOTE -4
+# define PIPE_ERR -4
 # define WORD -5
 # define WORD_WC -25
 # define WORD_DC -45
+# define WORD_DQ -65
 # define WORD_JOIN -6
 # define WORD_JOIN_WC -26
 # define WORD_JOIN_DC -46
+# define WORD_JOIN_DQ -66
 # define PIPE -7
 # define PIPE_WC -27
 # define OR_IF -8
@@ -48,10 +50,11 @@ typedef struct	s_token
 	char	*lexem;
 }				t_token;
 
-extern int		g_state_tab[8][NBR_FUNC];
+extern int		g_state_tab[9][NBR_FUNC];
 extern int		(*g_func[NBR_FUNC])(char);
 
 t_list			*lex_line(char *line);
+void			ft_del_token(void *content, size_t content_size);
 int				ft_is_whitespace(char c);
 int				ft_is_eoi(char c);
 int				ft_is_dquote(char c);

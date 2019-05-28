@@ -6,7 +6,7 @@
 #    By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/28 06:25:56 by alagroy-          #+#    #+#              #
-#    Updated: 2019/05/28 06:32:19 by alagroy-         ###   ########.fr        #
+#    Updated: 2019/05/28 16:26:59 by alagroy-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,16 @@ tokens :	WORD
 			LESS '<'
 			GREAT '>'
 			DLESS "<<"
-			GREAT '>>'
-			LESSAND '<&'
-			GREATAND '>&'
+			GREAT ">>"
+			LESSAND "<&"
+			GREATAND ">&"
 			SEMICOL ';'
 			EOI
 
+command ((PIPE command)|(SEMI command)|(AND_OR command)|(IO_REDIRECT command))*
+
+complete_cmd_ln : complete_cmd EOI
+
+complete_cmd : command list_op suffix_cmd
+
+list_op : 
