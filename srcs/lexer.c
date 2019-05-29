@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 09:53:09 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/05/28 16:27:01 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/05/29 11:59:52 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,25 @@ static void		make_next_token(t_token *token, char *line)
 	token->type = state % 20;
 }
 
+static t_list	*lex_error_handle(t_list *token_list)
+{
+	t_list	*tmp;
+
+	tmp = token_list;
+	while (tmp)
+	{
+		if (((t_token *)tmp->content)->type == ERROR)
+		{
+			ft_printf("21sh: parse error near '%s'\n",
+					((t_token *)tmp->content)->lexem);
+			ft_lstdel(&token_list, ft_del_token);
+			return (NULL);
+		}
+		tmp = tmp->next;
+	}
+	return (token_list);
+}
+
 t_list			*lex_line(char *line)
 {
 	t_list	*begin;
@@ -126,5 +145,7 @@ t_list			*lex_line(char *line)
 	}
 	free(token);
 	merge_token(begin);
+	begin = lex_error_handle(begin);
+	aff_token(begin);
 	return (begin);
 }

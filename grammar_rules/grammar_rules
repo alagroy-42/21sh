@@ -6,27 +6,71 @@
 #    By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/28 06:25:56 by alagroy-          #+#    #+#              #
-#    Updated: 2019/05/28 16:26:59 by alagroy-         ###   ########.fr        #
+#    Updated: 2019/05/29 17:44:42 by alagroy-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 tokens :	WORD
-			PIPE '|'
-			OR_IF "&&"
-			AND_IF "||"
-			LESS '<'
-			GREAT '>'
-			DLESS "<<"
-			GREAT ">>"
-			LESSAND "<&"
-			GREATAND ">&"
-			SEMICOL ';'
-			EOI
+PIPE '|'
+OR_IF "&&"
+AND_IF "||"
+LESS '<'
+GREAT '>'
+DLESS "<<"
+GREAT ">>"
+LESSAND "<&"
+GREATAND ">&"
+SEMICOL ';'
+EOI
 
-command ((PIPE command)|(SEMI command)|(AND_OR command)|(IO_REDIRECT command))*
+complete_command : list
 
-complete_cmd_ln : complete_cmd EOI
+list             :  and_or
+| list separator_op and_or
 
-complete_cmd : command list_op suffix_cmd
+and_or           : pipe_sequence
+| and_or AND_IF linebreak pipe_sequence
+| and_or OR_IF  linebreak pipe_sequence
 
-list_op : 
+pipe_sequence    : command
+| pipe_sequence PIPE command
+
+command          : cmd_prefix cmd_word cmd_suffix
+| cmd_prefix cmd_word
+| cmd_prefix
+| cmd_name cmd_suffix
+| cmd_name
+
+cmd_name         : WORD
+
+cmd_word         : WORD
+
+cmd_prefix       : io_redirect
+| cmd_prefix io_redirect
+
+cmd_suffix       : io_redirect
+| cmd_suffix io_redirect
+| WORD
+| cmd_suffix WORD
+
+redirect_list    : io_redirect
+| redirect_list io_redirect
+
+io_redirect      : io_file
+| IO_NUMBER io_file
+| io_here
+| IO_NUMBER io_here
+
+io_file          : LESS filename
+| LESSAND   filename
+| GREAT     filename
+| GREATAND  filename
+| DGREAT    filename
+
+filename         : WORD
+
+io_here          : DLESS     here_end
+
+here_end         : WORD
+
+separator_op     : SEMICOL

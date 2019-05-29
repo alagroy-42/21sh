@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 09:54:01 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/05/28 13:55:34 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/05/29 11:51:50 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ extern int		(*g_func[NBR_FUNC])(char);
 
 t_list			*lex_line(char *line);
 void			ft_del_token(void *content, size_t content_size);
+void			aff_token(t_list *token);
 int				ft_is_whitespace(char c);
 int				ft_is_eoi(char c);
 int				ft_is_dquote(char c);
