@@ -6,12 +6,12 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/05/29 14:08:27 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/05 18:33:02 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
-#include "lexer.h"
+#include "lexer_parser.h"
 
 t_line	*g_line;
 
@@ -40,6 +40,8 @@ int		main(void)
 		ft_printf("line = %s\n", line->line);
 		lex = lex_line(line->line);
 		ft_strdel(&line->line);
+		if (lex)
+			ft_printf("parsing_return = %d\n", parse_cmd(lex));
 	}
 	return (0);
 }

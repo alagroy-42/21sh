@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 09:54:01 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/05/29 11:51:50 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/03 21:50:26 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,13 @@
 # define EOI -17
 
 # define NBR_FUNC 10
+# define NBR_SYMBOL 12
 
 typedef struct	s_token
 {
 	int		type;
 	char	*lexem;
 }				t_token;
-
-extern int		g_state_tab[9][NBR_FUNC];
-extern int		(*g_func[NBR_FUNC])(char);
 
 t_list			*lex_line(char *line);
 void			ft_del_token(void *content, size_t content_size);
@@ -67,5 +65,6 @@ int				ft_is_less(char c);
 int				ft_is_great(char c);
 int				ft_is_semicol(char c);
 int				ft_is_alnum(char c);
+int				parse_cmd(t_list *token_list);
 
 #endif

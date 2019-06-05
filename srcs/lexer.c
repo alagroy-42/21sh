@@ -6,11 +6,11 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 09:53:09 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/05/29 11:59:52 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/05 18:33:15 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "lexer_parser.h"
 
 int		(*g_func[NBR_FUNC])(char) =\
 {
@@ -146,6 +146,5 @@ t_list			*lex_line(char *line)
 	free(token);
 	merge_token(begin);
 	begin = lex_error_handle(begin);
-	aff_token(begin);
 	return (begin);
 }
