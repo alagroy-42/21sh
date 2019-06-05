@@ -6,12 +6,12 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 09:54:01 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/03 21:50:26 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/05 21:39:15 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#ifndef LEXER_PARSER_H
+# define LEXER_PARSER_H
 # include "libft.h"
 # include <stdlib.h>
 
