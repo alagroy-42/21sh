@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 09:53:09 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/05 21:46:09 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/07 14:50:40 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,5 @@ t_list			*lex_line(char *line)
 	free(token);
 	merge_token(begin);
 	begin = lex_error_handle(begin);
-	aff_token(begin);
 	return (begin);
 }

@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/05/23 19:53:21 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/07 07:43:29 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@
 typedef struct termios	t_termios;
 typedef struct winsize	t_ws;
 
+typedef struct			s_pos
+{
+	int		col;
+	int		row;
+}						t_pos;
+
 typedef struct			s_cap
 {
 	char	*cm;
@@ -47,6 +53,7 @@ typedef struct			s_line
 	char		*line;
 	t_termios	term;
 	t_cap		caps;
+	t_pos		pos;
 	int			nb_col;
 	int			nb_line;
 }						t_line;
@@ -66,5 +73,6 @@ void					k_home(t_line *line);
 void					k_end(t_line *line);
 void					k_backspace(t_line *line);
 void					get_back_to_index(t_line *line);
+void					get_cursor_position(int *col, int *row);
 
 #endif

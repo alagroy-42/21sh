@@ -6,11 +6,31 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 17:39:13 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/05/24 11:29:59 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/07 11:53:52 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
+
+void	get_cursor_position(int *col, int *rows)
+{
+	int		i;
+	char	buf[17];
+
+	write(1, "\033[6n", 4);
+	if ((i = read(0, buf, 16)) <= 0)
+		return ;
+	buf[i] = 0;
+	i = 0;
+	while (buf[i])
+	{
+		if (buf[i] == '[')
+			*rows = ft_atoi(&buf[i + 1]) - 1;
+		if (buf[i] == ';')
+			*col = ft_atoi(&buf[i + 1]) - 1;
+		i++;
+	}
+}
 
 void	get_back_to_index(t_line *line)
 {
