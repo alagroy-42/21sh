@@ -6,34 +6,33 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:22:40 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/07 15:55:16 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/08 13:13:47 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_parser.h"
 #include "ast.h"
 
-static t_list	*make_sep(t_ast *ast, t_list *tmp)
+static void		make_sep(t_ast *ast, t_list *tmp)
 {
 	if (!tmp || !(((t_token *)tmp->content)->type == OR_IF
 			|| ((t_token *)tmp->content)->type == AND_IF
 			|| ((t_token *)tmp->content)->type == SEMICOL))
-		return (NULL);
+		return ;
 	if (!(ast->sep = (t_sep *)malloc(sizeof(t_sep))))
-		return (NULL);
+		return ;
 	((t_token *)tmp->content)->type == OR_IF ? ast->sep->sep = or_if : 0;
 	((t_token *)tmp->content)->type == AND_IF ? ast->sep->sep = and_if : 0;
 	((t_token *)tmp->content)->type == SEMICOL ? ast->sep->sep = semicol : 0;
 	tmp = tmp->next;
 	ast->sep->next = create_ast_node(0);
 	make_ast(ast->sep->next, tmp);
-	return (tmp);
 }
 
 static t_list	*make_pipe(t_ast *ast, t_list *tmp)
 {
 	if (((t_token *)tmp->content)->type != PIPE)
-		return (NULL);
+		return (tmp);
 	ast->pipe = create_ast_node(1);
 	tmp = tmp->next;
 	make_ast(ast->pipe, tmp);
@@ -46,9 +45,10 @@ static t_list	*make_redir(t_ast *ast, t_list *tmp)
 			&& ((t_token *)tmp->content)->type <= LESS)
 	{
 		if (((t_token *)tmp->content)->type % 2)
-			tmp = ft_add_redir(ast->output, tmp);
+			tmp = ft_add_redir(&ast->output, tmp);
 		else
-			tmp = ft_add_redir(ast->output, tmp);
+			tmp = ft_add_redir(&ast->input, tmp);
+		tmp = tmp->next;
 	}
 	return (tmp);
 }
@@ -61,7 +61,8 @@ static t_list	*make_cmd(t_ast *ast, t_list *tmp)
 				((t_token *)tmp->content)->lexem);
 		tmp = tmp->next;
 	}
-	ast->cmd = ast->args[0];
+	if (ast->args)
+		ast->cmd = ast->args[0];
 	return (tmp);
 }
 
@@ -70,5 +71,5 @@ void			make_ast(t_ast *ast, t_list *tmp)
 	tmp = make_cmd(ast, tmp);
 	tmp = make_redir(ast, tmp);
 	tmp = make_pipe(ast, tmp);
-	tmp = make_sep(ast, tmp);
+	make_sep(ast, tmp);
 }

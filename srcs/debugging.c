@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 11:48:40 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/07 15:03:03 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/08 13:09:39 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void		ft_aff_redir(t_redir *redir)
 	tmp = redir;
 	while (tmp)
 	{
-		ft_putstr(tmp->target);
+		if (tmp && tmp->target)
+			ft_putendl(tmp->target);
 		tmp = tmp->next;
 	}
 }
@@ -51,7 +52,7 @@ void		display_ast(t_ast *ast)
 		display_ast(ast->pipe);
 	if (ast->sep)
 	{
-		ft_putendl("sep");
+		ft_putendl("sep :");
 		display_ast(ast->sep->next);
 	}
 }

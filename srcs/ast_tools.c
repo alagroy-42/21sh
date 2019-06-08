@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 11:35:19 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/07 15:55:18 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/08 11:58:55 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ t_ast	*create_ast_node(int piped)
 	return (node);
 }
 
-t_list	*ft_add_redir(t_redir *redir, t_list *tmp)
+t_list	*ft_add_redir(t_redir **redir, t_list *tmp)
 {
 	t_redir	*tmp_redir;
 
-	tmp_redir = redir;
+	tmp_redir = *redir;
 	while (tmp_redir && tmp_redir->next)
 		tmp_redir = tmp_redir->next;
-	if (!redir)
+	if (!*redir)
 	{
-		if (!(redir = (t_redir *)malloc(sizeof(t_redir))))
+		if (!(*redir = (t_redir *)malloc(sizeof(t_redir))))
 			return (NULL);
-		tmp_redir = redir;
+		tmp_redir = *redir;
 	}
 	else if (!(tmp_redir->next = (t_redir *)malloc(sizeof(t_redir))))
 		return (NULL);

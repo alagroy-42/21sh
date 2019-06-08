@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:23:14 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/07 15:38:15 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/08 11:58:54 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct		s_ast
 
 t_ast				*create_ast_node(int piped);
 t_ast				*ast_init(t_list *token_list);
-t_list				*ft_add_redir(t_redir *redir, t_list *tmp);
+t_list				*ft_add_redir(t_redir **redir, t_list *tmp);
 void				make_ast(t_ast *ast, t_list *tmp);
 void				display_ast(t_ast *ast);
 
