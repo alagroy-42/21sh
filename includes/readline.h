@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/08 17:37:37 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/08 19:20:27 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define K_BSPC "\177"
 # define K_UP "\33[A"
 # define K_DOWN "\33[B"
+# define K_CTRLL "\f"
 
 typedef struct termios	t_termios;
 typedef struct winsize	t_ws;
@@ -78,6 +79,7 @@ void					k_end(t_line *line);
 void					k_backspace(t_line *line);
 void					k_up(t_line *line);
 void					k_down(t_line *line);
+void					k_ctrll(t_line *line);
 void					get_back_to_index(t_line *line);
 void					get_cursor_position(int *col, int *row);
 void					history_push(t_line *line);

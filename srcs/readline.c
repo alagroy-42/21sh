@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/08 17:37:42 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/08 19:20:30 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_key		g_tbl[] =\
 	{K_BSPC, &k_backspace},
 	{K_UP, &k_up},
 	{K_DOWN, &k_down},
+	{K_CTRLL, &k_ctrll},
 	{NULL, &k_left}
 };
 
