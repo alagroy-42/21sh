@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/07 07:43:29 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/08 17:37:37 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # define K_HOME "\33[H"
 # define K_END "\33[F"
 # define K_BSPC "\177"
+# define K_UP "\33[A"
+# define K_DOWN "\33[B"
 
 typedef struct termios	t_termios;
 typedef struct winsize	t_ws;
@@ -50,10 +52,12 @@ typedef struct			s_cap
 typedef struct			s_line
 {
 	int			index;
+	int			history_index;
 	char		*line;
 	t_termios	term;
 	t_cap		caps;
 	t_pos		pos;
+	t_list		*history;
 	int			nb_col;
 	int			nb_line;
 }						t_line;
@@ -72,7 +76,11 @@ void					k_right(t_line *line);
 void					k_home(t_line *line);
 void					k_end(t_line *line);
 void					k_backspace(t_line *line);
+void					k_up(t_line *line);
+void					k_down(t_line *line);
 void					get_back_to_index(t_line *line);
 void					get_cursor_position(int *col, int *row);
+void					history_push(t_line *line);
+void					tgetputstr(char *s);
 
 #endif

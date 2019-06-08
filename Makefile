@@ -6,7 +6,7 @@
 #    By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/13 09:44:51 by alagroy-          #+#    #+#              #
-#    Updated: 2019/06/07 14:29:48 by alagroy-         ###   ########.fr        #
+#    Updated: 2019/06/08 15:20:04 by alagroy-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = gcc
 
 SRCS_NAME = main.c readline.c terminit.c move.c readline_tools.c lexer.c \
 			machine_func.c machine_specialchar_func.c debugging.c parser.c \
-			ast_tools.c ast_generate.c
+			ast_tools.c ast_generate.c history.c
 
 SRCS = $(addprefix srcs/, $(SRCS_NAME))
 

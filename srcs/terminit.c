@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/05/23 19:53:22 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/08 15:55:44 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int		init_line(t_line *line)
 	ioctl(0, TIOCGWINSZ, &ws);
 	line->nb_col = ws.ws_col;
 	line->nb_line = ws.ws_row;
+	line->history = NULL;
 	init_caps(line);
 	return (0);
 }
