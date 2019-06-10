@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/10 19:16:26 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/10 21:34:15 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@
 # define K_UP "\33[A"
 # define K_DOWN "\33[B"
 # define K_CTRLL "\f"
+# define K_ALFT "\33\33[D"
+# define K_ARGT "\33\33[C"
+# define K_AUP "\33\33[A"
+# define K_ADOWN "\33\33[B"
 
 typedef struct termios	t_termios;
 typedef struct winsize	t_ws;
@@ -83,6 +87,10 @@ void					k_backspace(t_line *line);
 void					k_up(t_line *line);
 void					k_down(t_line *line);
 void					k_ctrll(t_line *line);
+void					k_altleft(t_line *line);
+void					k_altright(t_line *line);
+void					k_altup(t_line *line);
+void					k_altdown(t_line *line);
 void					get_back_to_index(t_line *line);
 void					get_cursor_position(int *col, int *row);
 void					history_push(t_line *line);

@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/08 19:20:30 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/10 22:17:15 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ t_key		g_tbl[] =\
 	{K_UP, &k_up},
 	{K_DOWN, &k_down},
 	{K_CTRLL, &k_ctrll},
+	{K_ALFT, &k_altleft},
+	{K_ARGT, &k_altright},
+	{K_AUP, &k_altup},
+	{K_ADOWN, &k_altdown},
 	{NULL, &k_left}
 };
 
@@ -41,6 +45,7 @@ static void	ft_termcap(char *buf, t_line *line)
 		if (!ft_strcmp(buf, g_tbl[i].key))
 			return (g_tbl[i].f(line));
 	}
+	tgetputstr("bl");
 }
 
 static void	write_char(t_line *line, char *buf)
