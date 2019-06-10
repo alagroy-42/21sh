@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/10 19:24:18 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/10 22:58:34 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	init_caps(t_line *line)
 		line->caps.dow = NULL;
 }
 
-int				init_line(t_line *line)
+int			init_line(t_line *line)
 {
 	char	*name_term;
 	t_ws	ws;

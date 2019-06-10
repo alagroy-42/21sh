@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 15:10:02 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/10 22:48:37 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/10 22:57:54 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	history_push(t_line *line)
 {
 	t_list	*new_cmd;
-	
+
 	if (!line->line || !line->line[0])
 		return ;
 	if (line->history && !ft_strcmp(line->history->content, line->line))

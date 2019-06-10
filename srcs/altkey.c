@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:21:16 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/10 22:42:11 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/10 22:58:11 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	k_altup(t_line *line)
 
 void	k_altdown(t_line *line)
 {
-	if (line->index  == (int)ft_strlen(line->line))
+	if (line->index == (int)ft_strlen(line->line))
 		return (tgetputstr("bl"));
 	if (line->index + line->nb_col < (int)ft_strlen(line->line))
 	{
