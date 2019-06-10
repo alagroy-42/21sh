@@ -6,13 +6,30 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/08 15:55:44 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/10 19:24:18 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	init_caps(t_line *line)
+static void	make_history(t_line *line)
+{
+	t_list	*new;
+	char	*content;
+	int		fd;
+
+	if ((fd = open("history/history", O_RDONLY | O_CREAT, 0644)) == -1)
+		return ;
+	while (get_next_line(fd, &content) == 1)
+	{
+		new = ft_lstnew(content, ft_strlen(content) + 1);
+		if (new)
+			ft_lstend(&line->history, new);
+	}
+	close(fd);
+}
+
+static void	init_caps(t_line *line)
 {
 	if (!(line->caps.cm = tgetstr("cm", NULL)))
 		line->caps.cm = NULL;
@@ -34,7 +51,7 @@ void	init_caps(t_line *line)
 		line->caps.dow = NULL;
 }
 
-int		init_line(t_line *line)
+int				init_line(t_line *line)
 {
 	char	*name_term;
 	t_ws	ws;
@@ -54,6 +71,7 @@ int		init_line(t_line *line)
 	line->nb_col = ws.ws_col;
 	line->nb_line = ws.ws_row;
 	line->history = NULL;
+	make_history(line);
 	init_caps(line);
 	return (0);
 }

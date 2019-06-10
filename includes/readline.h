@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/08 19:20:27 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/10 19:16:26 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <signal.h>
 # include <sys/ioctl.h>
 # include <fcntl.h>
+# define UP 0
+# define DOWN 1
 # define K_LEFT	"\33[D"
 # define K_RGHT "\33[C"
 # define K_HOME "\33[H"
@@ -61,6 +63,7 @@ typedef struct			s_line
 	t_list		*history;
 	int			nb_col;
 	int			nb_line;
+	int			last_arrow;
 }						t_line;
 
 typedef struct			s_key

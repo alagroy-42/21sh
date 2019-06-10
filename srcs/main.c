@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/08 13:16:50 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/10 19:30:24 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,23 @@
 
 t_line	*g_line;
 
-void	ft_restore(int sig)
+void	ft_quit(int sig)
 {
+	int		fd;
+	t_list	*tmp;
+
+	tmp = g_line->history;
 	sig = 0;
+	fd = open("history/history", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	while (fd != -1 && tmp)
+	{
+		ft_putendl_fd(tmp->content, fd);
+		tmp = tmp->next;
+	}
 	g_line->term.c_lflag = (ICANON | ECHO | ISIG | ECHOE);
 	tputs(tgetstr("ei", NULL), 0, ft_putc);
 	tcsetattr(0, 0, &g_line->term);
+	close(fd);
 	exit(EXIT_SUCCESS);
 }
 
@@ -35,7 +46,7 @@ int		main(void)
 	if (!(line = (t_line *)malloc(sizeof(t_line))))
 		return (-1);
 	g_line = line;
-	signal(SIGINT, ft_restore);
+	signal(SIGINT, ft_quit);
 	if (init_line(line))
 		return (-1);
 	while (readline(line))
