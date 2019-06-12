@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 18:12:35 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/10 23:20:05 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/12 10:15:29 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,35 +37,38 @@ void	k_right(t_line *line)
 
 void	k_home(t_line *line)
 {
-	if (line->index + 3 < line->nb_col)
+	get_cursor_position(&line->pos.col, &line->pos.row);
+	if (!line->index || !line->pos.col)
+		return (tgetputstr("bl"));
+	if ((line->index + 3) <= line->nb_col)
+	{
 		tputs(tgoto(line->caps.ch, 0, 3), 0, ft_putc);
-	else
-		tputs(tgoto(line->caps.ch, 0, 0), 0, ft_putc);
-	if (line->index < line->nb_col)
 		line->index = 0;
+	}
 	else
-		line->index = line->index - line->index % line->nb_col;
+	{
+		tputs(tgoto(line->caps.ch, 0, 0), 0, ft_putc);
+		line->index -= line->pos.col;
+	}
 }
 
 void	k_end(t_line *line)
 {
-	if (line->index + 3 <= line->nb_col)
+	get_cursor_position(&line->pos.col, &line->pos.row);
+	if (line->pos.col == line->nb_col - 1
+			|| line->index == (int)ft_strlen(line->line))
+		return (tgetputstr("bl"));
+	if ((line->index + 3) / line->nb_col == ((int)ft_strlen(line->line)
+				/ line->nb_col))
 	{
-		tputs(tgoto(line->caps.ch, 0, ft_strlen(line->line) + 3), 0, ft_putc);
-		line->index = ft_strlen(line->line);
-	}
-	else if ((line->index + 3) / line->nb_col == ((int)ft_strlen(line->line)
-				+ 3) / line->nb_col)
-	{
-		tputs(tgoto(line->caps.ch, 0, ft_strlen(line->line) - line->index + 1),
-				0, ft_putc);
+		tputs(tgoto(line->caps.ch, 0, (ft_strlen(line->line) + 2)
+					% line->nb_col), 0, ft_putc);
 		line->index = ft_strlen(line->line);
 	}
 	else
 	{
-		tputs(tgoto(line->caps.ch, 0, line->nb_col
-					- (line->index % line->nb_col)), 0, ft_putc);
-		line->index += line->nb_col - line->index % line->nb_col;
+		tputs(tgoto(line->caps.ch, 0, line->nb_col - 1), 0, ft_putc);
+		line->index += line->nb_col - line->pos.col;
 	}
 }
 
@@ -73,10 +76,10 @@ void	k_backspace(t_line *line)
 {
 	if (line->index <= 0)
 		return ;
+	get_cursor_position(&line->pos.col, &line->pos.row);
 	tputs(line->caps.le, 0, ft_putc);
 	tputs(line->caps.dc, 0, ft_putc);
 	line->line = ft_delete_flags(line->line, --line->index, 1);
-	get_cursor_position(&line->pos.col, &line->pos.row);
 	if ((line->index + 3) / line->nb_col < ((int)ft_strlen(line->line) + 3)
 			/ line->nb_col)
 	{

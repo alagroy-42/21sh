@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/10 22:17:15 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/12 10:14:57 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ t_key		g_tbl[] =\
 
 int			ft_putc(int c)
 {
-	write(0, &c, 1);
-	return (0);
+	return (write(0, &c, 1));
 }
 
 static void	ft_termcap(char *buf, t_line *line)
@@ -53,11 +52,13 @@ static void	write_char(t_line *line, char *buf)
 	ft_putchar_fd(buf[0], 0);
 	line->line = ft_insert_str(line->line, ft_strdup(buf), line->index);
 	line->index++;
-	if ((line->index + 3) / line->nb_col < ((int)ft_strlen(line->line) + 3)
+	if ((line->index + 3) / line->nb_col < ((int)ft_strlen(line->line) + 4)
 			/ line->nb_col)
 	{
+		tgetputstr("ei");
 		tputs(line->line + line->index, 0, ft_putc);
 		get_back_to_index(line);
+		tgetputstr("im");
 	}
 }
 
@@ -69,7 +70,7 @@ int			readline(t_line *line)
 	line->history_index = 0;
 	line->index = 0;
 	line->line = ft_strnew(0);
-	ft_putstr("$> ");
+	ft_putstr_fd("$> ", 0);
 	tputs(line->caps.im, 0, ft_putc);
 	while ((ret = read(0, buf, 9)))
 	{
