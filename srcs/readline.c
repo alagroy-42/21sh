@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/14 08:15:13 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/14 15:37:34 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	ft_termcap(char *buf, t_line *line)
 	tgetputstr("bl");
 }
 
-static void	write_char(t_line *line, char *buf)
+void		write_char(t_line *line, char *buf)
 {
 	ft_putchar_fd(buf[0], 0);
 	line->line = ft_insert_str(line->line, ft_strdup(buf), line->index);
@@ -60,6 +60,20 @@ static void	write_char(t_line *line, char *buf)
 		get_back_to_index(line);
 		tgetputstr("im");
 	}
+	get_cursor_position(&line->pos.col, &line->pos.row);
+	if (line->pos.col == line->nb_col - 1)
+		tgetputstr("do");
+}
+
+static int	ft_eoi(t_line *line)
+{
+	int		len;
+
+	len = ft_strlen(line->line);
+	while (line->index < len)
+		k_right(line);
+	write_char(line, "\n");
+	return (1);
 }
 
 int			readline(t_line *line, int status)
@@ -68,6 +82,7 @@ int			readline(t_line *line, int status)
 	int		ret;
 
 	line->history_index = 0;
+	line->last_arrow = UP;
 	line->index = 0;
 	line->line = ft_strnew(0);
 	ft_putstr_fd(status == LINE ? "$> " : ">  ", 0);
@@ -75,12 +90,12 @@ int			readline(t_line *line, int status)
 	while ((ret = read(0, buf, 9)))
 	{
 		buf[ret] = '\0';
-		if ((!ft_isprint(buf[0]) && buf[0] != '\n') || ret > 1)
+		if ((!ft_isprint(buf[0])) || ret > 1)
 			ft_termcap(buf, line);
 		else
 			write_char(line, buf);
 		if (buf[0] == '\n' && ret == 1)
-			return (1);
+			return (ft_eoi(line));
 	}
 	return (0);
 }

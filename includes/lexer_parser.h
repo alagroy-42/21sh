@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 09:54:01 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/07 07:42:01 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/12 12:10:59 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LEXER_PARSER_H
 # include "libft.h"
 # include <stdlib.h>
+# include "readline.h"
 
 # define ERROR -1
 # define QUOTE -2
@@ -66,5 +67,6 @@ int				ft_is_great(char c);
 int				ft_is_semicol(char c);
 int				ft_is_alnum(char c);
 int				parse_cmd(t_list *token_list);
+int				analize_line(t_line *line, t_list **lex);
 
 #endif

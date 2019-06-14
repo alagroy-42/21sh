@@ -6,13 +6,13 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 15:10:02 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/14 08:13:42 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/14 15:51:08 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	history_push(t_line *line, char *line_str)
+void		history_push(t_line *line, char *line_str)
 {
 	t_list	*new_cmd;
 	int		i;
@@ -32,7 +32,22 @@ void	history_push(t_line *line, char *line_str)
 	ft_lstadd(&line->history, new_cmd);
 }
 
-void	k_up(t_line *line)
+static void	write_history(t_line *line, char *str)
+{
+	char	*sub;
+	int		i;
+
+	i = -1;
+	sub = NULL;
+	while (str[++i])
+	{
+		sub = ft_strsub(str, i, 1);
+		write_char(line, sub);
+		free(sub);
+	}
+}
+
+void		k_up(t_line *line)
 {
 	int		i;
 	t_list	*tmp;
@@ -50,15 +65,16 @@ void	k_up(t_line *line)
 	tputs(line->caps.cr, 0, ft_putc);
 	tputs(line->caps.cd, 0, ft_putc);
 	tputs("$> ", 0, ft_putc);
-	tputs(tmp->content, 0, ft_putc);
-	line->index = ft_strlen(tmp->content);
+	write_history(line, tmp->content);
 	free(line->line);
 	line->line = ft_strdup(tmp->content);
 	line->history_index++;
 	line->last_arrow = UP;
+	if ((line->index + 3) % line->nb_col == 0)
+		tgetputstr("do");
 }
 
-void	k_down(t_line *line)
+void		k_down(t_line *line)
 {
 	int		i;
 	t_list	*tmp;
@@ -76,10 +92,11 @@ void	k_down(t_line *line)
 	tputs(line->caps.cr, 0, ft_putc);
 	tputs(line->caps.cd, 0, ft_putc);
 	tputs("$> ", 0, ft_putc);
-	tputs(line->history_index ? tmp->content : "", 0, ft_putc);
-	line->index = ft_strlen(line->history_index ? tmp->content : "");
+	write_history(line, line->history_index ? tmp->content : "");
 	free(line->line);
 	line->line = ft_strdup(line->history_index ? tmp->content : "");
 	line->history_index -= line->history_index ? 1 : 0;
 	line->last_arrow = DOWN;
+	if ((line->index + 3) % line->nb_col == 0)
+		tgetputstr("do");
 }

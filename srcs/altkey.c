@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:21:16 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/10 22:58:11 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/14 14:10:14 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,24 @@ void	k_altright(t_line *line)
 
 void	k_altup(t_line *line)
 {
-	if (line->index + 3 < line->nb_col)
+	if (line->index < line->nb_col)
 		return (tgetputstr("bl"));
 	tgetputstr("up");
-	line->index -= line->nb_col;
+	line->index -= line->nb_col - 1;
 }
 
 void	k_altdown(t_line *line)
 {
 	if (line->index == (int)ft_strlen(line->line))
 		return (tgetputstr("bl"));
+	get_cursor_position(&line->pos.col, &line->pos.row);
 	if (line->index + line->nb_col < (int)ft_strlen(line->line))
 	{
-		get_cursor_position(&line->pos.col, &line->pos.row);
 		tputs(tgoto(line->caps.cm, (line->index + 3) % line->nb_col,
 					line->pos.row + 1), 0, ft_putc);
-		line->index += line->nb_col;
+		line->index += line->nb_col - 1;
 		return ;
 	}
-	get_cursor_position(&line->pos.col, &line->pos.row);
 	tputs(tgoto(line->caps.cm, (ft_strlen(line->line) + 3) % line->nb_col,
 				line->pos.row + 1), 0, ft_putc);
 	line->index = ft_strlen(line->line);

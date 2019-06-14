@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/10 21:34:15 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/14 12:31:56 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <fcntl.h>
 # define UP 0
 # define DOWN 1
+# define LINE 0
+# define INCOMPLETE 1
 # define K_LEFT	"\33[D"
 # define K_RGHT "\33[C"
 # define K_HOME "\33[H"
@@ -76,7 +78,7 @@ typedef struct			s_key
 	void	(*f)(t_line *line);
 }						t_key;
 
-int						readline(t_line *line);
+int						readline(t_line *line, int status);
 int						ft_putc(int c);
 int						init_line(t_line *line);
 void					k_left(t_line *line);
@@ -93,7 +95,8 @@ void					k_altup(t_line *line);
 void					k_altdown(t_line *line);
 void					get_back_to_index(t_line *line);
 void					get_cursor_position(int *col, int *row);
-void					history_push(t_line *line);
+void					history_push(t_line *line, char *s);
 void					tgetputstr(char *s);
+void					write_char(t_line *line, char *buf);
 
 #endif

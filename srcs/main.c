@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/14 08:17:48 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/14 13:38:17 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ int			main(void)
 	if (init_line(line))
 		return (-1);
 	while (readline(line, LINE))
+	{
+		ft_putstr(line->line);
 		core(line);
+	}
 	return (0);
 }
