@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/12 10:14:57 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/14 08:15:13 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	write_char(t_line *line, char *buf)
 	}
 }
 
-int			readline(t_line *line)
+int			readline(t_line *line, int status)
 {
 	char	buf[10];
 	int		ret;
@@ -70,20 +70,17 @@ int			readline(t_line *line)
 	line->history_index = 0;
 	line->index = 0;
 	line->line = ft_strnew(0);
-	ft_putstr_fd("$> ", 0);
+	ft_putstr_fd(status == LINE ? "$> " : ">  ", 0);
 	tputs(line->caps.im, 0, ft_putc);
 	while ((ret = read(0, buf, 9)))
 	{
 		buf[ret] = '\0';
-		if (buf[0] == '\n' && !buf[1])
-		{
-			history_push(line);
-			return (ft_printf("\n"));
-		}
-		else if (!ft_isprint(buf[0]) || ret > 1)
+		if ((!ft_isprint(buf[0]) && buf[0] != '\n') || ret > 1)
 			ft_termcap(buf, line);
 		else
 			write_char(line, buf);
+		if (buf[0] == '\n' && ret == 1)
+			return (1);
 	}
 	return (0);
 }

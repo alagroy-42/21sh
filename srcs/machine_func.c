@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 02:38:55 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/05/28 07:12:26 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/14 08:10:04 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		ft_is_whitespace(char c)
 {
-	if (c == ' ')
+	if (c == ' ' || c == '\n')
 		return (1);
 	else
 		return (0);
@@ -22,7 +22,7 @@ int		ft_is_whitespace(char c)
 
 int		ft_is_eoi(char c)
 {
-	if (c == '\n' || c == '\0')
+	if (c == '\0')
 		return (1);
 	else
 		return (0);

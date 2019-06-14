@@ -6,21 +6,29 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 15:10:02 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/10 22:57:54 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/14 08:13:42 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	history_push(t_line *line)
+void	history_push(t_line *line, char *line_str)
 {
 	t_list	*new_cmd;
+	int		i;
 
-	if (!line->line || !line->line[0])
+	if (!line_str || line_str[0] == '\n')
 		return ;
-	if (line->history && !ft_strcmp(line->history->content, line->line))
+	if (line->history && !ft_strcmp(line->history->content, line_str))
 		return ;
-	new_cmd = ft_lstnew(line->line, ft_strlen(line->line) + 1);
+	i = ft_strlen(line_str);
+	while (--i)
+		if (line_str[i] == '\n')
+		{
+			line_str[i] = '\0';
+			break ;
+		}
+	new_cmd = ft_lstnew(line_str, ft_strlen(line_str) + 1);
 	ft_lstadd(&line->history, new_cmd);
 }
 

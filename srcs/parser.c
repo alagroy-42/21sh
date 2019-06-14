@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 20:15:08 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/08 12:41:01 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/14 08:36:18 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int			parse_cmd(t_list *token_list)
 	int		symbol;
 
 	state = 0;
+	if (!token_list)
+		return (-1);
 	tmp = token_list;
 	while (state >= 0)
 	{
