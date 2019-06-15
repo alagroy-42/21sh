@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/14 15:37:34 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/15 16:18:27 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ int			readline(t_line *line, int status)
 	while ((ret = read(0, buf, 9)))
 	{
 		buf[ret] = '\0';
-		if ((!ft_isprint(buf[0])) || ret > 1)
+		if ((!ft_isprint(buf[0]) && buf[0] != '\n') || ret > 1)
 			ft_termcap(buf, line);
-		else
+		else if (buf[0] != '\n')
 			write_char(line, buf);
 		if (buf[0] == '\n' && ret == 1)
 			return (ft_eoi(line));
