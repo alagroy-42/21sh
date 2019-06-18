@@ -6,13 +6,13 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/15 16:18:27 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/18 15:43:42 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-t_key		g_tbl[] =\
+t_key		g_normal_tbl[] =\
 {
 	{K_LEFT, &k_left},
 	{K_RGHT, &k_right},
@@ -26,15 +26,18 @@ t_key		g_tbl[] =\
 	{K_ARGT, &k_altright},
 	{K_AUP, &k_altup},
 	{K_ADOWN, &k_altdown},
+	{K_ALTV, &k_visuinit},
 	{NULL, &k_left}
 };
+
+t_key		*g_tbl;
 
 int			ft_putc(int c)
 {
 	return (write(0, &c, 1));
 }
 
-static void	ft_termcap(char *buf, t_line *line)
+void		ft_termcap(char *buf, t_line *line)
 {
 	int		i;
 
@@ -81,6 +84,7 @@ int			readline(t_line *line, int status)
 	char	buf[10];
 	int		ret;
 
+	g_tbl = g_normal_tbl;
 	line->history_index = 0;
 	line->last_arrow = UP;
 	line->index = 0;
@@ -92,7 +96,7 @@ int			readline(t_line *line, int status)
 		buf[ret] = '\0';
 		if ((!ft_isprint(buf[0]) && buf[0] != '\n') || ret > 1)
 			ft_termcap(buf, line);
-		else if (buf[0] != '\n')
+		else if (buf[0] != '\n' && g_tbl != g_visutab)
 			write_char(line, buf);
 		if (buf[0] == '\n' && ret == 1)
 			return (ft_eoi(line));

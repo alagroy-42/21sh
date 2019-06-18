@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/14 13:38:17 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/18 20:07:48 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static void	core(t_line *line)
 	parse_return = analize_line(line, &lex);
 	if (parse_return == -42)
 		ast = ast_init(lex);
+	if (ast && ast->cmd && !ft_strcmp(ast->cmd, "exit"))
+		ft_quit(0);
 	//free *
 }
 

@@ -1,0 +1,3 @@
+prompt sur erreurs de quotes
+heredocs
+/line->nb_col - 1 == /0 sur ecran de 1x1
