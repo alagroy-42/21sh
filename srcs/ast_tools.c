@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 11:35:19 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/08 11:58:55 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/20 15:50:28 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_list	*ft_add_redir(t_redir **redir, t_list *tmp)
 	else if (tmp_redir->next)
 		tmp_redir = tmp_redir->next;
 	tmp_redir->type = ((t_token *)tmp->content)->type * -1 - 11;
+	tmp_redir->next = NULL;
 	tmp = tmp->next;
 	tmp_redir->target = ((t_token *)tmp->content)->lexem;
 	return (tmp);

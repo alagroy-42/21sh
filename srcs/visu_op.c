@@ -6,12 +6,12 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 17:17:29 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/18 20:00:12 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/20 18:36:23 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
-#include <stdio.h>
+
 void	k_ctrlx(t_line *line)
 {
 	int		len;

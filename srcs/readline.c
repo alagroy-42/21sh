@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/18 15:43:42 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/20 18:31:36 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void		write_char(t_line *line, char *buf)
 	{
 		tgetputstr("ei");
 		tputs(line->line + line->index, 0, ft_putc);
-		get_back_to_index(line);
+		left(line, ft_strlen(line->line) - line->index - 1);
 		tgetputstr("im");
 	}
 	get_cursor_position(&line->pos.col, &line->pos.row);
