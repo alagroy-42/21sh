@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/06/25 22:57:30 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/06/25 23:49:34 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <sys/types.h> 
 #include <sys/stat.h> 
 #include <unistd.h>
+#include <stdio.h>
 
 extern t_env *g_env;
 
@@ -57,9 +58,11 @@ int		exec_path(char **path, t_ast *ast)
 			if (!pid)
 			{
 				signal(SIGINT, SIG_DFL);
+				ft_redir_router(ast->input);
+				ft_redir_router(ast->output);
 				execve(cmd_path, ast->args, envp);
 			}
-			waitpid(pid, NULL, 0);
+			waitpid(pid, &ast->status, 0);
 			term_setup();
 			ft_free_2dstr(envp);
 			return (1);;
@@ -91,7 +94,7 @@ int		exec_file(t_ast *ast)
 				ft_redir_router(ast->output);
 				execve(ast->cmd, ast->args, envp);
 			}
-			waitpid(pid, NULL, 0);
+			waitpid(pid, &ast->status, 0);
 			ft_free_2dstr(envp);
 		}
 		else
@@ -143,25 +146,43 @@ int		exec(t_ast *ast)
 	t_env	*env_path;
 	char	**path;
 
-	if (!ast->cmd)
-		return (-1);
-	if (is_cmd_file(ast->cmd))
-		exec_file(ast);
-	else
+	while (ast)
 	{
-		if (!exec_builtin(ast))
+		if (!ast->cmd)
+			return (-1);
+		if (is_cmd_file(ast->cmd))
+			exec_file(ast);
+		else
 		{
-			path = NULL;
-			if (!(env_path = env_get(g_env, "PATH"))
-				|| !(path = ft_strsplit(env_path->value, ':'))
-				|| !exec_path(path, ast))
+			if (!exec_builtin(ast))
 			{
-				ft_putstr(ast->cmd);
-				ft_putendl(": command not found");
+				path = NULL;
+				if (!(env_path = env_get(g_env, "PATH"))
+					|| !(path = ft_strsplit(env_path->value, ':'))
+					|| !exec_path(path, ast))
+				{
+					ft_putstr(ast->cmd);
+					ft_putendl(": command not found");
+				}
+				if (path)
+					ft_free_2dstr(path);
 			}
-			if (path)
-				ft_free_2dstr(path);
 		}
+		printf("%d\n", ast->status);
+		if (ast->sep)
+		{
+			if (ast->sep->sep == semicol)
+				ast = ast->sep->next;
+			else if (ast->sep->sep == and_if && !ast->status)
+				ast = ast->sep->next;
+			else if (ast->sep->sep == or_if && ast->status)
+				ast = ast->sep->next;
+			else
+				ast = NULL;
+		}
+		else
+			ast = NULL;
+
 	}
 	return (1);
 }

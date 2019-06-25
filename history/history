@@ -1,4 +1,11 @@
 exit
+echo "test" ; echo "test2"
+echo "test"
+ls ; ls
+ls
+exit
+/bin/cat < Makefile
+exit
 env
 setenv aeg=segesg
 env
