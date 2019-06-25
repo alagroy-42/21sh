@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:23:14 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/25 22:14:14 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/25 22:57:46 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct		s_redir
 {
 	t_redir_type	type;
 	char			*target;
+	int				fd;
 	struct s_redir	*next;
 }					t_redir;
 

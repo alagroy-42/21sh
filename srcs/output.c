@@ -1,40 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir.c                                            :+:      :+:    :+:   */
+/*   output.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/25 21:36:10 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/25 23:09:15 by alagroy-         ###   ########.fr       */
+/*   Created: 2019/06/25 22:53:28 by alagroy-          #+#    #+#             */
+/*   Updated: 2019/06/25 23:07:15 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
-#include "exec.h"
+#include <fcntl.h>
 
-t_redir_router	g_tab[] =\
+void	ft_dgreat(t_redir *redir)
 {
-	{less, ft_less},
-	//{dless, ft_dless},
-	//{lessand, ft_lessand},
-	{great, ft_great},
-	{dgreat, ft_dgreat}
-	//{greatand, ft_greatand}
-};
+	if ((redir->fd = open(redir->target, O_CREAT | O_WRONLY | O_APPEND, 0644)) == -1)
+		return ;
+	ft_printf("je passe\n");
+	dup2(redir->fd, STDOUT_FILENO);
+}
 
-void	ft_redir_router(t_redir *redir_list)
+void	ft_great(t_redir *redir)
 {
-	t_redir	*tmp;
-	int		i;
-
-	tmp = redir_list;
-	while (tmp)
-	{
-		i = -1;
-		while (++i < 1)
-			if (g_tab[i].redir == tmp->type)
-				g_tab[i].f(tmp);
-		tmp = tmp->next;
-	}
+	if ((redir->fd = open(redir->target, O_CREAT | O_WRONLY | O_TRUNC, 0644)) == -1)
+		return ;
+	ft_printf("je passe\n");
+	dup2(redir->fd, STDOUT_FILENO);
 }
