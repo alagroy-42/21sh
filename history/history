@@ -1,4 +1,6 @@
 exit
+ls && echo "test"
+exit
 echo "test" ; echo "test2"
 echo "test"
 ls ; ls

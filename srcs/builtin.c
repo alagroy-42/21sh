@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/06/25 23:06:59 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/06/25 23:51:19 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "exec.h"
 #include "env.h"
 #include "libft.h"
-
-#include <stdio.h>
 
 extern t_env *g_env;
 

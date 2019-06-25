@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/06/25 23:49:34 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/06/25 23:51:07 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <sys/types.h> 
 #include <sys/stat.h> 
 #include <unistd.h>
-#include <stdio.h>
 
 extern t_env *g_env;
 
@@ -168,14 +167,11 @@ int		exec(t_ast *ast)
 					ft_free_2dstr(path);
 			}
 		}
-		printf("%d\n", ast->status);
 		if (ast->sep)
 		{
-			if (ast->sep->sep == semicol)
-				ast = ast->sep->next;
-			else if (ast->sep->sep == and_if && !ast->status)
-				ast = ast->sep->next;
-			else if (ast->sep->sep == or_if && ast->status)
+			if (ast->sep->sep == semicol
+				|| (ast->sep->sep == and_if && !ast->status)
+				|| (ast->sep->sep == or_if && ast->status))
 				ast = ast->sep->next;
 			else
 				ast = NULL;
