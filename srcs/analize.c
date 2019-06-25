@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 11:52:57 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/14 09:40:45 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/25 20:37:52 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,5 @@ int			analize_line(t_line *line, t_list **lex)
 		if (parse_return == -2)
 			readline(line, INCOMPLETE);
 	}
-	history_push(line, line_str);
 	return (parse_return);
 }

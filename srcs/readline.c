@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/25 19:54:23 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/25 20:40:14 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static int	ft_eoi(t_line *line)
 	while (line->index < len)
 		k_right(line);
 	write_char(line, "\n");
+	history_push(line, line->line);
 	return (1);
 }
 
