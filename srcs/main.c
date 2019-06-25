@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/25 21:30:32 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/06/25 22:04:16 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,21 @@ void	term_unsetup(void)
 	tcsetattr(0, 0, &g_line->term);
 }
 
-void		ft_quit(int sig)
+void		ft_quit(int code)
 {
 	int		fd;
 	t_list	*tmp;
 
 	tmp = g_line->history;
-	sig = 0;
 	fd = open("history/history", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	while (fd != -1 && tmp)
 	{
 		ft_putendl_fd(tmp->content, fd);
 		tmp = tmp->next;
 	}
-	g_line->term.c_lflag = (ICANON | ECHO | ISIG | ECHOE);
-	tputs(tgetstr("ei", NULL), 0, ft_putc);
-	tcsetattr(0, 0, &g_line->term);
+	term_unsetup();
 	close(fd);
-	exit(EXIT_SUCCESS);
+	exit(code);
 }
 
 static void	core(t_line *line)
@@ -67,9 +64,8 @@ static void	core(t_line *line)
 	parse_return = analize_line(line, &lex);
 	if (parse_return == -42)
 		ast = ast_init(lex);
-	if (ast && ast->cmd && !ft_strcmp(ast->cmd, "exit"))
-		ft_quit(0);
-	exec(ast);
+	if (ast && ast->cmd)
+		exec(ast);
 	//free *
 }
 
@@ -87,7 +83,7 @@ int		main(int argc, char **argv, char **env)
 	if (!(line = (t_line *)malloc(sizeof(t_line))))
 		return (-1);
 	g_line = line;
-	signal(SIGINT, ft_quit);
+	//signal(SIGINT, ft_quit);
 	if (init_line(line))
 		return (-1);
 	while (readline(line, LINE))

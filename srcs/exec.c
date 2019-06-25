@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/06/25 21:25:31 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/06/25 21:58:09 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 #include "exec.h"
 #include "env.h"
 #include "libft.h"
+#include <sys/types.h> 
+#include <sys/stat.h> 
+#include <unistd.h>
 
 extern t_env *g_env;
 
@@ -43,7 +46,7 @@ int		exec_path(char **path, t_ast *ast)
 	{
 		if (!(cmd_path = ft_strstrjoin(*path, "/", ast->cmd)))
 			return (0);
-		if (access(cmd_path, F_OK) != -1)
+		if (access(cmd_path, F_OK | X_OK) != -1)
 		{
 			if (!(envp = env_toenvp(g_env)))
 				return (0);
@@ -71,25 +74,32 @@ int		exec_file(t_ast *ast)
 {
 	char	**envp;
 	int		pid;
-	
+	struct stat buf;
+
 	if (access(ast->cmd, F_OK) != -1)
 	{
-		if (!(envp = env_toenvp(g_env)))
-			return (0);
-		pid = fork();
-		if (pid < 0)
-			return (0);
-		if (!pid)
-			execve(ast->cmd, ast->args, envp);
-		waitpid(pid, NULL, 0);
-		ft_free_2dstr(envp);
-		return (1);
+		if (access(ast->cmd, X_OK) != -1 && !stat(ast->cmd, &buf) && !S_ISDIR(buf.st_mode))
+		{
+			if (!(envp = env_toenvp(g_env)))
+				return (0);
+			pid = fork();
+			if (pid < 0)
+				return (0);
+			if (!pid)
+				execve(ast->cmd, ast->args, envp);
+			waitpid(pid, NULL, 0);
+			ft_free_2dstr(envp);
+		}
+		else
+		{
+			ft_putstr(ast->cmd);
+			ft_putendl(": permission denied");
+		}
 	}
 	else
 	{
 		ft_putstr(ast->cmd);
-		ft_putendl(": permission denied");
-		return (1);
+		ft_putendl(": no such file or directory");
 	}
 	return (0);
 }
@@ -97,7 +107,7 @@ int		exec_file(t_ast *ast)
 int		exec_builtin(t_ast *ast)
 {
 	if (!ft_strcmp(ast->cmd, "exit") || !ft_strcmp(ast->cmd, "quit"))
-		ft_quit(0);
+		builtin_exit(ast);
 	else if (!ft_strcmp(ast->cmd, "env"))
 		builtin_env(ast, g_env);
 	else if (!ft_strcmp(ast->cmd, "cd"))
@@ -125,7 +135,9 @@ int		exec(t_ast *ast)
 
 	if (!ast->cmd)
 		return (-1);
-	if (!is_cmd_file(ast->cmd))
+	if (is_cmd_file(ast->cmd))
+		exec_file(ast);
+	else
 	{
 		if (!exec_builtin(ast))
 		{
@@ -140,11 +152,6 @@ int		exec(t_ast *ast)
 			if (path)
 				ft_free_2dstr(path);
 		}
-	}
-	else if (!exec_file(ast))
-	{
-		ft_putstr(ast->cmd);
-		ft_putendl(": no such file or directory");
 	}
 	return (1);
 }
