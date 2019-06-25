@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/06/25 21:58:09 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/06/25 22:14:01 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,11 @@ int		exec_file(t_ast *ast)
 			if (pid < 0)
 				return (0);
 			if (!pid)
+			{
+				ft_redir_router(ast->input);
+				ft_redir_router(ast->output);
 				execve(ast->cmd, ast->args, envp);
+			}
 			waitpid(pid, NULL, 0);
 			ft_free_2dstr(envp);
 		}

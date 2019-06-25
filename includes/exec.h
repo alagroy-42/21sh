@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:15:20 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/06/25 21:56:06 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/06/25 22:14:54 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ void	builtin_cd(t_ast *ast, t_env *env);
 
 int		exec(t_ast *ast);
 void	ft_quit(int sig);
-
+void	ft_redir_router(t_redir *redir_list);
+void	ft_less(t_redir *redir);
 #endif

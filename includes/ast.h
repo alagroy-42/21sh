@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:23:14 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/25 20:13:03 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/25 22:14:14 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ typedef struct		s_ast
 	struct s_ast	*pipe;
 	int				piped;
 }					t_ast;
+
+typedef struct		s_redir_router
+{
+	t_redir_type	redir;
+	void			(*f)(t_redir *redir);
+}					t_redir_router;
 
 t_ast				*create_ast_node(int piped);
 t_ast				*ast_init(t_list *token_list);
