@@ -1,3 +1,85 @@
+exit
+env
+setenv aeg=segesg
+env
+setenv TEST egsg
+env
+pwd
+ls
+exit
+env
+unsetenv SEG
+env
+setenv SEG=segseg
+pwd
+ls
+exit
+setenv
+unsetenv
+unsetenv test
+env
+unsetenv b c TERM
+env
+setenv test=a b=a c=w
+env
+pwd
+ls
+exit
+env
+unsetenv SHLVL
+env
+unsetenv TEST
+env
+setenv TEST=afwawf
+env
+emv
+ls
+exit
+env
+env
+unsetenv test
+env
+setenv test=SGSG
+env
+setenv test=Test
+env
+ls
+exit
+env
+setenv test=TEst
+env
+setenv AWGAWG=agawg aGawgaGAW=AWAWGAGWWGA
+env
+setenv AWF=afawf
+env
+setenv test=TEST
+env
+exit
+./21sh
+pwd
+ls
+q
+ls
+bc
+/bin/ls
+exit
+e
+echo
+echo -n salut
+echo salut
+exit
+echo salut les gens
+echo salut les gens
+echo salut
+echo af
+echo
+exit
+ls
+exit
+cd
+cd
+ls
+cd
 exit awfaf
 exit ags seg
 exit 3

@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/06/25 22:14:01 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/25 22:57:30 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,12 @@ int		exec_builtin(t_ast *ast)
 		builtin_env(ast, g_env);
 	else if (!ft_strcmp(ast->cmd, "cd"))
 		builtin_cd(ast, g_env);
+	else if (!ft_strcmp(ast->cmd, "echo"))
+		builtin_echo(ast);
+	else if (!ft_strcmp(ast->cmd, "setenv"))
+		builtin_setenv(ast, g_env);
+	else if (!ft_strcmp(ast->cmd, "unsetenv"))
+		builtin_unsetenv(ast, &g_env);
 	else
 		return (0);
 	return (1);
