@@ -3,18 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/25 19:57:38 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/25 21:30:32 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 #include "lexer_parser.h"
 #include "ast.h"
+#include "env.h"
+#include "exec.h"
 
 t_line	*g_line;
+t_env *g_env = NULL;
+
+void	term_setup(void)
+{
+	g_line->term.c_lflag &= ~(ICANON);
+	g_line->term.c_lflag &= ~(ECHO);
+	g_line->term.c_cc[VMIN] = 1;
+	g_line->term.c_cc[VTIME] = 0;
+	tcsetattr(0, TCSANOW, &g_line->term);
+}
+
+void	term_unsetup(void)
+{
+	g_line->term.c_lflag = (ICANON | ECHO | ISIG | ECHOE);
+	tputs(tgetstr("ei", NULL), 0, ft_putc);
+	tcsetattr(0, 0, &g_line->term);
+}
 
 void		ft_quit(int sig)
 {
@@ -50,13 +69,21 @@ static void	core(t_line *line)
 		ast = ast_init(lex);
 	if (ast && ast->cmd && !ft_strcmp(ast->cmd, "exit"))
 		ft_quit(0);
+	exec(ast);
 	//free *
 }
 
-int			main(void)
+int		main(int argc, char **argv, char **env)
 {
 	t_line	*line;
 
+	(void)argc;
+	(void)argv;
+	if (!(env_setup(env)))
+	{
+		ft_putendl("env_setup error");
+		return (-1);
+	}
 	if (!(line = (t_line *)malloc(sizeof(t_line))))
 		return (-1);
 	g_line = line;
@@ -64,9 +91,6 @@ int			main(void)
 	if (init_line(line))
 		return (-1);
 	while (readline(line, LINE))
-	{
-		ft_putstr(line->line);
 		core(line);
-	}
 	return (0);
 }
