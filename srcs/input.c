@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 22:01:05 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/25 22:54:28 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/26 00:37:42 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,11 @@ void	ft_less(t_redir *redir)
 		return ;
 	dup2(fd, STDIN_FILENO);
 	close(fd);
+}
+
+void	ft_dless(t_redir *redir)
+{
+	dup2(STDOUT_FILENO, STDIN_FILENO);
+	ft_print_2da(redir->heredoc);
+	close(STDOUT_FILENO);
 }

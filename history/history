@@ -1,4 +1,61 @@
 exit
+EOF
+ls
+cat -e << EOF
+cat -e Makefile
+ls -la 
+exit
+EOF
+marche
+ca
+si
+voir
+pour
+test
+cat << EOF
+exit
+EOF
+test
+cat << EOF
+exit
+EOF
+tres bien et toi?
+oui
+ca va ?
+hello
+cat << EOF
+ls -l 
+exit
+EOF
+voir
+pour
+test
+ls
+cat << EOF
+exit
+rm output
+cat output
+ls
+cat < Makefile > output
+exit
+EOF
+q ytbq
+qiubyqb
+leiuy bw
+test
+EOF
+iu wrtb
+iw urytb
+wtiu ywrtb
+wepr8gy 
+erogiuywg
+ls << test | cat -e << EOF
+test
+ls
+ls << test
+exit
+cat <<
+exit
 ls && echo "test"
 exit
 echo "test" ; echo "test2"

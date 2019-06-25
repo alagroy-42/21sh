@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:15:20 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/06/25 23:13:01 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/06/26 00:15:20 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int		exec(t_ast *ast);
 void	ft_quit(int sig);
 void	ft_redir_router(t_redir *redir_list);
 void	ft_less(t_redir *redir);
+void	ft_dless(t_redir *redir);
 void	ft_great(t_redir *redir);
 void	ft_dgreat(t_redir *redir);
 

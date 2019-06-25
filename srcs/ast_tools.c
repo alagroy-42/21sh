@@ -6,14 +6,16 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 11:35:19 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/25 22:38:32 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/26 00:37:41 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "lexer_parser.h"
 
-t_ast	*create_ast_node(int piped)
+extern t_line	*g_line;
+
+t_ast		*create_ast_node(int piped)
 {
 	t_ast	*node;
 
@@ -29,7 +31,27 @@ t_ast	*create_ast_node(int piped)
 	return (node);
 }
 
-t_list	*ft_add_redir(t_redir **redir, t_list *tmp)
+static char	**ft_heredoc(t_list *tmp)
+{
+	char	**heredoc;
+	char	*limit;
+	t_line	*line;
+
+	line = g_line;
+	limit = ((t_token *)tmp->next->content)->lexem;
+	heredoc = NULL;
+	readline(line, INCOMPLETE);
+	while (ft_strcmp(line->line, limit))
+	{
+		heredoc = ft_expend_2dstr(heredoc, line->line);	
+		ft_strdel(&line->line);
+		readline(line, INCOMPLETE);
+	}
+	ft_strdel(&line->line);
+	return (heredoc);
+}
+
+t_list		*ft_add_redir(t_redir **redir, t_list *tmp)
 {
 	t_redir	*tmp_redir;
 
@@ -47,13 +69,15 @@ t_list	*ft_add_redir(t_redir **redir, t_list *tmp)
 	else if (tmp_redir->next)
 		tmp_redir = tmp_redir->next;
 	tmp_redir->type = ((t_token *)tmp->content)->type * -1 - 10;
+	if (((t_token *)tmp->content)->type == DLESS)
+		tmp_redir->heredoc = ft_heredoc(tmp);
 	tmp_redir->next = NULL;
 	tmp = tmp->next;
 	tmp_redir->target = ((t_token *)tmp->content)->lexem;
 	return (tmp);
 }
 
-t_ast	*ast_init(t_list *token_list)
+t_ast		*ast_init(t_list *token_list)
 {
 	t_ast	*ast;
 	t_list	*tmp;
