@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/18 20:04:47 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/25 19:41:17 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct			s_line
 	int			index;
 	int			history_index;
 	char		*line;
+	char		*prompt;
 	t_termios	term;
 	t_cap		caps;
 	t_pos		pos;

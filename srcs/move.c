@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 18:12:35 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/20 18:17:47 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/25 19:44:28 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	k_backspace(t_line *line)
 	tputs(line->caps.cd, 0, ft_putc);
 	if (line->index + 3 < line->nb_col - 1)
 	{
-		ft_putstr_fd("$> ", 0);
+		ft_putstr_fd(line->prompt, 0);
 		write_str(line, line->line);
 	}
 	else

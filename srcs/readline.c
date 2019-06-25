@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/20 18:31:36 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/25 19:54:23 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ int			readline(t_line *line, int status)
 	line->last_arrow = UP;
 	line->index = 0;
 	line->line = ft_strnew(0);
-	ft_putstr_fd(status == LINE ? "$> " : ">  ", 0);
+	line->prompt = ft_strdup(status == LINE ? "$> " : ">  ");
+	ft_putstr_fd(line->prompt, 0);
 	tputs(line->caps.im, 0, ft_putc);
 	while ((ret = read(0, buf, 9)))
 	{

@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 15:10:02 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/20 16:18:41 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/25 19:47:48 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void		k_up(t_line *line)
 		k_left(line);
 	tputs(line->caps.cr, 0, ft_putc);
 	tputs(line->caps.cd, 0, ft_putc);
-	tputs("$> ", 0, ft_putc);
+	tputs(line->prompt, 0, ft_putc);
 	ft_strdel(&line->line);
 	line->line = ft_strnew(0);
 	write_history(line, tmp->content);
@@ -89,7 +89,7 @@ void		k_down(t_line *line)
 		k_left(line);
 	tputs(line->caps.cr, 0, ft_putc);
 	tputs(line->caps.cd, 0, ft_putc);
-	tputs("$> ", 0, ft_putc);
+	tputs(line->prompt, 0, ft_putc);
 	ft_strdel(&line->line);
 	line->line = ft_strnew(0);
 	write_history(line, line->history_index ? tmp->content : "");
