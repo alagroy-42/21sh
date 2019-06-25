@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 21:36:10 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/25 23:09:15 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/25 23:16:07 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_redir_router(t_redir *redir_list)
 	while (tmp)
 	{
 		i = -1;
-		while (++i < 1)
+		while (++i < 3)
 			if (g_tab[i].redir == tmp->type)
 				g_tab[i].f(tmp);
 		tmp = tmp->next;
