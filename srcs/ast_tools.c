@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 11:35:19 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/26 17:13:50 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/26 17:22:15 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	**ft_heredoc(t_list *tmp)
 	readline(line, INCOMPLETE);
 	while (ft_strcmp(line->line, limit))
 	{
-		heredoc = ft_expend_2dstr(heredoc, line->line);	
+		heredoc = ft_expend_2dstr(heredoc, line->line);
 		ft_strdel(&line->line);
 		readline(line, INCOMPLETE);
 	}
