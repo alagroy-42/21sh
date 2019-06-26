@@ -1,3 +1,24 @@
+exit 42
+EOF
+et toi ?
+tres bien
+oui
+test
+?
+ca va
+salut
+cat << test ; cat -e << EOF
+cat Makefile ; cat todo.txt
+exit
+pwd
+cd includes
+ls ; rm -Rf test ; ls
+ls ; ls
+env
+enc
+pwd
+mkdir test ; cd test
+ls
 exit
 EOF
 ls

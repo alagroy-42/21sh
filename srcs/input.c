@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 22:01:05 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/26 00:37:42 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/06/26 17:13:48 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,19 @@ void	ft_less(t_redir *redir)
 
 void	ft_dless(t_redir *redir)
 {
-	dup2(STDOUT_FILENO, STDIN_FILENO);
-	ft_print_2da(redir->heredoc);
-	close(STDOUT_FILENO);
+	int		fd;
+	int		i;
+
+	if ((fd = open("/tmp/heredoc_21sh", O_CREAT | O_WRONLY | O_TRUNC, 0644))
+			== -1)
+		return ;
+	i = -1;
+	while (redir->heredoc[++i])
+		ft_putendl_fd(redir->heredoc[i], fd);
+	close(fd);
+	if ((fd = open("/tmp/heredoc_21sh", O_RDONLY)) == -1)
+		return ;
+	unlink("/tmp/heredoc_21sh");
+	dup2(fd, STDIN_FILENO);
+	close(fd);
 }
