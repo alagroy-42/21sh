@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 18:12:35 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/25 19:44:28 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/01 16:08:42 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	k_backspace(t_line *line)
 		write_str(line, line->line);
 	}
 	else
+	{
 		write_str(line, line->line + line->index - line->pos.col);
 		left(line, (int)ft_strlen(line->line) - line->index);
+	}
 }

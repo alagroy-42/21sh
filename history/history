@@ -1,3 +1,5 @@
+exit
+./a
 exit 42
 EOF
 et toi ?

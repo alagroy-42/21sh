@@ -24,11 +24,11 @@ t_key		g_visutab[] =\
 
 void	reset_visu(t_line *line, int begin, int end)
 {
-	int		i;
+//	int		i;
 	char	*sub;
 
 	sub = ft_strsub(line->line, begin, end - begin);
-	i = begin - 1;
+//	i = begin - 1;
 	left(line, line->index - begin);
 	tgetputstr("me");
 	tgetputstr("ei");
@@ -44,11 +44,11 @@ void	reset_visu(t_line *line, int begin, int end)
 
 void	print_visu(t_line *line, int begin, int end)
 {
-	int		i;
+//	int		i;
 	char	*sub;
 
 	sub = ft_strsub(line->line, begin, end - begin);
-	i = begin - 1;
+//	i = begin - 1;
 	left(line, line->index - begin);
 	tgetputstr("mr");
 	tgetputstr("ei");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alagroy- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 11:12:14 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/04/16 16:34:04 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/01 16:09:02 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ int		ft_line(const int fd, char **line, char **stock_buf)
 
 int		get_next_line(const int fd, char **line)
 {
-	static char	*stock_buf[OPEN_MAX];
+	static char	*stock_buf[5000];
 	char		*nl_ptr;
 	char		*tmp;
 
-	if (fd < 0 || fd > OPEN_MAX || !line || read(fd, stock_buf[fd], 0) == -1 ||
+	if (fd < 0 || fd > 5000 || !line || read(fd, stock_buf[fd], 0) == -1 ||
 			BUFF_SIZE <= 0)
 		return (-1);
 	*line = NULL;

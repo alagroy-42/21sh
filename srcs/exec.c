@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/06/25 23:51:07 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/01 18:25:38 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,21 @@
 #include <sys/types.h> 
 #include <sys/stat.h> 
 #include <unistd.h>
+#include <signal.h>
+#include <sys/wait.h>
+
+#include <stdio.h>
 
 extern t_env *g_env;
 
-
 void	term_setup(void);
 void	term_unsetup(void);
+
+int g_fds1[2];
+int g_fds2[2];
+
+int g_pid1;
+int g_pid2;
 
 char	*ft_strstrjoin(char *s1, char *s2, char *s3)
 {
@@ -50,17 +59,30 @@ int		exec_path(char **path, t_ast *ast)
 		{
 			if (!(envp = env_toenvp(g_env)))
 				return (0);
+			if (ast->pipe)
+				pipe(g_fds1);
 			pid = fork();
 			if (pid < 0)
 				return (0);
-			term_unsetup();
 			if (!pid)
 			{
+				term_unsetup();
 				signal(SIGINT, SIG_DFL);
 				ft_redir_router(ast->input);
 				ft_redir_router(ast->output);
+				if (ast->pipe)
+				{
+					dup2(g_fds1[1], 1);
+     				close(g_fds1[0]);
+				}
+				else if (ast->piped)
+				{
+					dup2(g_fds1[0], 0);
+     				close(g_fds1[1]);
+				}
 				execve(cmd_path, ast->args, envp);
 			}
+     		close(g_fds1[1]);
 			waitpid(pid, &ast->status, 0);
 			term_setup();
 			ft_free_2dstr(envp);
@@ -84,16 +106,30 @@ int		exec_file(t_ast *ast)
 		{
 			if (!(envp = env_toenvp(g_env)))
 				return (0);
+			if (ast->pipe)
+				pipe(g_fds1);
 			pid = fork();
 			if (pid < 0)
 				return (0);
 			if (!pid)
 			{
+				term_unsetup();
 				ft_redir_router(ast->input);
 				ft_redir_router(ast->output);
+				if (ast->pipe)
+				{
+					dup2(g_fds1[1], 1);
+     				close(g_fds1[0]);
+				}
+				else if (ast->piped)
+				{
+					dup2(g_fds1[0], 0);
+     				close(g_fds1[1]);
+				}
 				execve(ast->cmd, ast->args, envp);
 			}
 			waitpid(pid, &ast->status, 0);
+			term_setup();
 			ft_free_2dstr(envp);
 		}
 		else
@@ -167,7 +203,9 @@ int		exec(t_ast *ast)
 					ft_free_2dstr(path);
 			}
 		}
-		if (ast->sep)
+		if (ast->pipe)
+			ast = ast->pipe;
+		else if (ast->sep)
 		{
 			if (ast->sep->sep == semicol
 				|| (ast->sep->sep == and_if && !ast->status)
@@ -178,7 +216,6 @@ int		exec(t_ast *ast)
 		}
 		else
 			ast = NULL;
-
 	}
 	return (1);
 }
