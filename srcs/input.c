@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 22:01:05 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/26 17:13:48 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/02 21:59:04 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void	ft_less(t_redir *redir)
 
 	if ((fd = open(redir->target, O_RDONLY)) == -1)
 		return ;
-	dup2(fd, STDIN_FILENO);
+	if (redir->fd == -42)
+		redir->fd = 0;
+	dup2(fd, redir->fd);
 	close(fd);
 }
 

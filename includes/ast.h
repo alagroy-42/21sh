@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:23:14 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/26 00:37:44 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/02 21:59:06 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct		s_redir
 	t_redir_type	type;
 	char			*target;
 	int				fd;
+	int				fd_target;
 	char			**heredoc;
 	struct s_redir	*next;
 }					t_redir;

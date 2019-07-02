@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:22:40 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/25 20:13:04 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/02 21:50:09 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ static t_list	*make_pipe(t_ast *ast, t_list *tmp)
 
 static t_list	*make_redir(t_ast *ast, t_list *tmp)
 {
-	while (tmp && ((t_token *)tmp->content)->type >= GREATAND
+	while (tmp && ((((t_token *)tmp->content)->type >= GREATAND
 			&& ((t_token *)tmp->content)->type <= LESS)
+			|| ((t_token *)tmp->content)->type == FD))
 	{
 		if (((t_token *)tmp->content)->type % 2)
 			tmp = ft_add_redir(&ast->output, tmp);
