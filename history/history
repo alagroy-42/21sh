@@ -1,4 +1,8 @@
 exit
+ls
+/bin/ls | /bin/cat -e
+/bin/ls | cat -e
+exit
 ./a
 exit 42
 EOF
