@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 09:54:01 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/12 12:10:59 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/02 19:28:53 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 # define ERROR -1
 # define QUOTE -2
-# define DQUOTE -3
-# define PIPE_ERR -4
+# define PIPE_ERR -3
+# define FD	-4
 # define WORD -5
 # define WORD_WC -25
 # define WORD_DC -45
@@ -43,8 +43,8 @@
 # define SEMICOL -16
 # define EOI -17
 
-# define NBR_FUNC 10
-# define NBR_SYMBOL 12
+# define NBR_FUNC 11
+# define NBR_SYMBOL 13
 
 typedef struct	s_token
 {
@@ -65,7 +65,8 @@ int				ft_is_amper(char c);
 int				ft_is_less(char c);
 int				ft_is_great(char c);
 int				ft_is_semicol(char c);
-int				ft_is_alnum(char c);
+int				ft_is_alpha(char c);
+int				ft_is_digit(char c);
 int				parse_cmd(t_list *token_list);
 int				analize_line(t_line *line, t_list **lex);
 

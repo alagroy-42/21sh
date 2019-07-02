@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 02:38:55 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/14 08:10:04 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/02 19:46:55 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ int		ft_is_quote(char c)
 		return (0);
 }
 
-int		ft_is_alnum(char c)
+int		ft_is_alpha(char c)
 {
-	if (ft_isalpha(c) || (c <= ':' && c > ' ' && c != '\'' && c != '"'
-				&& c != '&') || c == 61 || (c > '>' && c != '\\' && c != '|'))
+	if (ft_isprint(c) && c != '\'' && c != '"' && c != '|' && c != '>'
+			&& c != '<' && c != '&' && c != ';' && !ft_isdigit(c) && c != ' ')
 		return (1);
 	else
 		return (0);
