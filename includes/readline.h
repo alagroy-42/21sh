@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/25 19:41:17 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/03 15:18:19 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define K_BSPC "\177"
 # define K_UP "\33[A"
 # define K_DOWN "\33[B"
+# define K_CTRLD "\4"
 # define K_CTRLL "\f"
 # define K_ALFT "\33\33[D"
 # define K_ARGT "\33\33[C"
@@ -107,6 +108,7 @@ void					k_end(t_line *line);
 void					k_backspace(t_line *line);
 void					k_up(t_line *line);
 void					k_down(t_line *line);
+void					k_ctrld(t_line *line);
 void					k_ctrll(t_line *line);
 void					k_altleft(t_line *line);
 void					k_altright(t_line *line);
@@ -131,5 +133,9 @@ void					left(t_line *line, int len);
 void					right(t_line *line, int len);
 void					fill_visu(t_line *line);
 void					write_str(t_line *line, char *str);
+void					signal_init(void);
+void					ft_resize(int sig);
+void					ft_quit(int sig);
+void					term_unsetup(void);
 
 #endif

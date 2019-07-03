@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/02 21:50:51 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/03 15:17:22 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,30 +26,6 @@ void	term_setup(void)
 	g_line->term.c_cc[VMIN] = 1;
 	g_line->term.c_cc[VTIME] = 0;
 	tcsetattr(0, TCSANOW, &g_line->term);
-}
-
-void	term_unsetup(void)
-{
-	g_line->term.c_lflag = (ICANON | ECHO | ISIG | ECHOE);
-	tputs(tgetstr("ei", NULL), 0, ft_putc);
-	tcsetattr(0, 0, &g_line->term);
-}
-
-void		ft_quit(int code)
-{
-	int		fd;
-	t_list	*tmp;
-
-	tmp = g_line->history;
-	fd = open("history/history", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	while (fd != -1 && tmp)
-	{
-		ft_putendl_fd(tmp->content, fd);
-		tmp = tmp->next;
-	}
-	term_unsetup();
-	close(fd);
-	exit(code);
 }
 
 static void	core(t_line *line)
@@ -83,7 +59,7 @@ int		main(int argc, char **argv, char **env)
 	if (!(line = (t_line *)malloc(sizeof(t_line))))
 		return (-1);
 	g_line = line;
-	//signal(SIGINT, ft_quit);
+	signal_init();
 	if (init_line(line))
 		return (-1);
 	while (readline(line, LINE))
