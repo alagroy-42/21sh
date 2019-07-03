@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr:alag      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 14:33:18 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/03 15:17:34 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/03 15:32:34 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,5 @@ void			ft_resize(int sig)
 void			signal_init(void)
 {
 	signal(SIGWINCH, ft_resize);
+	signal(SIGINT, ft_quit);
 }

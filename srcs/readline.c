@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/03 15:19:15 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/03 15:39:05 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int			readline(t_line *line, int status)
 	char	buf[10];
 	int		ret;
 
+	if (!isatty(STDIN_FILENO))
+		return (get_next_line(0, &line->line));
 	g_tbl = g_normal_tbl;
 	line->history_index = 0;
 	line->last_arrow = UP;

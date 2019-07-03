@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/03 15:00:36 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/03 15:34:09 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int			init_line(t_line *line)
 	line->term.c_lflag &= ~(ECHO);
 	line->term.c_cc[VMIN] = 1;
 	line->term.c_cc[VTIME] = 0;
-	if (tcsetattr(0, TCSANOW, &line->term) == -1)
+	if (tcsetattr(0, TCSANOW, &line->term) == -1 && isatty(0))
 		return (-1);
 	ioctl(0, TIOCGWINSZ, &ws);
 	line->nb_col = ws.ws_col;
