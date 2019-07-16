@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/03 15:18:19 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/05 14:55:53 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define K_ALTV "\002"
 # define K_CTRLX "\030"
 # define K_ALTC "ç"
+# define K_TAB "\t"
 
 typedef struct termios	t_termios;
 typedef struct winsize	t_ws;
@@ -121,6 +122,7 @@ void					k_vright(t_line *line);
 void					k_ctrlx(t_line *line);
 void					k_ctrlv(t_line *line);
 void					k_altc(t_line *line);
+void					k_tab(t_line *line);
 void					get_back_to_index(t_line *line);
 void					get_cursor_position(int *col, int *row);
 void					history_push(t_line *line, char *s);
@@ -137,5 +139,6 @@ void					signal_init(void);
 void					ft_resize(int sig);
 void					ft_quit(int sig);
 void					term_unsetup(void);
+void					find_path(char *str, char **path, char **cmplt);
 
 #endif

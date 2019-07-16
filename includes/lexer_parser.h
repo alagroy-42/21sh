@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   lexer_parser.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 09:54:01 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/02 19:28:53 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/03 19:56:38 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@
 # define NBR_FUNC 11
 # define NBR_SYMBOL 13
 
+# define LP_CMD 0
+
 typedef struct	s_token
 {
 	int		type;
@@ -69,5 +71,6 @@ int				ft_is_alpha(char c);
 int				ft_is_digit(char c);
 int				parse_cmd(t_list *token_list);
 int				analize_line(t_line *line, t_list **lex);
+int				lite_parser(char *str, int index);
 
 #endif

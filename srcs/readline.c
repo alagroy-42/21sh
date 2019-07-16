@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/03 15:39:05 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/03 20:03:44 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_key		g_normal_tbl[] =\
 	{K_AUP, &k_altup},
 	{K_ADOWN, &k_altdown},
 	{K_ALTV, &k_visuinit},
+	{K_TAB, &k_tab},
 	{NULL, &k_left}
 };
 
