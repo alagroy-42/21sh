@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/05 14:55:53 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/16 12:29:45 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@
 
 typedef struct termios	t_termios;
 typedef struct winsize	t_ws;
+
+typedef struct			s_autocmplt
+{
+	int		max_len;
+	int		nb_row;
+	int		first_row;
+}						t_autocmplt;
 
 typedef struct			s_pos
 {
@@ -87,6 +94,7 @@ typedef struct			s_line
 	int			nb_line;
 	int			last_arrow;
 	t_visu		visu;
+	t_autocmplt	cmplt;
 }						t_line;
 
 typedef struct			s_key
@@ -140,5 +148,8 @@ void					ft_resize(int sig);
 void					ft_quit(int sig);
 void					term_unsetup(void);
 void					find_path(char *str, char **path, char **cmplt);
+void					disp_cmplt_tab(t_line *line, char **cmplt_tab);
+char					**find_in_path(char *path, char *cmplt);
+void					disp_cmplt(t_line *line, char **cmplt_tab, char *cmplt);
 
 #endif

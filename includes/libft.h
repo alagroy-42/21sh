@@ -6,7 +6,7 @@
 /*   By: alagroy- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 14:14:32 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/07 13:31:02 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/16 11:27:13 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,7 @@ void			ft_str2ddel(char **tab, int index);
 char			*ft_strreplace(char *str, char find, char replace);
 void			ft_print_strlist(t_list *list);
 char			**ft_expend_2dstr(char **tab, char *str);
+int				ft_2dstrlen(char **tab);
+char			**ft_2dstrjoin(char **tab1, char **tab2);
 
 #endif
