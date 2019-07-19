@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:22:40 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/02 21:50:09 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/19 13:50:40 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,15 @@ static t_list	*make_cmd(t_ast *ast, t_list *tmp)
 
 void			make_ast(t_ast *ast, t_list *tmp)
 {
-	tmp = make_cmd(ast, tmp);
-	tmp = make_redir(ast, tmp);
+	while (((t_token *)tmp->content)->type != PIPE
+			&& ((t_token *)tmp->content)->type != OR_IF
+			&& ((t_token *)tmp->content)->type != AND_IF
+			&& ((t_token *)tmp->content)->type != SEMICOL
+			&& ((t_token *)tmp->content)->type != EOI)
+	{
+		tmp = make_cmd(ast, tmp);
+		tmp = make_redir(ast, tmp);
+	}
 	tmp = make_pipe(ast, tmp);
 	make_sep(ast, tmp);
 }
