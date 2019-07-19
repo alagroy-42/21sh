@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:15:20 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/02 22:29:28 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/19 10:35:59 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	builtin_cd(t_ast *ast, t_env *env);
 
 int		exec(t_ast *ast);
 void	ft_quit(int sig);
-void	ft_redir_router(t_redir *redir_list);
-void	ft_less(t_redir *redir);
-void	ft_dless(t_redir *redir);
-void	ft_great(t_redir *redir);
-void	ft_dgreat(t_redir *redir);
-void	ft_greatand(t_redir *redir);
+int		ft_redir_router(t_redir *redir_list);
+int		ft_less(t_redir *redir);
+int		ft_dless(t_redir *redir);
+int		ft_great(t_redir *redir);
+int		ft_dgreat(t_redir *redir);
+int		ft_greatand(t_redir *redir);
 
 #endif

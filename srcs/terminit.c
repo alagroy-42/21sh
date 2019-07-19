@@ -6,19 +6,26 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/03 15:34:09 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/19 13:04:38 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
+#include "env.h"
+
+extern t_env	*g_env;
 
 static void	make_history(t_line *line)
 {
 	t_list	*new;
 	char	*content;
 	int		fd;
+	t_env	*home;
 
-	if ((fd = open("history/history", O_RDONLY | O_CREAT, 0644)) == -1)
+	home = env_get(g_env, "HOME");
+	if (home)
+		line->history_file = ft_strjoin(home->value, "/.21sh_history");
+	if ((fd = open(line->history_file, O_RDONLY | O_CREAT, 0644)) == -1)
 		return ;
 	while (get_next_line(fd, &content) == 1)
 	{

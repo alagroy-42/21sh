@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 21:36:10 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/02 22:29:27 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/19 09:24:31 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_redir_router	g_tab[] =\
 	{greatand, ft_greatand}
 };
 
-void	ft_redir_router(t_redir *redir_list)
+int		ft_redir_router(t_redir *redir_list)
 {
 	t_redir	*tmp;
 	int		i;
@@ -34,7 +34,9 @@ void	ft_redir_router(t_redir *redir_list)
 		i = -1;
 		while (++i < 5)
 			if (g_tab[i].redir == tmp->type)
-				g_tab[i].f(tmp);
+				if (!g_tab[i].f(tmp))
+					return (0);
 		tmp = tmp->next;
 	}
+	return (1);
 }

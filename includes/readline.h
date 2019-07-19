@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/16 12:29:45 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/19 12:56:12 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 # define K_CTRLX "\030"
 # define K_ALTC "ç"
 # define K_TAB "\t"
+# define K_CTRLR "\022"
 
 typedef struct termios	t_termios;
 typedef struct winsize	t_ws;
@@ -93,6 +94,7 @@ typedef struct			s_line
 	int			nb_col;
 	int			nb_line;
 	int			last_arrow;
+	char		*history_file;
 	t_visu		visu;
 	t_autocmplt	cmplt;
 }						t_line;
@@ -129,6 +131,7 @@ void					k_vleft(t_line *line);
 void					k_vright(t_line *line);
 void					k_ctrlx(t_line *line);
 void					k_ctrlv(t_line *line);
+void					k_ctrlr(t_line *line);
 void					k_altc(t_line *line);
 void					k_tab(t_line *line);
 void					get_back_to_index(t_line *line);
@@ -151,5 +154,6 @@ void					find_path(char *str, char **path, char **cmplt);
 void					disp_cmplt_tab(t_line *line, char **cmplt_tab);
 char					**find_in_path(char *path, char *cmplt);
 void					disp_cmplt(t_line *line, char **cmplt_tab, char *cmplt);
+int						ft_eoi(t_line *line);
 
 #endif

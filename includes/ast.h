@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:23:14 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/02 21:59:06 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/19 09:21:20 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct		s_ast
 typedef struct		s_redir_router
 {
 	t_redir_type	redir;
-	void			(*f)(t_redir *redir);
+	int				(*f)(t_redir *redir);
 }					t_redir_router;
 
 t_ast				*create_ast_node(int piped);

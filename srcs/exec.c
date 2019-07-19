@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/02 18:06:51 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/19 09:32:53 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		exec_path(char **path, t_ast *ast)
 	char	*cmd_path;
 	char	**envp;
 	int		pid;
-	
+
 	while (*path)
 	{
 		if (!(cmd_path = ft_strstrjoin(*path, "/", ast->cmd)))
@@ -60,7 +60,7 @@ int		exec_path(char **path, t_ast *ast)
 			if (!(envp = env_toenvp(g_env)))
 				return (0);
 			if (ast->pipe)
-					pipe(g_fds1);
+				pipe(g_fds1);
 			pid = fork();
 			if (pid < 0)
 				return (0);
@@ -68,12 +68,12 @@ int		exec_path(char **path, t_ast *ast)
 			{
 				term_unsetup();
 				signal(SIGINT, SIG_DFL);
-				ft_redir_router(ast->input);
-				ft_redir_router(ast->output);				
+				if (!ft_redir_router(ast->input) || !ft_redir_router(ast->output))
+					exit(EXIT_FAILURE);
 				if (ast->piped)
 				{
 					dup2(g_fds1[0], 0);
-     				close(g_fds1[1]);
+					close(g_fds1[1]);
 				}				
 				if (ast->pipe)
 				{
@@ -83,7 +83,7 @@ int		exec_path(char **path, t_ast *ast)
 				execve(cmd_path, ast->args, envp);
 			}
 			if (!ast->pipe && ast->piped)
-     			close(g_fds1[1]);
+				close(g_fds1[1]);
 			waitpid(pid, &ast->status, 0);
 			term_setup();
 			ft_free_2dstr(envp);
@@ -115,22 +115,22 @@ int		exec_file(t_ast *ast)
 			if (!pid)
 			{
 				term_unsetup();
-				ft_redir_router(ast->input);
-				ft_redir_router(ast->output);
+				if (!ft_redir_router(ast->input) || !ft_redir_router(ast->output))
+					exit(EXIT_FAILURE);
 				if (ast->pipe)
 				{
 					dup2(g_fds1[1], 1);
-     				close(g_fds1[0]);
+					close(g_fds1[0]);
 				}
 				else if (ast->piped)
 				{
 					dup2(g_fds1[0], 0);
-     				close(g_fds1[1]);
+					close(g_fds1[1]);
 				}
 				execve(ast->cmd, ast->args, envp);
 			}
 			if (!ast->pipe && ast->piped)
-     			close(g_fds1[1]);
+				close(g_fds1[1]);
 			waitpid(pid, &ast->status, 0);
 			term_setup();
 			ft_free_2dstr(envp);
@@ -171,10 +171,10 @@ int		exec_builtin(t_ast *ast)
 int		is_cmd_file(char *cmd)
 {
 	if ((ft_strlen(cmd) >= 1 && cmd[0] == '.')
-		|| (ft_strlen(cmd) >= 1 && cmd[0] == '/')
-		|| (ft_strlen(cmd) >= 2 && cmd[0] == '.' && cmd[1] == '.')
-		|| (ft_strlen(cmd) >= 2 && cmd[0] == '.' && cmd[1] == '/')
-		|| (ft_strlen(cmd) >= 3 && cmd[0] == '.' && cmd[1] == '.' && cmd[2] == '/'))
+			|| (ft_strlen(cmd) >= 1 && cmd[0] == '/')
+			|| (ft_strlen(cmd) >= 2 && cmd[0] == '.' && cmd[1] == '.')
+			|| (ft_strlen(cmd) >= 2 && cmd[0] == '.' && cmd[1] == '/')
+			|| (ft_strlen(cmd) >= 3 && cmd[0] == '.' && cmd[1] == '.' && cmd[2] == '/'))
 		return (1);
 	return (0);
 }
@@ -196,8 +196,8 @@ int		exec(t_ast *ast)
 			{
 				path = NULL;
 				if (!(env_path = env_get(g_env, "PATH"))
-					|| !(path = ft_strsplit(env_path->value, ':'))
-					|| !exec_path(path, ast))
+						|| !(path = ft_strsplit(env_path->value, ':'))
+						|| !exec_path(path, ast))
 				{
 					ft_putstr(ast->cmd);
 					ft_putendl(": command not found");
@@ -211,8 +211,8 @@ int		exec(t_ast *ast)
 		else if (ast->sep)
 		{
 			if (ast->sep->sep == semicol
-				|| (ast->sep->sep == and_if && !ast->status)
-				|| (ast->sep->sep == or_if && ast->status))
+					|| (ast->sep->sep == and_if && !ast->status)
+					|| (ast->sep->sep == or_if && ast->status))
 				ast = ast->sep->next;
 			else
 				ast = NULL;

@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 17:01:42 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/18 20:04:15 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/19 08:46:28 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,9 @@ t_key		g_visutab[] =\
 
 void	reset_visu(t_line *line, int begin, int end)
 {
-//	int		i;
 	char	*sub;
 
 	sub = ft_strsub(line->line, begin, end - begin);
-//	i = begin - 1;
 	left(line, line->index - begin);
 	tgetputstr("me");
 	tgetputstr("ei");
@@ -44,11 +42,9 @@ void	reset_visu(t_line *line, int begin, int end)
 
 void	print_visu(t_line *line, int begin, int end)
 {
-//	int		i;
 	char	*sub;
 
 	sub = ft_strsub(line->line, begin, end - begin);
-//	i = begin - 1;
 	left(line, line->index - begin);
 	tgetputstr("mr");
 	tgetputstr("ei");

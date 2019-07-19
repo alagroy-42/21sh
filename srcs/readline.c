@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/03 20:03:44 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/19 10:11:57 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_key		g_normal_tbl[] =\
 	{K_ADOWN, &k_altdown},
 	{K_ALTV, &k_visuinit},
 	{K_TAB, &k_tab},
+	{K_CTRLR, &k_ctrlr},
 	{NULL, &k_left}
 };
 
@@ -70,7 +71,7 @@ void		write_char(t_line *line, char *buf)
 		tgetputstr("do");
 }
 
-static int	ft_eoi(t_line *line)
+int			ft_eoi(t_line *line)
 {
 	int		len;
 

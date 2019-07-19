@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 10:18:11 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/16 10:18:15 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/16 14:30:32 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		lite_parser(char *line, int index)
 		if (is_sep(split[i]))
 			status = 0;
 	}
-	if (!is_sep(split[i - 1]) && line[index - 1] == ' ')
+	if (split && i && !is_sep(split[i - 1]) && line[index - 1] == ' ')
 		status++;
 	ft_free_2dstr(split);
 	free(sub);

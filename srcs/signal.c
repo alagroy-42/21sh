@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 10:18:24 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/16 10:18:26 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/19 13:05:05 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void		ft_quit(int code)
 	t_list	*tmp;
 
 	tmp = g_line->history;
-	fd = open("history/history", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(g_line->history_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	while (fd != -1 && tmp)
 	{
 		ft_putendl_fd(tmp->content, fd);
