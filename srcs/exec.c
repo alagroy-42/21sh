@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/22 19:04:00 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/22 19:27:02 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ void	exec_ast(t_ast **ast)
 		pid = fork();
 		if (!pid)
 		{
+			if (!ft_redir_router((*ast)->input) || !ft_redir_router((*ast)->output))
+				exit(EXIT_FAILURE);
 			dup2(lastfd, 0);
 			if ((*ast)->pipe != NULL) {
 				dup2(pipefds[1], 1);
