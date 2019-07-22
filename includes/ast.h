@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:23:14 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/22 18:50:32 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/22 20:26:41 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,6 @@ t_list				*ft_add_redir(t_redir **redir, t_list *tmp);
 void				make_ast(t_ast *ast, t_list *tmp);
 void				display_ast(t_ast *ast);
 void				expansions_handle(t_ast *ast);
+void				ast_set(t_ast *ast);
 
 #endif
