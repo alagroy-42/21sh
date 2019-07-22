@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 18:42:55 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/19 12:08:51 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/19 15:11:05 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void		k_ctrlr(t_line *line)
 
 void		k_ctrld(t_line *line)
 {
+	if (line->line[0])
+		return ;
 	ft_strdel(&line->line);
 	ft_quit(0);
 }
