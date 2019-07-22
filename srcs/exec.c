@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/22 19:27:02 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/22 19:32:56 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,16 +130,15 @@ void	exec_ast(t_ast **ast)
 			exit(1);
 		}
 		else {
-			term_setup();
 			waitpid(pid, &(*ast)->status, 0);
 			close(pipefds[1]);
 			lastfd = pipefds[0];
 			if (!(*ast)->pipe)
-				return ;
+				return (term_setup());
 			*ast = (*ast)->pipe;
 		}
+		term_setup();
 	}
-	term_setup();
 }
 
 int		ast_set_path_by_path(char **path, t_ast *ast)
