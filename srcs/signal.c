@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 10:18:24 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/19 13:05:05 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/22 19:48:39 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	term_unsetup(void)
 	tcsetattr(0, 0, &g_line->term);
 }
 
-void		ft_quit(int code)
+void	ft_quit(int code)
 {
 	int		fd;
 	t_list	*tmp;
@@ -39,18 +39,18 @@ void		ft_quit(int code)
 	exit(code);
 }
 
-void			ft_resize(int sig)
+void	ft_resize(int sig)
 {
+	t_ws	ws;
+
 	if (sig != SIGWINCH)
 		return ;
-	t_ws	ws;
-	
 	ioctl(0, TIOCGWINSZ, &ws);
 	g_line->nb_col = ws.ws_col;
 	g_line->nb_line = ws.ws_row;
 }
 
-void			signal_init(void)
+void	signal_init(void)
 {
 	signal(SIGWINCH, ft_resize);
 	signal(SIGINT, ft_quit);
