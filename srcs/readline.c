@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/19 10:11:57 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/22 14:53:52 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,10 @@ int			readline(t_line *line, int status)
 			ft_termcap(buf, line);
 		else if (buf[0] != '\n' && g_tbl != g_visutab)
 			write_char(line, buf);
-		if (buf[0] == '\n' && ret == 1)
+		if (ret == 1 && buf[0] == '\n')
 			return (ft_eoi(line));
+		if (buf[0] == 4 && ret == 1 && !line->line)
+			return (1);
 	}
 	return (0);
 }
