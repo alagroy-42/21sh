@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:15:20 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/19 10:35:59 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/22 18:50:14 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	builtin_unsetenv(t_ast *ast, t_env **env);
 void	builtin_env(t_ast *ast, t_env *env);
 void	builtin_cd(t_ast *ast, t_env *env);
 
-int		exec(t_ast *ast);
+void	exec(t_ast *ast);
 void	ft_quit(int sig);
 int		ft_redir_router(t_redir *redir_list);
 int		ft_less(t_redir *redir);

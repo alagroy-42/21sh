@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:23:14 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/22 16:00:04 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/22 18:50:32 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ typedef struct		s_ast
 {
 	char			*cmd;
 	char			**args;
+	char			*path;
+	int				error;
 	t_redir			*input;
 	t_redir			*output;
 	int				status;
