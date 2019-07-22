@@ -6,7 +6,7 @@
 #    By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/13 09:44:51 by alagroy-          #+#    #+#              #
-#    Updated: 2019/07/05 14:46:06 by alagroy-         ###   ########.fr        #
+#    Updated: 2019/07/22 16:00:26 by alagroy-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRCS_NAME = altkey.c ast_generate.c ast_tools.c builtin.c ctrl_key.c debugging.c
 			main.c move.c parser.c readline.c readline_tools.c terminit.c \
 			analize.c visumod.c visumove.c readline_aux.c visu_op.c redir.c \
 			input.c output.c signal.c autocomplete.c lite_parser.c \
-			autocmplt_tools.c
+			autocmplt_tools.c expansions.c
 
 SRCS = $(addprefix srcs/, $(SRCS_NAME))
 
