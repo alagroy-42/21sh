@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/22 18:50:58 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/22 18:54:33 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	exec_ast(t_ast **ast)
 		}
 		else {
 			term_setup();
-			wait(NULL);
+			waitpid(pid, &(*ast)->status, 0);
 			close(pipefds[1]);
 			lastfd = pipefds[0];
 			if (!(*ast)->pipe)
