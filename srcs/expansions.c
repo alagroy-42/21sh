@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 15:32:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/22 17:35:05 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/22 17:39:33 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "env.h"
 
 extern t_env	*g_env;
-#include <stdio.h>
+
 static char	*env_var_replace(char *str)
 {
 	int		i;
