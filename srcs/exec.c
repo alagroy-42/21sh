@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/22 18:54:33 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/22 19:04:00 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,8 @@ void	exec(t_ast *ast)
 	ast_set_path(ast);
 	while (ast)
 	{
+		if (!ast->pipe && !ft_strcmp(ast->cmd, "exit"))
+			return builtin_exit(ast);
 		exec_ast(&ast);
 		if (ast->sep)
 		{
