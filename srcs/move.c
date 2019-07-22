@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 18:12:35 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/01 16:08:42 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/22 15:24:07 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	k_backspace(t_line *line)
 	{
 		ft_putstr_fd(line->prompt, 0);
 		write_str(line, line->line);
+		left(line, ft_strlen(line->line) - line->index);
 	}
 	else
 	{
