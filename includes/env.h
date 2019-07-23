@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:19:47 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/06/26 17:17:19 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/23 18:04:30 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ typedef struct	s_env
 
 int				env_setup(char **envp);
 int				env_setup_setenvptoenv(char *envp, t_env *env);
-int				env_set(t_env *env, char *name, char *value);
+int				env_set(t_env **env, char *name, char *value);
 int				env_set_string(t_env *env, char *s);
 int				env_edit(t_env *env, char *name, char *value);
 t_env			*env_get(t_env *env, char *name);

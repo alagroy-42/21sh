@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/23 17:25:59 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/23 18:35:37 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,8 @@ void	exec(t_ast *ast)
 			if (!ast->pipe && !ft_strcmp(ast->cmd, "exit"))
 				return (builtin_exit(ast));
 			if (!ft_strcmp(ast->cmd, "setenv")
-				|| !ft_strcmp(ast->cmd, "unsetenv"))
+				|| !ft_strcmp(ast->cmd, "unsetenv")
+				|| !ft_strcmp(ast->cmd, "cd"))
 				exec_builtin(ast);
 			else
 				exec_ast_fork(&ast);

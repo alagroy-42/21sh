@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/22 20:16:27 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/23 18:33:37 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,34 @@ static void	core(t_line *line)
 	//free *
 }
 
+void	set_default_env(char *exe_name)
+{
+	t_env	*shlvl;
+	char	*str;
+	char**	atab;
+	char	pwd[8192];
+
+	getcwd(pwd, 8192);
+	env_set(&g_env, "PWD", pwd);
+	str = NULL;
+	if (!(shlvl = env_get(g_env, "SHLVL")))
+	{
+		if ((str = ft_strdup("1")))
+			env_set(&g_env, "SHLVL", str);
+	}
+	else
+	{
+		if ((str = ft_strdup(ft_itoa(ft_atoi(shlvl->value) + 1))))
+			env_set(&g_env, "SHLVL", str);
+	}
+	ft_strdel(&str);
+	if ((atab = ft_strsplit(exe_name, '/')))
+		if ((str = ft_strstrjoin(pwd, "/", atab[ft_2dstrlen(atab) - 1])))
+			env_set(&g_env, "SHELL", str);
+	env_set(&g_env, "SHELL", str);
+	ft_strdel(&str);
+}
+
 int		main(int argc, char **argv, char **env)
 {
 	t_line	*line;
@@ -56,6 +84,7 @@ int		main(int argc, char **argv, char **env)
 		ft_putendl("env_setup error");
 		return (-1);
 	}
+	set_default_env(argv[0]);
 	if (!(line = (t_line *)malloc(sizeof(t_line))))
 		return (-1);
 	g_line = line;
