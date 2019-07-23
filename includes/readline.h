@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/22 14:43:05 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/23 19:33:40 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,10 @@ void					term_unsetup(void);
 void					find_path(char *str, char **path, char **cmplt);
 void					disp_cmplt_tab(t_line *line, char **cmplt_tab);
 char					**find_in_path(char *path, char *cmplt);
+char					**find_env_var_cmplt(char *cmplt);
 void					disp_cmplt(t_line *line, char **cmplt_tab, char *cmplt);
+int						cmplt_beginning(t_line *line, char **cmplt_tab,
+						char *cmplt);
 int						ft_eoi(t_line *line);
 
 #endif

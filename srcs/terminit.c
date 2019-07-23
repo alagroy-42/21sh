@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/19 15:02:51 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/23 15:20:18 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ int			init_line(t_line *line)
 	char	*name_term;
 	t_ws	ws;
 
-	name_term = getenv("TERM");
+	if (!(name_term = getenv("TERM")))
+		name_term = ft_strdup("dumb");
 	tgetent(NULL, name_term);
 	tcgetattr(0, &(line->term));
 	line->term.c_lflag &= ~(ICANON);

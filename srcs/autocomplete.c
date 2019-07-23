@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 10:16:36 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/16 11:55:07 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/23 17:16:18 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,19 @@ static void	ft_cmpltfile(t_line *line)
 	char	*cmplt;
 	char	**cmplt_tab;
 
+	path = NULL;
+	cmplt = NULL;
 	word = find_cmplt_word(line->line, line->index);
 	if (!word)
 		return ;
-	find_path(word, &path, &cmplt);
-	cmplt_tab = find_in_path(path, cmplt);
-	disp_cmplt(line, cmplt_tab, cmplt);
+	if (word[0] == '$')
+		cmplt_tab = find_env_var_cmplt(word);
+	else
+	{
+		find_path(word, &path, &cmplt);
+		cmplt_tab = find_in_path(path, cmplt);
+	}
+	disp_cmplt(line, cmplt_tab, word);
 	ft_strdel(&path);
 	ft_strdel(&word);
 	ft_strdel(&cmplt);
