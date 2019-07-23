@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 20:18:49 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/23 05:20:25 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/23 16:48:44 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ void	ast_set(t_ast *ast)
 {
 	while (ast)
 	{
-		ast_set_path(ast);
+		if (ast->cmd)
+			ast_set_path(ast);
 		if (ast->pipe)
 			ast = ast->pipe;
 		else if (ast->sep)

@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/23 14:37:23 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/23 16:49:49 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,12 @@ void	exec(t_ast *ast)
 	ast_set(ast);
 	while (ast)
 	{
-		if (!ast->pipe && !ft_strcmp(ast->cmd, "exit"))
-			return (builtin_exit(ast));
-		exec_ast(&ast);
+		if (ast->cmd)
+		{
+			if (!ast->pipe && !ft_strcmp(ast->cmd, "exit"))
+				return (builtin_exit(ast));
+			exec_ast(&ast);
+		}
 		if (ast->sep)
 		{
 			if (ast->sep->sep == semicol
