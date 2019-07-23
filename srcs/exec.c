@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/23 18:35:37 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/23 21:17:38 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	exec_error(t_ast *ast)
 	ft_putstr_fd("\n", 2);
 }
 
-void	exec_ast_child(t_ast **ast, int lastfd, int pipefds[2])
+void	exec_ast_child(t_ast **ast)
 {
 	char	**envp;
 
@@ -66,10 +66,10 @@ void	exec_ast_child(t_ast **ast, int lastfd, int pipefds[2])
 		return ;
 	if (!ft_redir_router((*ast)->redir))
 		exit(EXIT_FAILURE);
-	dup2(lastfd, 0);
+	dup2(g_lastpipefd, 0);
 	if ((*ast)->pipe != NULL)
-		dup2(pipefds[1], 1);
-	close(pipefds[0]);
+		dup2(g_pipefds[1], 1);
+	close(g_pipefds[0]);
 	if ((*ast)->error)
 		exec_error(*ast);
 	else if (!(*ast)->path)
@@ -90,11 +90,11 @@ void	exec_ast_fork(t_ast **ast)
 		pipe(g_pipefds);
 		pid = fork();
 		if (!pid)
-			exec_ast_child(ast, g_lastpipefd, g_pipefds);
+			exec_ast_child(ast);
 		else if (pid != -1)
 		{
-			waitpid(pid, &(*ast)->status, 0);
 			close(g_pipefds[1]);
+			waitpid(pid, &(*ast)->status, 0);
 			if (g_lastpipefd)
 				close(g_lastpipefd);
 			g_lastpipefd = g_pipefds[0];
@@ -102,6 +102,8 @@ void	exec_ast_fork(t_ast **ast)
 				return (term_setup());
 			*ast = (*ast)->pipe;
 		}
+		else
+			ft_putstr_fd("fork error", 2);
 		term_setup();
 	}
 }
