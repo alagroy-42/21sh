@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/23 16:49:49 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/23 17:00:18 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	exec_ast_child(t_ast **ast, int lastfd, int pipefds[2])
 	exit(1);
 }
 
-void	exec_ast(t_ast **ast)
+void	exec_ast_fork(t_ast **ast)
 {
 	int		pid;
 
@@ -104,6 +104,15 @@ void	exec_ast(t_ast **ast)
 		}
 		term_setup();
 	}
+}
+
+void	exec_ast(t_ast **ast)
+{
+	if (!ft_strcmp((*ast)->cmd, "env") || !ft_strcmp((*ast)->cmd, "setenv")
+		|| !ft_strcmp((*ast)->cmd, "unsetenv") || !ft_strcmp((*ast)->cmd, "cd"))
+		exec_builtin(*ast);
+	else
+		exec_ast_fork(ast);
 }
 
 void	exec(t_ast *ast)
