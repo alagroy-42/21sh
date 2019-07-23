@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 15:53:46 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/23 19:37:59 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/23 20:14:52 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static int	cmplt_ok(char **cmplt_tab, int len)
 	int		i;
 
 	i = -1;
+	if (!cmplt_tab[0][len - 1])
+		return (0);
 	while (cmplt_tab[++i] && cmplt_tab[i + 1])
 		if (ft_strncmp(cmplt_tab[i], cmplt_tab[i + 1], len))
 			return (0);
@@ -50,8 +52,10 @@ int			cmplt_beginning(t_line *line, char **cmplt_tab, char *cmplt)
 
 	if (cmplt[0] == '$')
 		len = ft_strlen(cmplt + 1);
-	else
+	else if (ft_strirchr(cmplt, '/') == -1)
 		len = ft_strlen(cmplt);
+	else
+		len = ft_strlen(cmplt + ft_strichr(cmplt, '/') + 1);
 	len_beg = len;
 	disp = NULL;
 	while (cmplt_ok(cmplt_tab, len + 1))

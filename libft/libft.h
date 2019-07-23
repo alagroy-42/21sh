@@ -6,7 +6,7 @@
 /*   By: alagroy- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 14:14:32 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/16 11:27:13 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/23 19:59:58 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int				ft_strequ(const char *s1, const char *s2);
 int				ft_strnequ(const char *s1, const char *s2, size_t n);
 char			*ft_strsub(const char *s, unsigned int start, size_t len);
 char			*ft_strjoin(const char *s1, const char *s2);
+char			*ft_strstrjoin(char *s1, char *s2, char *s3);
 char			*ft_strtrim(const char *s);
 char			**ft_strsplit(const char *s, char c);
 char			*ft_itoa(int n);
@@ -101,5 +102,7 @@ void			ft_print_strlist(t_list *list);
 char			**ft_expend_2dstr(char **tab, char *str);
 int				ft_2dstrlen(char **tab);
 char			**ft_2dstrjoin(char **tab1, char **tab2);
+int				ft_strichr(char *s, char c);
+int				ft_strirchr(char *s, char c);
 
 #endif

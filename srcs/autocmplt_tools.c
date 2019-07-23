@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 10:16:46 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/23 17:37:10 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/23 20:16:30 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,17 @@ void		disp_cmplt(t_line *line, char **cmplt_tab, char *cmplt)
 	int		len;
 
 	len = ft_2dstrlen(cmplt_tab);
+	ft_printf("\nlen: %d\n", len);
 	if (!len)
 		return (tgetputstr("bl"));
-	else if (len == 1)
+/*	else if (len == 1)
 	{
 		ft_putstr_fd(cmplt_tab[0] + ft_strlen(cmplt), 0);
 		line->line = ft_insert_str(line->line,
 				ft_strdup(cmplt_tab[0] + ft_strlen(cmplt)), line->index);
 		line->index += ft_strlen(cmplt_tab[0]) - ft_strlen(cmplt);
 	}
-	else if (!cmplt_beginning(line, cmplt_tab, cmplt))
+	else*/ if (!cmplt_beginning(line, cmplt_tab, cmplt))
 		disp_cmplt_tab(line, cmplt_tab);
 }
 
