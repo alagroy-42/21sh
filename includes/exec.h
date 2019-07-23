@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:15:20 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/22 18:50:14 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/23 05:22:28 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,8 @@ int		ft_dless(t_redir *redir);
 int		ft_great(t_redir *redir);
 int		ft_dgreat(t_redir *redir);
 int		ft_greatand(t_redir *redir);
+
+void	term_setup(void);
+void	term_unsetup(void);
 
 #endif

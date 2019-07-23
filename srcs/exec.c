@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/22 20:32:21 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/23 05:50:33 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 #include "exec.h"
 #include "env.h"
 #include "libft.h"
-#include <sys/types.h> 
+#include <sys/types.h>
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
 
 extern t_env *g_env;
 
-void	term_setup(void);
-void	term_unsetup(void);
+int g_pipefds[2];
+int g_lastpipefd;
 
 int		exec_builtin(t_ast *ast)
 {
@@ -43,7 +43,7 @@ int		exec_builtin(t_ast *ast)
 	return (1);
 }
 
-void 	exec_error(t_ast *ast)
+void	exec_error(t_ast *ast)
 {
 	if (!ast->error)
 		return ;
@@ -58,14 +58,17 @@ void 	exec_error(t_ast *ast)
 	ft_putstr_fd("\n", 2);
 }
 
-void	exec_ast_child(t_ast **ast, int lastfd, char **envp, int pipefds[2])
+void	exec_ast_child(t_ast **ast, int lastfd, int pipefds[2])
 {
+	char	**envp;
+
+	if (!(envp = env_toenvp(g_env)))
+		return ;
 	if (!ft_redir_router((*ast)->input) || !ft_redir_router((*ast)->output))
 		exit(EXIT_FAILURE);
 	dup2(lastfd, 0);
-	if ((*ast)->pipe != NULL) {
+	if ((*ast)->pipe != NULL)
 		dup2(pipefds[1], 1);
-	}
 	close(pipefds[0]);
 	if ((*ast)->error)
 		exec_error(*ast);
@@ -78,27 +81,24 @@ void	exec_ast_child(t_ast **ast, int lastfd, char **envp, int pipefds[2])
 
 void	exec_ast(t_ast **ast)
 {
-	char **envp;
-	int pipefds[2];
-	int pid;
-	int lastfd;
+	int		pid;
 
-	if (!(envp = env_toenvp(g_env)))
-		return ;
-	lastfd = 0;
+	g_lastpipefd = 0;
 	while (*ast)
 	{
 		term_unsetup();
-		pipe(pipefds);
+		pipe(g_pipefds);
 		pid = fork();
 		if (!pid)
-			exec_ast_child(ast, lastfd, envp, pipefds);
-		else
+			exec_ast_child(ast, g_lastpipefd, g_pipefds);
+		else if (pid != -1)
 		{
 			waitpid(pid, &(*ast)->status, 0);
-			close(pipefds[1]);
-			lastfd = pipefds[0];
-			if (!(*ast)->pipe)
+			close(g_pipefds[1]);
+			if (g_lastpipefd)
+				close(g_lastpipefd);
+			g_lastpipefd = g_pipefds[0];
+			if (!(*ast)->pipe && close(g_lastpipefd) < 1)
 				return (term_setup());
 			*ast = (*ast)->pipe;
 		}
@@ -112,7 +112,7 @@ void	exec(t_ast *ast)
 	while (ast)
 	{
 		if (!ast->pipe && !ft_strcmp(ast->cmd, "exit"))
-			return builtin_exit(ast);
+			return (builtin_exit(ast));
 		exec_ast(&ast);
 		if (ast->sep)
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ctrl_key.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 18:42:55 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/22 14:54:04 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/23 05:20:50 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void		k_ctrlr(t_line *line)
 void		k_ctrld(t_line *line)
 {
 	if (line->line[0])
-		return tgetputstr("bl");
+		return (tgetputstr("bl"));
 	ft_strdel(&line->line);
 	if (!ft_strcmp(line->prompt, "$> "))
 	{

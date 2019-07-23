@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/19 10:35:39 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/23 05:20:20 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,11 @@
 
 extern t_env *g_env;
 
-int		ft_tablen(char **tab)
-{
-	int i;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
-}
-
 void	builtin_exit(t_ast *ast)
 {
-	if (ft_tablen(ast->args) > 2)
+	if (ft_2dstrlen(ast->args) > 2)
 		ft_putendl("exit: too many arguments");
-	else if (ft_tablen(ast->args) == 2)
+	else if (ft_2dstrlen(ast->args) == 2)
 		ft_quit(ft_atoi(ast->args[1]));
 	ft_quit(0);
 }
@@ -51,8 +41,8 @@ void	builtin_env(t_ast *ast, t_env *env)
 void	builtin_setenv(t_ast *ast, t_env *env)
 {
 	int i;
-	
-	if (ft_tablen(ast->args) == 1)
+
+	if (ft_2dstrlen(ast->args) == 1)
 		ft_putendl("setenv: not enough arguments");
 	else
 	{
@@ -67,7 +57,7 @@ void	builtin_unsetenv(t_ast *ast, t_env **env)
 	int i;
 
 	(void)env;
-	if (ft_tablen(ast->args) == 1)
+	if (ft_2dstrlen(ast->args) == 1)
 		ft_putendl("unsetenv: not enough arguments");
 	else
 	{
@@ -83,8 +73,8 @@ void	builtin_unsetenv(t_ast *ast, t_env **env)
 void	builtin_echo(t_ast *ast)
 {
 	int i;
-	
-	if (ft_tablen(ast->args) > 1)
+
+	if (ft_2dstrlen(ast->args) > 1)
 	{
 		i = 1;
 		if (!ft_strcmp(ast->args[1], "-n"))
@@ -98,23 +88,5 @@ void	builtin_echo(t_ast *ast)
 		}
 		if (ft_strcmp(ast->args[1], "-n"))
 			ft_putstr("\n");
-	}
-}
-
-void	builtin_cd_chdir()
-{
-
-}
-
-void	builtin_cd(t_ast *ast, t_env *env)
-{
-	if (ft_tablen(ast->args) == 1)
-	{
-		if (env_get(env, "HOME"))
-		{
-
-		}
-		else
-			ft_putendl("cd: HOME not set");
 	}
 }

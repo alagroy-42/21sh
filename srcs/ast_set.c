@@ -6,11 +6,11 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 20:18:49 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/22 20:27:05 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/23 05:20:25 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/stat.h> 
+#include <sys/stat.h>
 #include "ast.h"
 #include "env.h"
 
@@ -22,7 +22,7 @@ int		is_cmd_file(char *cmd)
 			|| (ft_strlen(cmd) >= 1 && cmd[0] == '/')
 			|| (ft_strlen(cmd) >= 2 && cmd[0] == '.' && cmd[1] == '.')
 			|| (ft_strlen(cmd) >= 2 && cmd[0] == '.' && cmd[1] == '/')
-			|| (ft_strlen(cmd) >= 3 && cmd[0] == '.' 
+			|| (ft_strlen(cmd) >= 3 && cmd[0] == '.'
 			&& cmd[1] == '.' && cmd[2] == '/'))
 		return (1);
 	return (0);
@@ -61,9 +61,9 @@ int		ast_set_path_by_path(char **path, t_ast *ast)
 
 void	ast_set_path(t_ast *ast)
 {
-	t_env	*env_path;
-	struct stat buf;
-	char **path;
+	t_env		*env_path;
+	struct stat	buf;
+	char		**path;
 
 	ast->error = 0;
 	if (is_cmd_builtin(ast->cmd))
@@ -72,7 +72,8 @@ void	ast_set_path(t_ast *ast)
 	{
 		if (access(ast->cmd, F_OK) == -1)
 			ast->error = 1;
-		else if (access(ast->cmd, X_OK) == -1 || stat(ast->cmd, &buf) || S_ISDIR(buf.st_mode))
+		else if (access(ast->cmd, X_OK) == -1 || stat(ast->cmd, &buf)
+			|| S_ISDIR(buf.st_mode))
 			ast->error = 2;
 		else
 			ast->path = ft_strdup(ast->cmd);
