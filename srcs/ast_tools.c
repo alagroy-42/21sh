@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 11:35:19 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/22 14:40:19 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/23 14:34:47 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ t_ast		*create_ast_node(int piped)
 		return (NULL);
 	node->cmd = NULL;
 	node->args = NULL;
-	node->input = NULL;
-	node->output = NULL;
+	node->redir = NULL;
 	node->sep = NULL;
 	node->pipe = NULL;
 	node->piped = piped;

@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 15:32:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/22 17:43:22 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/23 14:36:12 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,6 @@ void		expansions_handle(t_ast *ast)
 		if (ft_strchr(ast->args[i], '$'))
 			ast->args[i] = env_var_replace(ast->args[i]);
 	}
-	if (ast->input)
-		redir_expansions(ast->input);
-	if (ast->output)
-		redir_expansions(ast->input);
+	if (ast->redir)
+		redir_expansions(ast->redir);
 }

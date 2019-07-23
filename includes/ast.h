@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:23:14 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/22 20:26:41 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/23 14:33:33 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ typedef struct		s_ast
 	char			**args;
 	char			*path;
 	int				error;
-	t_redir			*input;
-	t_redir			*output;
+	t_redir			*redir;
 	int				status;
 	t_sep			*sep;
 	struct s_ast	*pipe;
@@ -70,6 +69,7 @@ typedef struct		s_redir_router
 t_ast				*create_ast_node(int piped);
 t_ast				*ast_init(t_list *token_list);
 t_list				*ft_add_redir(t_redir **redir, t_list *tmp);
+void				ft_aff_redir(t_redir *redir);
 void				make_ast(t_ast *ast, t_list *tmp);
 void				display_ast(t_ast *ast);
 void				expansions_handle(t_ast *ast);

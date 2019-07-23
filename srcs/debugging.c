@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 11:48:40 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/22 17:26:23 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/23 14:36:40 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void		ft_aff_redir(t_redir *redir)
 	while (tmp)
 	{
 		if (tmp && tmp->target)
-			ft_putendl(tmp->target);
+			ft_dprintf(0, "type:%d\nfd:%d\ntarget:%s\nfd_target:%d\n",
+					redir->type, redir->fd, redir->target, redir->fd_target);
 		tmp = tmp->next;
 	}
 }
@@ -43,10 +44,8 @@ void		display_ast(t_ast *ast)
 {
 	ft_putendl("\ncmd :");
 	ft_print_2da(ast->args);
-	ft_putendl("input :");
-	ft_aff_redir(ast->input);
-	ft_putendl("output :");
-	ft_aff_redir(ast->output);
+	ft_putendl("redir :");
+	ft_aff_redir(ast->redir);
 	ft_putendl("pipe :");
 	if (ast->pipe)
 		display_ast(ast->pipe);
