@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 05:17:44 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/23 18:39:55 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/23 18:48:53 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ void	builtin_cd(t_ast *ast, t_env *env)
 		else if (!ft_strcmp(ast->args[1], "-"))
 		{
 			if (env_get(env, "OLDPWD"))
+			{
+				ft_putendl(env_get(env, "OLDPWD")->value);
 				builtin_cd_chdir(env_get(env, "OLDPWD")->value);
+			}
 			else
 				ft_putstr_fd("cd: OLDPWD not set\n", 2);
 		}
