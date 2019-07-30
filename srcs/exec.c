@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/23 21:17:38 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/30 19:09:42 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 #include <signal.h>
 #include <sys/wait.h>
 
-extern t_env *g_env;
+extern t_env	*g_env;
+extern int		g_status;
+extern int		g_lastpid;
 
 int g_pipefds[2];
 int g_lastpipefd;
@@ -89,12 +91,14 @@ void	exec_ast_fork(t_ast **ast)
 		term_unsetup();
 		pipe(g_pipefds);
 		pid = fork();
+		g_lastpid = pid;
 		if (!pid)
 			exec_ast_child(ast);
 		else if (pid != -1)
 		{
 			close(g_pipefds[1]);
 			waitpid(pid, &(*ast)->status, 0);
+			g_status = (*ast)->status;
 			if (g_lastpipefd)
 				close(g_lastpipefd);
 			g_lastpipefd = g_pipefds[0];
