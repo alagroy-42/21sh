@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 20:18:49 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/23 16:48:44 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/07/25 13:48:33 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	ast_set_path(t_ast *ast)
 	char		**path;
 
 	ast->error = 0;
+	expansions_handle(ast);
 	if (is_cmd_builtin(ast->cmd))
 		ast->path = NULL;
 	else if (is_cmd_file(ast->cmd))

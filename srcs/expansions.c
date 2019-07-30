@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 15:32:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/23 14:36:12 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/07/30 17:28:04 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,47 @@
 
 extern t_env	*g_env;
 
+static char	*dollar_handle(char *str, int i, int j)
+{
+	t_env	*env;
+	char	*sub;
+
+	while (--j > i)
+	{
+		env = NULL;
+		sub = ft_strsub(str, i + 1, j - i);
+		env = env_get(g_env, sub);
+		if (env)
+		{
+			str = ft_delete_flags(str, i, ft_strlen(sub) + 1);
+			str = ft_insert_str(str, ft_strdup(env->value), i);
+			i += ft_strlen(env->value) - 1;
+			env = NULL;
+		}
+		ft_strdel(&sub);
+	}
+	return (str);
+}
+
 static char	*env_var_replace(char *str)
 {
 	int		i;
 	int		j;
-	t_env	*env;
-	char	*sub;
+	int		len_var;
+	char	*tmp;
 
 	i = -1;
 	while (str[++i])
 		if (str[i] == '$')
 		{
+			tmp = str;
 			j = i + 1;
 			while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
 				j++;
-			while (--j > i)
-			{
-				env = NULL;
-				sub = ft_strsub(str, i + 1, j - i);
-				env = env_get(g_env, sub);
-				if (env)
-				{
-					str = ft_delete_flags(str, i, ft_strlen(sub) + 1);
-					str = ft_insert_str(str, ft_strdup(env->value), i);
-					i += ft_strlen(env->value) - 1;
-				}
-				ft_strdel(&sub);
-			}
+			len_var = j - i;
+			str = dollar_handle(str, i, j);
+			if (tmp == str)
+				str = ft_delete_flags(str, i, len_var);
 		}
 	return (str);
 }
