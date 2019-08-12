@@ -6,12 +6,11 @@
 /*   By: alagroy- <alagroy-@student.42.fr:alag      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 18:51:26 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/12 18:22:39 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/12 18:29:30 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
-#include <sys/wait.h>
 
 extern int	g_status;
 extern int	g_lastpid;
@@ -31,7 +30,7 @@ char	*special_param_replace(char *str, int *i)
 
 	value = NULL;
 	if (str[*i + 1] == '?')
-		value = ft_itoa(WEXITSTATUS(g_status));
+		value = ft_itoa(g_status);
 	else if (str[*i + 1] == '!')
 		value = ft_itoa(g_lastpid);
 	else if (str[*i + 1] == '#')

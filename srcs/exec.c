@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/08/12 14:56:54 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/12 20:34:34 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ void	exec_ast_fork(t_ast **ast)
 		{
 			close(g_pipefds[1]);
 			waitpid(pid, &(*ast)->status, 0);
-			g_status = (*ast)->status;
+			g_status = WIFSIGNALED((*ast)->status) ?
+				child_crash((*ast)->status, *ast) : WEXITSTATUS((*ast)->status);
 			if (g_lastpipefd)
 				close(g_lastpipefd);
 			g_lastpipefd = g_pipefds[0];

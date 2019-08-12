@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:49:50 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/12 17:49:39 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/12 18:32:53 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	ft_ctrlc(int sig)
 		}
 		else if (g_line->line)
 			tgetputstr("bl");
-		g_status = 130;
 	}
 }
 
