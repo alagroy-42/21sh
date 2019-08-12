@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/23 15:20:18 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/12 17:00:22 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,23 @@
 #include "env.h"
 
 extern t_env	*g_env;
+extern t_line	*g_line;
+
+void	term_setup(void)
+{
+	g_line->term.c_lflag &= ~(ICANON);
+	g_line->term.c_lflag &= ~(ECHO);
+	g_line->term.c_cc[VMIN] = 1;
+	g_line->term.c_cc[VTIME] = 0;
+	tcsetattr(0, TCSANOW, &g_line->term);
+}
+
+void	term_unsetup(void)
+{
+	g_line->term.c_lflag = (ICANON | ECHO | ISIG | ECHOE);
+	tputs(tgetstr("ei", NULL), 0, ft_putc);
+	tcsetattr(0, 0, &g_line->term);
+}
 
 static void	make_history(t_line *line)
 {

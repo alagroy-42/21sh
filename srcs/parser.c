@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 20:15:08 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/19 12:46:48 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/12 17:26:59 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,32 @@ int			g_parse_tab[7][NBR_SYMBOL] =\
 	{-1, -1, -1, -1, -1, 2, 2, -1, 2, 2, 2, -1, -1},
 };
 
+static int	is_redir(t_list *token)
+{
+	if (!token)
+		return (0);
+	if (((t_token *)token->content)->type < -9
+			&& ((t_token *)token->content)->type > -16)
+		return (1);
+	return (0);
+}
+
+static void	check_fd(t_list *token_list)
+{
+	t_list	*tmp;
+
+	tmp = token_list;
+	if (((t_token *)tmp->content)->type == FD && !is_redir(tmp->next))
+		((t_token *)tmp->next->content)->type = WORD;
+	while (tmp && tmp->next)
+	{
+		if (((t_token *)tmp->next->content)->type == FD && !is_redir(tmp)
+				&& !is_redir(tmp->next->next))
+			((t_token *)tmp->next->content)->type = WORD;
+		tmp = tmp->next;
+	}
+}
+
 int			parse_cmd(t_list *token_list)
 {
 	t_list	*tmp;
@@ -50,6 +76,7 @@ int			parse_cmd(t_list *token_list)
 	state = 0;
 	if (!token_list)
 		return (-1);
+	check_fd(token_list);
 	tmp = token_list;
 	while (state >= 0)
 	{
