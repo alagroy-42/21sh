@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 09:53:09 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/22 12:01:12 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/12 16:33:04 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ static void		make_next_token(t_token *token, char *line)
 	i -= (state < -60 ? 1 : 0);
 	begin += (state < -40 ? 1 : 0);
 	token->lexem = ft_strsub(line, begin, i - begin);
+	//ft_printf("lexem: |%s|, type: %d, beg: %d, i: %d, line:|%s|\n", token->lexem, state % 20, begin, i, line);
 	state < -40 ? i++ : 0;
 	token->type = state % 20;
 }

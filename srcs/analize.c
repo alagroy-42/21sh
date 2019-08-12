@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 11:52:57 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/19 14:20:40 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/12 16:35:07 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,13 @@ int			analize_line(t_line *line, t_list **lex)
 		tmp_str = line_str;
 		line_str = ft_strjoin(line_str, line->line);
 		ft_strdel(&tmp_str);
+		ft_strdel(&line->line);
 		if (lex_routine(line, line_str, lex))
 			continue ;
 		parse_return = parse_cmd(*lex);
 		if (parse_return == -2)
 			readline(line, INCOMPLETE);
 	}
+	ft_strdel(&line->line);
 	return (parse_return);
 }

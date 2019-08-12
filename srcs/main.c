@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/23 18:33:37 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/08/12 16:43:37 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static void	core(t_line *line)
 		ast = ast_init(lex);
 	if (ast && ast->cmd)
 		exec(ast);
-	//free *
 }
 
 void	set_default_env(char *exe_name)
@@ -79,6 +78,8 @@ int		main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
+//	if (ac > 1)
+//		return (exec_file(ac, av));
 	if (!(env_setup(env)))
 	{
 		ft_putendl("env_setup error");

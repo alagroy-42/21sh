@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 15:10:02 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/25 19:47:48 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/12 16:43:18 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void		history_push(t_line *line, char *line_str)
 {
 	t_list	*new_cmd;
+	char	*cmd;
 	int		i;
 
 	if (!line_str || line_str[0] == '\n')
@@ -22,14 +23,10 @@ void		history_push(t_line *line, char *line_str)
 	if (line->history && !ft_strcmp(line->history->content, line_str))
 		return ;
 	i = ft_strlen(line_str);
-	while (--i)
-		if (line_str[i] == '\n')
-		{
-			line_str[i] = '\0';
-			break ;
-		}
-	new_cmd = ft_lstnew(line_str, ft_strlen(line_str) + 1);
+	cmd = ft_strsub(line_str, 0, ft_strlen(line->line) - 1);
+	new_cmd = ft_lstnew(cmd, ft_strlen(cmd) + 1);
 	ft_lstadd(&line->history, new_cmd);
+	ft_strdel(&cmd);
 }
 
 static void	write_history(t_line *line, char *str)
