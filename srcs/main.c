@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/12 17:00:24 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/13 18:56:05 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "exec.h"
 
 t_line	*g_line;
-t_env *g_env = NULL;
+t_env	*g_env = NULL;
 
 static void	core(t_line *line)
 {
@@ -33,6 +33,8 @@ static void	core(t_line *line)
 		ast = ast_init(lex);
 	if (ast && ast->cmd)
 		exec(ast);
+	ft_lstdel(&lex, ft_del_token);
+	ft_ast_del(&ast);
 }
 
 void	set_default_env(char *exe_name)

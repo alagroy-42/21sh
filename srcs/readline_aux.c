@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 16:27:56 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/13 13:31:38 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/13 17:04:43 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	readline_init(t_line *line, int status)
 	get_cursor_position(&line->pos.col, &line->pos.row);
 	if (line->pos.col != 0)
 		ft_printf("\033[30;47m%%\033[0;0m\n");
+	ft_strdel(&line->prompt);
 	line->prompt = ft_strdup(status == LINE ? "$> " : ">  ");
 	ft_putstr_fd(line->prompt, 0);
 }

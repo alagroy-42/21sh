@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/12 17:00:22 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/13 17:01:50 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void	make_history(t_line *line)
 		new = ft_lstnew(content, ft_strlen(content) + 1);
 		if (new)
 			ft_lstend(&line->history, new);
+		ft_strdel(&content);
 	}
 	close(fd);
 }

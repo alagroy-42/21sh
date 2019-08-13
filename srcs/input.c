@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 22:01:05 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/19 09:22:45 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/13 15:08:34 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		ft_dless(t_redir *redir)
 		return (0);
 	i = -1;
 	while (redir->heredoc[++i])
-		ft_putendl_fd(redir->heredoc[i], fd);
+		ft_putstr_fd(redir->heredoc[i], fd);
 	close(fd);
 	if ((fd = open("/tmp/heredoc_21sh", O_RDONLY)) == -1)
 		return (0);

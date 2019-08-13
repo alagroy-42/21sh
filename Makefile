@@ -6,7 +6,7 @@
 #    By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/13 09:44:51 by alagroy-          #+#    #+#              #
-#    Updated: 2019/08/12 17:00:48 by alagroy-         ###   ########.fr        #
+#    Updated: 2019/08/13 18:29:24 by alagroy-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS_NAME = altkey.c ast_generate.c ast_set.c ast_tools.c builtin.c builtin_cd.c
 			analize.c visumod.c visumove.c readline_aux.c visu_op.c redir.c \
 			input.c output.c signal.c autocomplete.c lite_parser.c \
 			autocmplt_tools.c expansions.c advanced_cmplt.c special_param.c \
-			sighandler.c
+			sighandler.c leaks.c
 
 SRCS = $(addprefix srcs/, $(SRCS_NAME))
 

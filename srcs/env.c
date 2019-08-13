@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:24:40 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/07/23 18:04:36 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/08/13 16:51:16 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,7 @@ t_env	*env_new(char *name, char *value)
 		env_destroy(&env);
 		return (NULL);
 	}
+	env->next = NULL;
 	return (env);
 }
 

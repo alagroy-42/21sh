@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 11:35:19 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/23 14:34:47 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/13 15:23:44 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	**ft_heredoc(t_list *tmp)
 	t_line	*line;
 
 	line = g_line;
-	limit = ((t_token *)tmp->next->content)->lexem;
+	limit = ft_strjoin(((t_token *)tmp->next->content)->lexem, "\n");
 	heredoc = NULL;
 	if (!isatty(STDIN_FILENO))
 		return (heredoc);
@@ -47,9 +47,13 @@ static char	**ft_heredoc(t_list *tmp)
 		heredoc = ft_expend_2dstr(heredoc, line->line);
 		ft_strdel(&line->line);
 		readline(line, INCOMPLETE);
-		if (!line->line && !ft_strcmp(limit, "EOF"))
+		if (!line->line)
+		{
+			ft_strdel(&limit);
 			return (heredoc);
+		}
 	}
+	ft_strdel(&limit);
 	ft_strdel(&line->line);
 	return (heredoc);
 }
