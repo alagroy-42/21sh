@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/23 19:33:40 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/13 13:30:22 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,5 +158,6 @@ void					disp_cmplt(t_line *line, char **cmplt_tab, char *cmplt);
 int						cmplt_beginning(t_line *line, char **cmplt_tab,
 						char *cmplt);
 int						ft_eoi(t_line *line);
+void					readline_init(t_line *line, int status);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/08/12 20:34:34 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/13 12:41:15 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 #include <sys/wait.h>
 
 extern t_env	*g_env;
-extern int		g_status;
-extern int		g_lastpid;
+int				g_status = 0;
+int				g_lastpid = 42424242;
 
 int g_pipefds[2];
 int g_lastpipefd;

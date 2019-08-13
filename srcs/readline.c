@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/12 16:43:33 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/13 13:30:39 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,7 @@ int			readline(t_line *line, int status)
 	if (!isatty(STDIN_FILENO))
 		return (get_next_line(0, &line->line));
 	g_tbl = g_normal_tbl;
-	line->history_index = 0;
-	line->last_arrow = UP;
-	line->index = 0;
-	line->line = ft_strnew(0);
-	line->prompt = ft_strdup(status == LINE ? "$> " : ">  ");
-	ft_putstr_fd(line->prompt, 0);
+	readline_init(line, status);
 	tputs(line->caps.im, 0, ft_putc);
 	while ((ret = read(0, buf, 9)))
 	{
