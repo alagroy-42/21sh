@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 11:35:19 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/13 15:23:44 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/15 18:58:14 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_ast		*create_ast_node(int piped)
 	node->redir = NULL;
 	node->sep = NULL;
 	node->pipe = NULL;
+	node->path = NULL;
 	node->piped = piped;
 	return (node);
 }
@@ -70,9 +71,11 @@ t_list		*ft_create_redir(t_redir *redir, t_list *tmp)
 	redir->type = ((t_token *)tmp->content)->type * -1 - 10;
 	if (((t_token *)tmp->content)->type == DLESS)
 		redir->heredoc = ft_heredoc(tmp);
+	else
+		redir->heredoc = NULL;
 	redir->next = NULL;
 	tmp = tmp->next;
-	redir->target = ((t_token *)tmp->content)->lexem;
+	redir->target = ft_strdup(((t_token *)tmp->content)->lexem);
 	return (tmp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:49:50 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/13 12:41:30 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/15 19:38:29 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 extern t_line	*g_line;
 extern int		g_lastpid;
 extern int		g_status;
+extern int		g_ctrlr;
 
 void	ft_quit(int code)
 {
@@ -36,6 +37,11 @@ void	ft_quit(int code)
 
 void	ft_ctrlc(int sig)
 {
+	if (g_ctrlr)
+	{
+		g_ctrlr = 0;
+		return ;
+	}
 	if (g_lastpid > 0)
 	{
 		kill(g_lastpid, SIGINT);

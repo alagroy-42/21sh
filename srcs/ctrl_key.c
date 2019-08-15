@@ -6,11 +6,14 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 18:42:55 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/23 05:20:50 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/08/15 19:30:32 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
+#include "signal_21sh.h"
+
+int			g_ctrlr = 0;
 
 static int	ft_risearch(t_line *line, int index, char **str)
 {
@@ -53,6 +56,7 @@ static void	disp_result(t_line *line, char *tmp, int status)
 		line->line = ft_strdup(tmp);
 		line->index = ft_strlen(line->line);
 		ft_dprintf(0, "%s%s", line->prompt, line->line);
+		g_ctrlr = 0;
 	}
 }
 
@@ -67,8 +71,9 @@ void		k_ctrlr(t_line *line)
 	buf[0] = '\0';
 	ret = 1;
 	tmp = ft_strdup("");
-	while (((ft_isprint(buf[0]) || buf[0] == '\0') && ret == 1)
-			|| !ft_strcmp(buf, K_BSPC) || !ft_strcmp(buf, K_CTRLR))
+	g_ctrlr = 1;
+	while ((((ft_isprint(buf[0]) || buf[0] == '\0') && ret == 1)
+			|| !ft_strcmp(buf, K_BSPC) || !ft_strcmp(buf, K_CTRLR)) && g_ctrlr)
 	{
 		if (!ft_strcmp(buf, K_CTRLR))
 			index = ft_risearch(line, index, &tmp);

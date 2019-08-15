@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/13 17:01:50 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/15 19:02:49 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,9 @@ int			init_line(t_line *line)
 	line->nb_col = ws.ws_col;
 	line->nb_line = ws.ws_row;
 	line->history = NULL;
+	line->prompt = NULL;
 	line->visu.clipboard = NULL;
+	get_cursor_position(&line->pos.col, &line->pos.row);
 	make_history(line);
 	init_caps(line);
 	return (0);

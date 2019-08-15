@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/13 13:30:22 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/15 19:20:40 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define K_UP "\33[A"
 # define K_DOWN "\33[B"
 # define K_CTRLD "\4"
+# define K_CTRLC "\3"
 # define K_CTRLL "\f"
 # define K_ALFT "\33\33[D"
 # define K_ARGT "\33\33[C"
