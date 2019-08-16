@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:49:50 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/15 19:38:29 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/16 16:10:57 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,17 @@ void	ft_quit(int code)
 	term_unsetup();
 	close(fd);
 	exit(code);
+}
+
+void	signal_ctrlr(void)
+{
+	struct sigaction	act;
+
+	act.sa_handler = ft_ctrlc;
+	act.sa_mask = 0;
+	act.sa_flags &= SA_SIGINFO;
+	act.sa_flags &= SA_RESTART;
+	sigaction(SIGINT, &act, NULL);
 }
 
 void	ft_ctrlc(int sig)

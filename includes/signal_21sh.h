@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:53:44 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/12 16:57:52 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/16 16:04:35 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,6 @@
 void	ft_quit(int code);
 void	ft_ctrlc(int sig);
 void	ft_resize(int sig);
+void	signal_ctrlr(void);
 
 #endif
