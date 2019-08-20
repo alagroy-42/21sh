@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 10:16:46 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/12 12:58:46 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/20 16:06:56 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void		disp_cmplt(t_line *line, char **cmplt_tab, char *cmplt)
 	len = ft_2dstrlen(cmplt_tab);
 	if (!len)
 		return (tgetputstr("bl"));
-	 if (!cmplt_beginning(line, cmplt_tab, cmplt))
+	if (!cmplt_beginning(line, cmplt_tab, cmplt))
 		disp_cmplt_tab(line, cmplt_tab);
 }
 
