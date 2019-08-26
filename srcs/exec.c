@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/08/15 18:02:07 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/26 21:46:30 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,7 @@ void	exec_ast_child(t_ast **ast)
 	if ((*ast)->pipe != NULL)
 		dup2(g_pipefds[1], 1);
 	close(g_pipefds[0]);
-	if ((*ast)->error)
-		exec_error(*ast);
-	else if (!(*ast)->path)
+	if (!(*ast)->path)
 		exec_builtin(*ast);
 	else
 		execve((*ast)->path, (*ast)->args, envp);
@@ -118,7 +116,9 @@ void	exec(t_ast *ast)
 	ast_set(ast);
 	while (ast)
 	{
-		if (ast->cmd)
+		if (ast->error)
+			exec_error(ast);
+		else if (ast->cmd)
 		{
 			if (!ast->pipe && !ft_strcmp(ast->cmd, "exit"))
 				return (builtin_exit(ast));
@@ -132,7 +132,7 @@ void	exec(t_ast *ast)
 		if (ast->sep)
 		{
 			if (ast->sep->sep == semicol
-					|| (ast->sep->sep == and_if && !ast->status)
+					|| (ast->sep->sep == and_if && !ast->status && !ast->error)
 					|| (ast->sep->sep == or_if && ast->status))
 				ast = ast->sep->next;
 			else

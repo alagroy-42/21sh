@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/13 18:56:05 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/26 21:28:30 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	core(t_line *line)
 	t_list	*lex;
 	t_ast	*ast;
 	int		parse_return;
-
+	
 	ast = NULL;
 	lex = NULL;
 	parse_return = 0;
@@ -79,6 +79,8 @@ int		main(int argc, char **argv, char **env)
 		return (-1);
 	}
 	set_default_env(argv[0]);
+	// if (!env_get(g_env, "TERM"))
+	// 	env_set(&g_env, "TERM", "xterm-256color");
 	if (!(line = (t_line *)malloc(sizeof(t_line))))
 		return (-1);
 	g_line = line;

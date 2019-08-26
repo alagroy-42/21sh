@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/15 19:02:49 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/26 21:44:43 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,13 @@ static void	init_caps(t_line *line)
 
 int			init_line(t_line *line)
 {
-	char	*name_term;
+	t_env	*name_term;
 	t_ws	ws;
 
-	if (!(name_term = getenv("TERM")))
-		name_term = ft_strdup("dumb");
-	tgetent(NULL, name_term);
+	if (!(name_term = env_get(g_env, "TERM")) || !ft_strlen(name_term->value))
+		tgetent(NULL, "dumb");
+	else
+		tgetent(NULL, name_term->value);
 	tcgetattr(0, &(line->term));
 	line->term.c_lflag &= ~(ICANON);
 	line->term.c_lflag &= ~(ECHO);
