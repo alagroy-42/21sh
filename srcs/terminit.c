@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/26 21:44:43 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/08/27 16:49:10 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static void	make_history(t_line *line)
 	home = env_get(g_env, "HOME");
 	if (home)
 		line->history_file = ft_strjoin(home->value, "/.21sh_history");
+	else
+		line->history = NULL;
 	if ((fd = open(line->history_file, O_RDONLY | O_CREAT, 0644)) == -1)
 		return ;
 	while (get_next_line(fd, &content) == 1)

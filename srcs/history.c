@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 15:10:02 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/13 17:48:25 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/08/27 16:45:00 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		history_push(t_line *line, char *line_str)
 	char	*join;
 	int		i;
 
-	if (!line_str || line_str[0] == '\n')
+	if (!line_str || line_str[0] == '\n' || !line->history)
 		return ;
 	if (!(join = ft_strjoin(line->history->content, "\n")))
 		return ;
