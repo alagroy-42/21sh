@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 10:16:46 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/20 16:06:56 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 17:43:40 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,15 @@ void		disp_cmplt_tab(t_line *line, char **cmplt_tab)
 
 	status = 0;
 	i = -1;
-	ft_putchar_fd('\n', 0);
+	ft_putchar_fd('\n', 2);
 	cmplt_init(line, cmplt_tab);
 	while (cmplt_tab[++i])
 	{
 		tputs(tgoto(line->caps.cm, (line->cmplt.max_len + 2) * (i
 						/ line->cmplt.nb_row), line->cmplt.first_row + i
-					% line->cmplt.nb_row), 0, ft_putc);
-		line->cmplt.nb_row == 1 ? ft_putstr_fd(cmplt_tab[i], 0)
-			: ft_putendl_fd(cmplt_tab[i], 0);
+					% line->cmplt.nb_row), 2, ft_putc);
+		line->cmplt.nb_row == 1 ? ft_putstr_fd(cmplt_tab[i], 2)
+			: ft_putendl_fd(cmplt_tab[i], 2);
 		get_cursor_position(&line->pos.col, &line->pos.row);
 		if (line->pos.row < line->cmplt.first_row + i % line->cmplt.nb_row)
 			status = 1;
@@ -84,8 +84,8 @@ void		disp_cmplt_tab(t_line *line, char **cmplt_tab)
 			line->cmplt.first_row--;
 	}
 	tputs(tgoto(line->caps.cm, 0, line->cmplt.first_row
-				+ line->cmplt.nb_row), 0, ft_putc);
-	ft_printf("\n%s%s", line->prompt, line->line);
+				+ line->cmplt.nb_row), 2, ft_putc);
+	ft_dprintf(2, "\n%s%s", line->prompt, line->line);
 }
 
 void		find_path(char *str, char **path, char **cmplt)

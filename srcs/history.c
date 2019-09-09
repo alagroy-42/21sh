@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 15:10:02 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/27 16:45:00 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 17:50:38 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void		history_push(t_line *line, char *line_str)
 	t_list	*new_cmd;
 	char	*cmd;
 	char	*join;
-	int		i;
 
 	if (!line_str || line_str[0] == '\n' || !line->history)
 		return ;
@@ -25,7 +24,6 @@ void		history_push(t_line *line, char *line_str)
 		return ;
 	if (line->history && !ft_strcmp(join, line_str))
 		return (ft_strdel(&join));
-	i = ft_strlen(line_str);
 	cmd = ft_strsub(line_str, 0, ft_strlen(line->line) - 1);
 	new_cmd = ft_lstnew(cmd, ft_strlen(cmd) + 1);
 	ft_lstadd(&line->history, new_cmd);
@@ -63,9 +61,9 @@ void		k_up(t_line *line)
 		tmp = tmp->next;
 	while (line->index)
 		k_left(line);
-	tputs(line->caps.cr, 0, ft_putc);
-	tputs(line->caps.cd, 0, ft_putc);
-	tputs(line->prompt, 0, ft_putc);
+	tputs(line->caps.cr, 2, ft_putc);
+	tputs(line->caps.cd, 2, ft_putc);
+	tputs(line->prompt, 2, ft_putc);
 	ft_strdel(&line->line);
 	line->line = ft_strnew(0);
 	write_history(line, tmp->content);
@@ -88,9 +86,9 @@ void		k_down(t_line *line)
 		tmp = tmp->next;
 	while (line->index)
 		k_left(line);
-	tputs(line->caps.cr, 0, ft_putc);
-	tputs(line->caps.cd, 0, ft_putc);
-	tputs(line->prompt, 0, ft_putc);
+	tputs(line->caps.cr, 2, ft_putc);
+	tputs(line->caps.cd, 2, ft_putc);
+	tputs(line->prompt, 2, ft_putc);
 	ft_strdel(&line->line);
 	line->line = ft_strnew(0);
 	write_history(line, line->history_index ? tmp->content : "");

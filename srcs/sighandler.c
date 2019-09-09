@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:49:50 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/16 16:10:57 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 19:41:04 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ void	ft_ctrlc(int sig)
 			free(g_line->line);
 			g_line->line = ft_strnew(0);
 			g_line->index = 0;
-			ft_putstr_fd(g_line->prompt, 0);
+			tgetputstr("cr");
+			tgetputstr("cd");
+			g_line->history_index = 0;
+			ft_putstr_fd(g_line->prompt, 2);
 		}
 		else if (g_line->line)
 			tgetputstr("bl");
@@ -78,4 +81,5 @@ void	ft_resize(int sig)
 	ioctl(0, TIOCGWINSZ, &ws);
 	g_line->nb_col = ws.ws_col;
 	g_line->nb_line = ws.ws_row;
+	get_cursor_position(&g_line->pos.col, &g_line->pos.row);
 }

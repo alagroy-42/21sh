@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 14:58:53 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 18:44:16 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_key		*g_tbl;
 
 int			ft_putc(int c)
 {
-	return (write(0, &c, 1));
+	return (write(2, &c, 1));
 }
 
 void		ft_termcap(char *buf, t_line *line)
@@ -55,19 +55,19 @@ void		ft_termcap(char *buf, t_line *line)
 
 void		write_char(t_line *line, char *buf)
 {
-	ft_putchar_fd(buf[0], 0);
+	ft_putchar_fd(buf[0], 2);
 	line->line = ft_insert_str(line->line, ft_strdup(buf), line->index);
 	line->index++;
 	if ((line->index + 3) / line->nb_col < ((int)ft_strlen(line->line) + 4)
 			/ line->nb_col)
 	{
 		tgetputstr("ei");
-		tputs(line->line + line->index, 0, ft_putc);
+		ft_dprintf(2, line->line + line->index);
 		left(line, ft_strlen(line->line) - line->index - 1);
 		tgetputstr("im");
 	}
 	get_cursor_position(&line->pos.col, &line->pos.row);
-	if (line->pos.col == line->nb_col - 1)
+	if (line->pos.col == line->nb_col)
 		tgetputstr("do");
 }
 
@@ -76,8 +76,8 @@ int			ft_eoi(t_line *line)
 	int		len;
 
 	len = ft_strlen(line->line);
-	while (line->index < len)
-		k_right(line);
+	right(line, len - line->index);
+	line->index = ft_strlen(line->line);
 	write_char(line, "\n");
 	history_push(line, line->line);
 	return (1);
@@ -92,7 +92,7 @@ int			readline(t_line *line, int status)
 		return (gnl_nl(0, &line->line));
 	g_tbl = g_normal_tbl;
 	readline_init(line, status);
-	tputs(line->caps.im, 0, ft_putc);
+	tputs(line->caps.im, 2, ft_putc);
 	while ((ret = read(0, buf, 9)))
 	{
 		buf[ret] = '\0';

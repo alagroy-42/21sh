@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 17:39:13 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/16 16:15:43 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 17:41:09 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	get_back_to_index(t_line *line)
 
 	cursor = ft_strlen(line->line);
 	while (--cursor >= line->index)
-		tputs(line->caps.le, 0, ft_putc);
+		tputs(line->caps.le, 2, ft_putc);
 }
 
 void	tgetputstr(char *s)
@@ -47,5 +47,5 @@ void	tgetputstr(char *s)
 
 	if (!(cap = tgetstr(s, NULL)))
 		return ;
-	tputs(cap, 0, ft_putc);
+	tputs(cap, 2, ft_putc);
 }

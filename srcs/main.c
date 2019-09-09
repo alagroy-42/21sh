@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 15:18:28 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 18:45:15 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,11 @@ int		main(int ac, char **av, char **env)
 	if (ac > 1)
 		exec_file(ac, av, line);
 	while (readline(line, LINE) == 1)
-		core(line);
+		if (!ft_strcmp("exit\n", line->line))
+			ft_quit(0);
+		else
+			ft_putstr(line->line);
+		//core(line);
 	ft_quit(1);
 	return (0);
 }

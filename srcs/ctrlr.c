@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/16 16:11:46 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/20 16:36:40 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 17:45:00 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,17 @@ static void	disp_result(t_line *line, char *tmp, int status, t_pos posr)
 	get_cursor_position(&line->pos.col, &line->pos.row);
 	if (line->pos.row != posr.row)
 		left(line, line->nb_col);
-	tputs(line->caps.cr, 0, ft_putc);
-	tputs(line->caps.cd, 0, ft_putc);
+	tputs(line->caps.cr, 2, ft_putc);
+	tputs(line->caps.cd, 2, ft_putc);
 	if (status == 0)
-		ft_dprintf(0, "(reverse-i-search)'%s': %s", line->line, tmp);
+		ft_dprintf(2, "(reverse-i-search)'%s': %s", line->line, tmp);
 	else
 	{
 		ft_strdel(&line->line);
 		line->line = ft_strdup(tmp);
 		line->index = ft_strlen(line->line);
 		ft_strdel(&tmp);
-		ft_dprintf(0, "%s%s", line->prompt, line->line);
+		ft_dprintf(2, "%s%s", line->prompt, line->line);
 		signal(SIGINT, ft_ctrlc);
 		g_ctrlr = 0;
 	}

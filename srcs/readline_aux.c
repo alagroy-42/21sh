@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 16:27:56 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/13 17:04:43 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 18:19:16 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	readline_init(t_line *line, int status)
 	line->line = ft_strnew(0);
 	get_cursor_position(&line->pos.col, &line->pos.row);
 	if (line->pos.col != 0)
-		ft_printf("\033[30;47m%%\033[0;0m\n");
+		ft_dprintf(2, "\033[30;47m%%\033[0;0m\n");
 	ft_strdel(&line->prompt);
 	line->prompt = ft_strdup(status == LINE ? "$> " : ">  ");
-	ft_putstr_fd(line->prompt, 0);
+	ft_putstr_fd(line->prompt, 2);
 }
 
 void	write_str(t_line *line, char *str)
@@ -36,7 +36,7 @@ void	write_str(t_line *line, char *str)
 		get_cursor_position(&line->pos.col, &line->pos.row);
 		if (line->pos.col == line->nb_col - 1)
 			tgetputstr("do");
-		ft_putchar_fd(str[i], 0);
+		ft_putchar_fd(str[i], 2);
 	}
 }
 
@@ -56,7 +56,7 @@ void	left(t_line *line, int len)
 	{
 		get_cursor_position(&line->pos.col, &line->pos.row);
 		if (line->pos.col == 0)
-			tputs(tgoto(line->caps.cm, line->nb_col - 2, line->pos.row - 1), 0,
+			tputs(tgoto(line->caps.cm, line->nb_col - 2, line->pos.row - 1), 2,
 					ft_putc);
 		else
 			tgetputstr("le");
@@ -75,7 +75,7 @@ void	right(t_line *line, int len)
 	while (++i < dow)
 	{
 		get_cursor_position(&line->pos.col, &line->pos.row);
-		tputs(tgoto(line->caps.cm, line->pos.col, line->pos.row + 1), 0,
+		tputs(tgoto(line->caps.cm, line->pos.col, line->pos.row + 1), 2,
 				ft_putc);
 	}
 	i = -1;
