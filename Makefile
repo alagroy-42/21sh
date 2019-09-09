@@ -6,7 +6,7 @@
 #    By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/13 09:44:51 by alagroy-          #+#    #+#              #
-#    Updated: 2019/09/09 14:28:35 by alagroy-         ###   ########.fr        #
+#    Updated: 2019/09/09 20:06:32 by alagroy-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,7 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@rm -f libft.a
+	@rm -f libft/libft.a
 	@printf "\033[0;31m[21sh] Fclean [OK]\n"
 
 re: fclean all
