@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/26 21:12:36 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/09 14:58:53 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int			readline(t_line *line, int status)
 	int		ret;
 
 	if (!isatty(STDIN_FILENO))
-		return (get_next_line(0, &line->line));
+		return (gnl_nl(0, &line->line));
 	g_tbl = g_normal_tbl;
 	readline_init(line, status);
 	tputs(line->caps.im, 0, ft_putc);
@@ -105,6 +105,5 @@ int			readline(t_line *line, int status)
 		if (buf[0] == 4 && ret == 1 && !line->line)
 			return (1);
 	}
-	ft_putendl("CCC");
 	return (0);
 }

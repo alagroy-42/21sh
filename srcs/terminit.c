@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/27 16:49:10 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 15:06:30 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,13 @@ extern t_line	*g_line;
 
 void	term_setup(void)
 {
-	g_line->term.c_lflag &= ~(ICANON);
-	g_line->term.c_lflag &= ~(ECHO);
-	g_line->term.c_cc[VMIN] = 1;
-	g_line->term.c_cc[VTIME] = 0;
 	tcsetattr(0, TCSANOW, &g_line->term);
 }
 
 void	term_unsetup(void)
 {
-	g_line->term.c_lflag = (ICANON | ECHO | ISIG | ECHOE);
 	tputs(tgetstr("ei", NULL), 0, ft_putc);
-	tcsetattr(0, 0, &g_line->term);
+	tcsetattr(0, 0, &g_line->old_term);
 }
 
 static void	make_history(t_line *line)
@@ -87,20 +82,21 @@ int			init_line(t_line *line)
 		tgetent(NULL, "dumb");
 	else
 		tgetent(NULL, name_term->value);
+	tcgetattr(0, &(line->old_term));
 	tcgetattr(0, &(line->term));
 	line->term.c_lflag &= ~(ICANON);
 	line->term.c_lflag &= ~(ECHO);
 	line->term.c_cc[VMIN] = 1;
 	line->term.c_cc[VTIME] = 0;
-	if (tcsetattr(0, TCSANOW, &line->term) == -1 && isatty(0))
+	if (isatty(STDIN_FILENO) && tcsetattr(0, TCSANOW, &line->term) == -1)
 		return (-1);
 	ioctl(0, TIOCGWINSZ, &ws);
 	line->nb_col = ws.ws_col;
 	line->nb_line = ws.ws_row;
 	line->history = NULL;
 	line->prompt = NULL;
+	line->line = NULL;
 	line->visu.clipboard = NULL;
-	get_cursor_position(&line->pos.col, &line->pos.row);
 	make_history(line);
 	init_caps(line);
 	return (0);

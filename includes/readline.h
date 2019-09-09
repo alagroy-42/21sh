@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/16 16:51:39 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 14:51:22 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct			s_line
 	char		*line;
 	char		*prompt;
 	t_termios	term;
+	t_termios	old_term;
 	t_cap		caps;
 	t_pos		pos;
 	t_list		*history;
@@ -160,5 +161,7 @@ int						cmplt_beginning(t_line *line, char **cmplt_tab,
 						char *cmplt);
 int						ft_eoi(t_line *line);
 void					readline_init(t_line *line, int status);
+void					exec_file(int ac, char **av, t_line *line);
+void					core(t_line *line);
 
 #endif

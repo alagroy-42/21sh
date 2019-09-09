@@ -6,7 +6,7 @@
 /*   By: alagroy- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 14:14:32 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/23 19:59:58 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 14:40:45 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,6 @@ int				ft_2dstrlen(char **tab);
 char			**ft_2dstrjoin(char **tab1, char **tab2);
 int				ft_strichr(char *s, char c);
 int				ft_strirchr(char *s, char c);
+int				gnl_nl(int fd, char **line);
 
 #endif

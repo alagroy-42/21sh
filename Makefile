@@ -6,7 +6,7 @@
 #    By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/13 09:44:51 by alagroy-          #+#    #+#              #
-#    Updated: 2019/08/16 16:14:51 by alagroy-         ###   ########.fr        #
+#    Updated: 2019/09/09 14:28:35 by alagroy-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,13 +20,13 @@ SRCS_NAME = altkey.c ast_generate.c ast_set.c ast_tools.c builtin.c builtin_cd.c
 			analize.c visumod.c visumove.c readline_aux.c visu_op.c redir.c \
 			input.c output.c signal.c autocomplete.c lite_parser.c \
 			autocmplt_tools.c expansions.c advanced_cmplt.c special_param.c \
-			sighandler.c leaks.c ctrlr.c
+			sighandler.c leaks.c ctrlr.c exec_file.c
 
 SRCS = $(addprefix srcs/, $(SRCS_NAME))
 
 CFLAGS = -Wall -Werror -Wextra -g -I $(INCLUDES)
 
-DFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address -I $(INCLUDES)
+DFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address,undefined -I $(INCLUDES)
 
 INCLUDES = includes
 
