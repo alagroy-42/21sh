@@ -6,11 +6,31 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 12:57:30 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 15:17:57 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 16:15:48 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
+#include "env.h"
+
+extern t_env	*g_env;
+
+void	load_21shrc(t_line *line)
+{
+	t_env	*home;
+	char	*path;
+	int		fd;
+
+	if (!(home = env_get(g_env, "HOME")))
+		return ;
+	if (!(path = ft_strjoin(home->value, "/.21shrc")))
+		return ;
+	if ((fd = open(path, O_RDONLY | O_NOFOLLOW)) == -1)
+		return ;
+	while (gnl_nl(fd, &line->line) == 1)
+		core(line);
+	close(fd);
+}
 
 void	exec_file(int ac, char **av, t_line *line)
 {

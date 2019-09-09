@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 15:06:30 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 16:15:47 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,6 @@ int			init_line(t_line *line)
 	line->visu.clipboard = NULL;
 	make_history(line);
 	init_caps(line);
+	load_21shrc(line);
 	return (0);
 }
