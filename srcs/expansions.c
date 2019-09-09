@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 15:32:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 12:54:37 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 16:35:14 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,9 @@ static char	*env_var_replace(char *str)
 	int		bool;
 
 	i = -1;
-	while (str[++i])
-		if (str[i] == '$')
+	while (str && str[++i])
+		if (str[i] == '$' && (bool = 1))
 		{
-			bool = 1;
 			if (is_special_param(str[i + 1]))
 			{
 				str = special_param_replace(str, &i);
@@ -59,8 +58,7 @@ static char	*env_var_replace(char *str)
 			while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
 				j++;
 			len_var = j - i;
-			str = dollar_handle(str, &i, j, &bool);
-			if (bool)
+			if ((str = dollar_handle(str, &i, j, &bool)) && bool)
 			{
 				str = ft_delete_flags(str, i, len_var);
 				i--;

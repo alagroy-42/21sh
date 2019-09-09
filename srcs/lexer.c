@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 09:53:09 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 15:22:28 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 16:39:59 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,6 @@ int		g_state_tab[10][NBR_FUNC] =\
 int				ft_is_digit(char c)
 {
 	return (ft_isdigit((int)c));
-}
-
-void			ft_del_token(void *content, size_t content_size)
-{
-	free(((t_token *)content)->lexem);
-	((t_token *)content)->lexem = NULL;
-	free(content);
-	content = NULL;
-	(void)content_size;
 }
 
 static t_list	*merge_token(t_list *token_list)

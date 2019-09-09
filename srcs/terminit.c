@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 16:15:47 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 16:38:18 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 extern t_env	*g_env;
 extern t_line	*g_line;
 
-void	term_setup(void)
+void		term_setup(void)
 {
 	tcsetattr(0, TCSANOW, &g_line->term);
 }
 
-void	term_unsetup(void)
+void		term_unsetup(void)
 {
 	tputs(tgetstr("ei", NULL), 0, ft_putc);
 	tcsetattr(0, 0, &g_line->old_term);
@@ -76,7 +76,6 @@ static void	init_caps(t_line *line)
 int			init_line(t_line *line)
 {
 	t_env	*name_term;
-	t_ws	ws;
 
 	if (!(name_term = env_get(g_env, "TERM")) || !ft_strlen(name_term->value))
 		tgetent(NULL, "dumb");
@@ -90,9 +89,7 @@ int			init_line(t_line *line)
 	line->term.c_cc[VTIME] = 0;
 	if (isatty(STDIN_FILENO) && tcsetattr(0, TCSANOW, &line->term) == -1)
 		return (-1);
-	ioctl(0, TIOCGWINSZ, &ws);
-	line->nb_col = ws.ws_col;
-	line->nb_line = ws.ws_row;
+	ft_resize(SIGWINCH);
 	line->history = NULL;
 	line->prompt = NULL;
 	line->line = NULL;

@@ -6,12 +6,21 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 18:16:55 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/13 18:52:56 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 16:39:59 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "lexer_parser.h"
+
+void			ft_del_token(void *content, size_t content_size)
+{
+	free(((t_token *)content)->lexem);
+	((t_token *)content)->lexem = NULL;
+	free(content);
+	content = NULL;
+	(void)content_size;
+}
 
 static void	ft_del_redir(t_redir **redir)
 {

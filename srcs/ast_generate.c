@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:22:40 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/23 14:35:20 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/09 16:21:53 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static t_list	*make_redir(t_ast *ast, t_list *tmp)
 			&& ((t_token *)tmp->content)->type <= LESS)
 			|| ((t_token *)tmp->content)->type == FD))
 	{
-			tmp = ft_add_redir(&ast->redir, tmp);
+		tmp = ft_add_redir(&ast->redir, tmp);
 		tmp = tmp->next;
 	}
 	return (tmp);
