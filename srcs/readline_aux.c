@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 16:27:56 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/10 14:54:44 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/10 15:17:26 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	left(t_line *line, int len)
 	int	le;
 	int	i;
 
-	up = len / (line->nb_col - 1);
-	le = len % (line->nb_col - 1);
+	up = len / (line->nb_col);
+	le = len % (line->nb_col);
 	i = -1;
 	while (++i < up)
 		tgetputstr("up");
@@ -69,8 +69,8 @@ void	right(t_line *line, int len)
 	int	nd;
 	int	i;
 
-	dow = len / (line->nb_col - 1);
-	nd = len % (line->nb_col - 1);
+	dow = len / (line->nb_col);
+	nd = len % (line->nb_col);
 	i = -1;
 	while (++i < dow)
 	{

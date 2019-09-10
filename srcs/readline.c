@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 18:44:16 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/10 15:40:48 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,17 @@ void		write_char(t_line *line, char *buf)
 	ft_putchar_fd(buf[0], 2);
 	line->line = ft_insert_str(line->line, ft_strdup(buf), line->index);
 	line->index++;
-	if ((line->index + 3) / line->nb_col < ((int)ft_strlen(line->line) + 4)
-			/ line->nb_col)
-	{
-		tgetputstr("ei");
-		ft_dprintf(2, line->line + line->index);
-		left(line, ft_strlen(line->line) - line->index - 1);
-		tgetputstr("im");
-	}
 	get_cursor_position(&line->pos.col, &line->pos.row);
 	if (line->pos.col == line->nb_col)
 		tgetputstr("do");
+	if (line->index != (int)ft_strlen(line->line))
+	{
+		tgetputstr("ei");
+		get_cursor_position(&line->pos.col, &line->pos.row);
+		ft_putstr_fd(line->line + line->index, 2);
+		tputs(tgoto(line->caps.cm, line->pos.col, line->pos.row), 2, ft_putc);
+		tgetputstr("im");
+	}
 }
 
 int			ft_eoi(t_line *line)
