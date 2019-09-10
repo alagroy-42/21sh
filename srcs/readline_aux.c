@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 16:27:56 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 18:19:16 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/10 14:54:44 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	left(t_line *line, int len)
 	{
 		get_cursor_position(&line->pos.col, &line->pos.row);
 		if (line->pos.col == 0)
-			tputs(tgoto(line->caps.cm, line->nb_col - 2, line->pos.row - 1), 2,
+			tputs(tgoto(line->caps.cm, line->nb_col - 1, line->pos.row - 1), 2,
 					ft_putc);
 		else
 			tgetputstr("le");
@@ -82,7 +82,7 @@ void	right(t_line *line, int len)
 	while (++i < nd)
 	{
 		get_cursor_position(&line->pos.col, &line->pos.row);
-		if (line->pos.col == line->nb_col - 2)
+		if (line->pos.col == line->nb_col - 1)
 			tgetputstr("do");
 		else
 			tgetputstr("nd");

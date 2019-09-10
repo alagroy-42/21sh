@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 18:12:35 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/22 21:41:30 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/10 15:13:26 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	k_left(t_line *line)
 	if (line->pos.col == 0)
 	{
 		tgetputstr("up");
-		tputs(tgoto(line->caps.ch, 0, line->nb_col - 2), 0, ft_putc);
+		tputs(tgoto(line->caps.ch, 0, line->nb_col - 1), 2, ft_putc);
 		line->index--;
 	}
 	else if (line->index > 0)
 	{
-		tputs(line->caps.le, 0, ft_putc);
+		tputs(line->caps.le, 2, ft_putc);
 		line->index--;
 	}
 	else
@@ -37,13 +37,13 @@ void	k_right(t_line *line)
 		tgetputstr("bl");
 	if (line->index < (int)ft_strlen(line->line))
 	{
-		if (line->pos.col == line->nb_col - 2)
+		if (line->pos.col == line->nb_col - 1)
 		{
-			tputs(line->caps.dow, 0, ft_putc);
-			tputs(line->caps.cr, 0, ft_putc);
+			tputs(line->caps.dow, 2, ft_putc);
+			tputs(line->caps.cr, 2, ft_putc);
 		}
 		else
-			tputs(line->caps.nd, 0, ft_putc);
+			tputs(line->caps.nd, 2, ft_putc);
 		line->index++;
 	}
 }
@@ -66,22 +66,18 @@ void	k_end(t_line *line)
 
 void	k_backspace(t_line *line)
 {
+	int		up;
+	
 	if (line->index <= 0)
 		return (tgetputstr("bl"));
 	k_left(line);
 	line->line = ft_delete_flags(line->line, line->index, 1);
 	get_cursor_position(&line->pos.col, &line->pos.row);
-	tputs(line->caps.cr, 0, ft_putc);
-	tputs(line->caps.cd, 0, ft_putc);
-	if (line->index + 3 < line->nb_col - 1)
-	{
-		ft_putstr_fd(line->prompt, 0);
-		write_str(line, line->line);
-		left(line, ft_strlen(line->line) - line->index);
-	}
-	else
-	{
-		write_str(line, line->line + line->index - line->pos.col);
-		left(line, (int)ft_strlen(line->line) - line->index);
-	}
+	tputs(line->caps.cr, 2, ft_putc);
+	tputs(line->caps.cd, 2, ft_putc);
+	up = (line->index + 3) / line->nb_col;
+	while (up--)
+		tgetputstr("up");
+	ft_dprintf(2, "%s%s", line->prompt, line->line);
+	tputs(tgoto(line->caps.cm, line->pos.col, line->pos.row), 2, ft_putc);
 }
