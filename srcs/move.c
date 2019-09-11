@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 18:12:35 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/10 15:15:27 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/11 19:44:43 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	k_end(t_line *line)
 void	k_backspace(t_line *line)
 {
 	int		up;
-	
+
 	if (line->index <= 0)
 		return (tgetputstr("bl"));
 	k_left(line);

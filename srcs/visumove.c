@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 17:45:57 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/18 19:58:20 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/11 19:26:44 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,33 @@
 
 void	k_vleft(t_line *line)
 {
-	if (line->visu.current == 0)
+	if (line->index == 0)
 		return (tgetputstr("bl"));
-	fill_visu(line);
-	reset_visu(line, line->visu.smaller, line->visu.bigger);
-	line->visu.current--;
-	fill_visu(line);
+	if (!line->visu.clipboard)
+	{
+		reset_visu(line);
+		line->visu.offset--;
+	}
 	k_left(line);
-	print_visu(line, line->visu.smaller, line->visu.bigger);
+	if (!line->visu.clipboard)
+		print_visu(line);
 }
 
 void	k_vright(t_line *line)
 {
-	if (line->visu.current == (int)ft_strlen(line->line) || (!line->visu.current
-				&& !line->visu.begin && line->visu.clipboard))
+	if (line->index == (int)ft_strlen(line->line))
 		return (tgetputstr("bl"));
-	fill_visu(line);
-	reset_visu(line, line->visu.smaller, line->visu.bigger);
-	line->visu.current++;
+	if (!line->visu.clipboard)
+	{
+		reset_visu(line);
+		line->visu.offset++;
+	}
 	k_right(line);
-	fill_visu(line);
-	print_visu(line, line->visu.smaller, line->visu.bigger);
+	if (!line->visu.clipboard)
+	{
+		print_visu(line);
+		get_cursor_position(&line->pos.col, &line->pos.row);
+		if (line->pos.col == line->nb_col)
+			tgetputstr("do");
+	}
 }

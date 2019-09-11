@@ -6,52 +6,74 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 17:17:29 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/06/20 18:36:23 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/11 19:45:21 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	k_ctrlx(t_line *line)
+void	k_altx(t_line *line)
 {
 	int		len;
-	int		right;
+	int		beg;
+	int		up;
 
-	fill_visu(line);
-	right = line->visu.bigger - line->index;
-	len = line->visu.bigger - line->visu.smaller;
+	beg = line->visu.offset < 0 ? line->visu.begin + line->visu.offset
+		: line->visu.begin;
+	len = line->visu.offset < 0 ? line->visu.offset * -1 : line->visu.offset;
+	len++;
 	ft_strdel(&line->visu.clipboard);
-	line->visu.clipboard = ft_strsub(line->line, line->visu.smaller, len);
-	reset_visu(line, line->visu.smaller, line->visu.bigger);
-	while (right--)
-		k_right(line);
-	while (len--)
-		k_backspace(line);
-	line->visu.begin = 0;
-	line->visu.current = 0;
+	if (!(line->visu.clipboard = ft_strsub(line->line, beg, len)))
+		return ;
+	line->line = ft_delete_flags(line->line, beg, len);
+	if (line->index != beg)
+		left(line, len - 1);
+	get_cursor_position(&line->pos.col, &line->pos.row);
+	up = (beg + 3) / line->nb_col;
+	tputs(line->caps.cr, 2, ft_putc);
+	tputs(line->caps.cd, 2, ft_putc);
+	while (up--)
+		tgetputstr("up");
+	ft_dprintf(2, "%s%s", line->prompt, line->line);
+	tputs(tgoto(line->caps.cm, line->pos.col, line->pos.row), 2, ft_putc);
+	line->visu.begin = beg;
+	line->index = beg;
+	line->visu.offset = 0;
 }
 
 void	k_altc(t_line *line)
 {
-	ft_strdel(&line->visu.clipboard);
-	fill_visu(line);
-	line->visu.clipboard = ft_strsub(line->line, line->visu.smaller,
-			line->visu.bigger - line->visu.smaller);
-	reset_visu(line, line->visu.smaller, line->visu.bigger);
-	line->visu.begin = 0;
-	line->visu.current = 0;
+	int		len;
+	int		beg;
+
+	beg = line->visu.offset < 0 ? line->visu.begin + line->visu.offset
+		: line->visu.begin;
+	len = line->visu.offset < 0 ? line->visu.offset * -1 : line->visu.offset;
+	len++;
+	if (!(line->visu.clipboard = ft_strsub(line->line, beg, len)))
+		return ;
+	reset_visu(line);
+	line->visu.offset = 0;
 }
 
-void	k_ctrlv(t_line *line)
+void	k_altv(t_line *line)
 {
-	char	*sub;
-	int		i;
+	int		up;
+	int		len;
 
-	i = -1;
-	while (line->visu.clipboard[++i])
-	{
-		sub = ft_strsub(line->visu.clipboard, i, 1);
-		write_char(line, sub);
-		free(sub);
-	}
+	if (!line->visu.clipboard)
+		return ;
+	up = (line->index + 3) / line->nb_col;
+	line->line = ft_insert_str(line->line, ft_strdup(line->visu.clipboard),
+			line->index);
+	get_cursor_position(&line->pos.col, &line->pos.row);
+	while (up--)
+		tgetputstr("up");
+	tputs(line->caps.cr, 2, ft_putc);
+	tputs(line->caps.cd, 2, ft_putc);
+	ft_dprintf(2, "%s%s", line->prompt, line->line);
+	tputs(tgoto(line->caps.cm, line->pos.col, line->pos.row), 2, ft_putc);
+	len = ft_strlen(line->visu.clipboard);
+	while (len--)
+		k_right(line);
 }

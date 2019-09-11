@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/10 15:40:48 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/11 19:35:55 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_key		g_normal_tbl[] =\
 	{K_ARGT, &k_altright},
 	{K_AUP, &k_altup},
 	{K_ADOWN, &k_altdown},
-	{K_ALTV, &k_visuinit},
+	{K_ALTB, &k_visuinit},
 	{K_TAB, &k_tab},
 	{K_CTRLR, &k_ctrlr},
 	{NULL, &k_left}
@@ -55,17 +55,17 @@ void		ft_termcap(char *buf, t_line *line)
 
 void		write_char(t_line *line, char *buf)
 {
-	ft_putchar_fd(buf[0], 2);
 	line->line = ft_insert_str(line->line, ft_strdup(buf), line->index);
 	line->index++;
 	get_cursor_position(&line->pos.col, &line->pos.row);
-	if (line->pos.col == line->nb_col)
+	ft_putchar_fd(buf[0], 2);
+	if (line->pos.col == line->nb_col - 1)
 		tgetputstr("do");
 	if (line->index != (int)ft_strlen(line->line))
 	{
 		tgetputstr("ei");
 		get_cursor_position(&line->pos.col, &line->pos.row);
-		ft_putstr_fd(line->line + line->index, 2);
+		ft_putstr_fd(line->line + line->index, 0);
 		tputs(tgoto(line->caps.cm, line->pos.col, line->pos.row), 2, ft_putc);
 		tgetputstr("im");
 	}
@@ -93,7 +93,7 @@ int			readline(t_line *line, int status)
 	g_tbl = g_normal_tbl;
 	readline_init(line, status);
 	tputs(line->caps.im, 2, ft_putc);
-	while ((ret = read(0, buf, 9)))
+	while ((ret = read(0, buf, 9)) && line->line)
 	{
 		buf[ret] = '\0';
 		if ((!ft_isprint(buf[0]) && buf[0] != '\n') || ret > 1)
@@ -105,5 +105,7 @@ int			readline(t_line *line, int status)
 		if (buf[0] == 4 && ret == 1 && !line->line)
 			return (1);
 	}
+	if (!line->line)
+		ft_putstr_fd("21sh: Allocation error, processus can't continue.\n", 2);
 	return (0);
 }

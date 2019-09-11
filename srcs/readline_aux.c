@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 16:27:56 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/10 15:17:26 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/10 20:58:07 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	write_str(t_line *line, char *str)
 	while (str[++i])
 	{
 		get_cursor_position(&line->pos.col, &line->pos.row);
+		ft_putchar_fd(str[i], 2);
 		if (line->pos.col == line->nb_col - 1)
 			tgetputstr("do");
-		ft_putchar_fd(str[i], 2);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 16:15:46 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/11 19:36:20 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@
 # define K_AUP "\33\33[A"
 # define K_ADOWN "\33\33[B"
 # define K_CTRLV "\026"
-# define K_ALTV "\002"
-# define K_CTRLX "\030"
+# define K_ALTV "√"
+# define K_ALTX "≈"
 # define K_ALTC "ç"
+# define K_ALTB "∫"
 # define K_TAB "\t"
 # define K_CTRLR "\022"
 
@@ -75,10 +76,8 @@ typedef struct			s_cap
 
 typedef struct			s_visu
 {
-	int		smaller;
-	int		bigger;
 	int		begin;
-	int		current;
+	int		offset;
 	char	*clipboard;
 }						t_visu;
 
@@ -131,8 +130,8 @@ void					k_visuinit(t_line *line);
 void					k_visuend(t_line *line);
 void					k_vleft(t_line *line);
 void					k_vright(t_line *line);
-void					k_ctrlx(t_line *line);
-void					k_ctrlv(t_line *line);
+void					k_altx(t_line *line);
+void					k_altv(t_line *line);
 void					k_ctrlr(t_line *line);
 void					k_altc(t_line *line);
 void					k_tab(t_line *line);
@@ -142,11 +141,10 @@ void					history_push(t_line *line, char *s);
 void					tgetputstr(char *s);
 void					write_char(t_line *line, char *buf);
 void					ft_termcap(char *buf, t_line *line);
-void					print_visu(t_line *line, int begin, int end);
-void					reset_visu(t_line *line, int begin, int end);
+void					print_visu(t_line *line);
+void					reset_visu(t_line *line);
 void					left(t_line *line, int len);
 void					right(t_line *line, int len);
-void					fill_visu(t_line *line);
 void					write_str(t_line *line, char *str);
 void					signal_init(void);
 void					ft_resize(int sig);

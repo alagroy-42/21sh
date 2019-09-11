@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 17:01:42 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/19 08:46:28 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/11 19:35:29 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,81 +14,77 @@
 
 t_key		g_visutab[] =\
 {
-	{K_ALTV, &k_visuend},
+	{K_ALTB, &k_visuend},
 	{K_LEFT, &k_vleft},
 	{K_RGHT, &k_vright},
-	{K_CTRLX, &k_ctrlx},
+	{K_ALTX, &k_altx},
 	{K_ALTC, &k_altc},
-	{K_CTRLV, &k_ctrlv},
+	{K_ALTV, &k_altv},
 };
 
-void	reset_visu(t_line *line, int begin, int end)
+void	reset_visu(t_line *line)
 {
+	int		len;
 	char	*sub;
 
-	sub = ft_strsub(line->line, begin, end - begin);
-	left(line, line->index - begin);
-	tgetputstr("me");
+	len = line->visu.offset < 0 ? line->visu.offset * -1 : line->visu.offset;
+	len++;
+	if (!(sub = ft_strsub(line->line, line->visu.offset < 0 ? line->visu.begin
+					+ line->visu.offset : line->visu.begin, len)))
+		return ;
+	if (line->visu.offset > 0)
+		left(line, len - 1);
 	tgetputstr("ei");
 	write_str(line, sub);
 	tgetputstr("im");
-	free(sub);
-	if (line->index == begin)
-		left(line, end - begin);
 	get_cursor_position(&line->pos.col, &line->pos.row);
-	if (line->pos.col == line->nb_col - 1)
-		tgetputstr("do");
+	if (line->visu.offset <= 0)
+		left(line, len);
+	else if (line->visu.begin + line->visu.offset != (int)ft_strlen(line->line))
+		left(line, 1);
 }
 
-void	print_visu(t_line *line, int begin, int end)
+void	print_visu(t_line *line)
 {
+	int		len;
 	char	*sub;
 
-	sub = ft_strsub(line->line, begin, end - begin);
-	left(line, line->index - begin);
+	len = line->visu.offset < 0 ? line->visu.offset * -1 : line->visu.offset;
+	len++;
+	if (!(sub = ft_strsub(line->line, line->visu.offset < 0 ? line->visu.begin
+					+ line->visu.offset : line->visu.begin, len)))
+		return ;
+	if (line->visu.offset > 0)
+		left(line, len - 1);
 	tgetputstr("mr");
 	tgetputstr("ei");
 	write_str(line, sub);
 	tgetputstr("im");
 	tgetputstr("me");
-	free(sub);
-	if (line->index == begin)
-		left(line, end - begin);
 	get_cursor_position(&line->pos.col, &line->pos.row);
-	if (line->pos.col == line->nb_col - 1)
-		tgetputstr("do");
-}
-
-void	fill_visu(t_line *line)
-{
-	if (line->visu.begin > line->visu.current)
-	{
-		line->visu.smaller = line->visu.current;
-		line->visu.bigger = line->visu.begin;
-	}
-	else
-	{
-		line->visu.smaller = line->visu.begin;
-		line->visu.bigger = line->visu.current;
-	}
+	if (line->visu.offset <= 0)
+		left(line, len);
+	else if (line->visu.begin + line->visu.offset != (int)ft_strlen(line->line))
+		left(line, 1);
 }
 
 void	k_visuinit(t_line *line)
 {
-	if (line->index != (int)ft_strlen(line->line))
-		line->visu.begin = line->index + 1;
-	else
-		line->visu.begin = line->index;
-	line->visu.current = line->index;
+	if (!ft_strlen(line->line))
+		return (tgetputstr("bl"));
+	if (line->index == (int)ft_strlen(line->line))
+		k_left(line);
+	line->visu.begin = line->index;
+	line->visu.offset = 0;
+	line->visu.clipboard = NULL;
 	g_tbl = g_visutab;
 }
 
 void	k_visuend(t_line *line)
 {
 	g_tbl = g_normal_tbl;
-	fill_visu(line);
-	if (line->visu.bigger - line->visu.smaller)
-		reset_visu(line, line->visu.smaller, line->visu.bigger);
-	line->visu.current = 0;
+	reset_visu(line);
+	ft_strdel(&line->visu.clipboard);
+	line->visu.offset = 0;
 	line->visu.begin = 0;
 }

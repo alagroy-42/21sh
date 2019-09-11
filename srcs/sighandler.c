@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:49:50 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 19:41:04 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/10 17:20:58 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	ft_ctrlc(int sig)
 			free(g_line->line);
 			g_line->line = ft_strnew(0);
 			g_line->index = 0;
+			g_tbl = g_normal_tbl;
 			tgetputstr("cr");
 			tgetputstr("cd");
 			g_line->history_index = 0;
