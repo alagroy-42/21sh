@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 10:16:46 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 17:43:40 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/14 10:52:55 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,21 @@ char		**find_in_path(char *path, char *cmplt)
 	return (cmplt_tab);
 }
 
-void		disp_cmplt(t_line *line, char **cmplt_tab, char *cmplt)
+void		disp_cmplt(t_line *line, char **cmplt_tab, char *cmplt, char *path)
 {
 	int		len;
+	int		ret;
 
 	len = ft_2dstrlen(cmplt_tab);
 	if (!len)
 		return (tgetputstr("bl"));
-	if (!cmplt_beginning(line, cmplt_tab, cmplt))
+	if (!(ret = cmplt_beginning(line, cmplt_tab, cmplt)))
+	{
 		disp_cmplt_tab(line, cmplt_tab);
+		left(line, ft_strlen(line->line) - line->index);
+	}
+	if (ret == 1)
+		cmplt_end(line, cmplt_tab[0], path);
 }
 
 void		cmplt_init(t_line *line, char **cmplt_tab)
@@ -54,7 +60,10 @@ void		cmplt_init(t_line *line, char **cmplt_tab)
 		if ((int)ft_strlen(cmplt_tab[i]) > tmp)
 			tmp = ft_strlen(cmplt_tab[i]);
 	line->cmplt.max_len = tmp;
-	line->cmplt.nb_row = i / (line->nb_col / (tmp + 2)) + 1;
+	if (!(line->nb_col / (tmp + 2)))
+		line->cmplt.nb_row = 1;
+	else
+		line->cmplt.nb_row = i / (line->nb_col / (tmp + 2)) + 1;
 	get_cursor_position(&line->pos.col, &line->pos.row);
 	line->cmplt.first_row = line->pos.row;
 }

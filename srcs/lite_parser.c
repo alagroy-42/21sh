@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 10:18:11 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/23 16:57:15 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/14 09:25:08 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		lite_parser(char *line, int index)
 	i = 0;
 	if (!ft_strlen(line))
 		return (0);
-	sub = ft_strsub(line, 0, index + 1);
+	sub = ft_strsub(line, 0, index);
 	split = ft_strsplit(sub, ' ');
 	status = 0;
 	while (split && split[0] && split[++i])

@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 10:16:36 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/23 17:16:18 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/14 10:13:41 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	*find_cmplt_word(char *str, int index)
 	char	**split;
 	int		i;
 
-	sub = ft_strsub(str, 0, index + 1);
+	sub = ft_strsub(str, 0, index);
 	split = ft_strsplit(sub, ' ');
 	lex = lex_line(sub);
 	ft_strdel(&sub);
@@ -95,7 +95,7 @@ static void	ft_cmpltfile(t_line *line)
 		find_path(word, &path, &cmplt);
 		cmplt_tab = find_in_path(path, cmplt);
 	}
-	disp_cmplt(line, cmplt_tab, word);
+	disp_cmplt(line, cmplt_tab, word, path);
 	ft_strdel(&path);
 	ft_strdel(&word);
 	ft_strdel(&cmplt);
@@ -116,7 +116,7 @@ static void	ft_cmpltcmd(t_line *line)
 	else
 	{
 		cmplt_tab = find_in_env(word);
-		disp_cmplt(line, cmplt_tab, word);
+		disp_cmplt(line, cmplt_tab, word, NULL);
 	}
 	ft_strdel(&word);
 	ft_free_2dstr(cmplt_tab);

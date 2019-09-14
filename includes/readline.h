@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/11 19:36:20 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/14 09:21:43 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <termios.h>
 # include <term.h>
 # include <signal.h>
+# include <sys/stat.h>
 # include <sys/ioctl.h>
 # include <fcntl.h>
 # define UP 0
@@ -154,7 +155,8 @@ void					find_path(char *str, char **path, char **cmplt);
 void					disp_cmplt_tab(t_line *line, char **cmplt_tab);
 char					**find_in_path(char *path, char *cmplt);
 char					**find_env_var_cmplt(char *cmplt);
-void					disp_cmplt(t_line *line, char **cmplt_tab, char *cmplt);
+void					disp_cmplt(t_line *line, char **cmplt_tab, char *cmplt,
+						char *path);
 int						cmplt_beginning(t_line *line, char **cmplt_tab,
 						char *cmplt);
 int						ft_eoi(t_line *line);
@@ -162,5 +164,6 @@ void					readline_init(t_line *line, int status);
 void					exec_file(int ac, char **av, t_line *line);
 void					core(t_line *line);
 void					load_21shrc(t_line *line);
+void					cmplt_end(t_line *line, char *cmlplt_word, char *path);
 
 #endif
