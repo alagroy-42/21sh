@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 15:53:46 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/14 10:44:41 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/14 10:54:55 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,5 @@ int			cmplt_beginning(t_line *line, char **cmplt_tab, char *cmplt)
 	line->index += ft_strlen(disp);
 	ft_putline(line);
 	ft_strdel(&disp);
-	return (ft_2dstrlen(cmplt_tab) > 1 ? 2: 1);
+	return (ft_2dstrlen(cmplt_tab) > 1 ? 2 : 1);
 }

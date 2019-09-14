@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/16 16:11:46 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 17:45:00 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/14 11:06:16 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,7 @@ static void	disp_result(t_line *line, char *tmp, int status, t_pos posr)
 		ft_strdel(&tmp);
 		tmp = ft_strnew(0);
 	}
-	get_cursor_position(&line->pos.col, &line->pos.row);
-	if (line->pos.row != posr.row)
-		left(line, line->nb_col);
+	tputs(tgoto(line->caps.cm, posr.col, posr.row), 2, ft_putc);
 	tputs(line->caps.cr, 2, ft_putc);
 	tputs(line->caps.cd, 2, ft_putc);
 	if (status == 0)
