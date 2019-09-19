@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:24:40 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/19 14:12:11 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/19 14:47:53 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ int		env_set_string(t_env *env, char *s)
 	ft_strncpy(name, s, name_len);
 	i = name_len + 1;
 	j = 0;
-	while (s[i])
+	while (s[i - 1] && s[i])
 	{
 		value[j] = s[i];
 		j++;

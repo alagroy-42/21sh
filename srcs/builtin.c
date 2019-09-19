@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/19 14:11:30 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/19 14:58:26 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@ extern t_env *g_env;
 
 void	builtin_exit(t_ast *ast)
 {
+	ast->status = 0;
 	if (ft_2dstrlen(ast->args) > 2)
 	{
 		ft_putendl("exit: too many arguments");
+		ast->status = -1;
 		return ;
 	}
 	else if (ft_2dstrlen(ast->args) == 2)
 		ft_quit(ft_atoi(ast->args[1]));
-
 	ft_quit(0);
 }
 
@@ -46,15 +47,22 @@ void	builtin_setenv(t_ast *ast, t_env *env)
 {
 	int i;
 
+	ast->status = 0;
 	if (ft_2dstrlen(ast->args) == 1)
+	{
 		ft_putendl("setenv: not enough arguments");
+		ast->status = -1;
+	}
 	else
 	{
 		i = 1;
 		while (ast->args[i])
 		{
 			if (!env_set_string(env, ast->args[i++]))
+			{
+				ast->status = -1;
 				return ft_putendl("setenv: `=': not a valid identifier");
+			}
 		}
 	}
 }
@@ -64,8 +72,12 @@ void	builtin_unsetenv(t_ast *ast, t_env **env)
 	int i;
 
 	(void)env;
+	ast->status = 0;
 	if (ft_2dstrlen(ast->args) == 1)
+	{
 		ft_putendl("unsetenv: not enough arguments");
+		ast->status = -1;
+	}
 	else
 	{
 		i = 1;
