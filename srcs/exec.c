@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/09 14:11:42 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/19 13:06:15 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void	exec(t_ast *ast)
 	ast_set(ast);
 	while (ast)
 	{
+		expansions_handle(ast);
 		if (ast->error)
 			exec_error(ast);
 		else if (ast->cmd)
@@ -124,7 +125,8 @@ void	exec(t_ast *ast)
 				return (builtin_exit(ast));
 			if (!ft_strcmp(ast->cmd, "setenv")
 				|| !ft_strcmp(ast->cmd, "unsetenv")
-				|| !ft_strcmp(ast->cmd, "cd"))
+				|| !ft_strcmp(ast->cmd, "cd")
+				|| !ft_strcmp(ast->cmd, "setenv"))
 				exec_builtin(ast);
 			else
 				exec_ast_fork(&ast);
@@ -132,9 +134,11 @@ void	exec(t_ast *ast)
 		if (ast->sep)
 		{
 			if (ast->sep->sep == semicol
-					|| (ast->sep->sep == and_if && !ast->status && !ast->error)
-					|| (ast->sep->sep == or_if && ast->status))
+					|| (ast->sep->sep == and_if && ast->status == 0 && !ast->error)
+					|| (ast->sep->sep == or_if && ast->status != 0))
+			{
 				ast = ast->sep->next;
+			}
 			else
 				ast = NULL;
 		}

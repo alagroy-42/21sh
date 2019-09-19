@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sighandler.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:49:50 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/10 17:20:58 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/19 12:51:16 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	signal_ctrlr(void)
 {
 	struct sigaction	act;
 
-	act.sa_handler = ft_ctrlc;
-	act.sa_mask = 0;
-	act.sa_flags &= SA_SIGINFO;
-	act.sa_flags &= SA_RESTART;
+	// act.sa_handler = ft_ctrlc;
+	// act.sa_mask = 0;
+	// act.sa_flags &= SA_SIGINFO;
+	// act.sa_flags &= SA_RESTART;
 	sigaction(SIGINT, &act, NULL);
 }
 
