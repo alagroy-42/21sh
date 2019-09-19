@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/19 12:50:58 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/19 14:11:30 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ void	builtin_setenv(t_ast *ast, t_env *env)
 	{
 		i = 1;
 		while (ast->args[i])
-			env_set_string(env, ast->args[i++]);
+		{
+			if (!env_set_string(env, ast->args[i++]))
+				return ft_putendl("setenv: `=': not a valid identifier");
+		}
 	}
 }
 

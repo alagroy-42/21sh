@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:24:40 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/08/15 18:46:46 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/19 14:12:11 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,8 @@ int		env_set_string(t_env *env, char *s)
 	char *name;
 	char *value;
 
-	name_len = env_string_namelen(s);
+	if (!(name_len = env_string_namelen(s)))
+		return (0);
 	value_len = env_string_valuelen(s);
 	if (!(name = ft_strnew(name_len)))
 		return (0);
