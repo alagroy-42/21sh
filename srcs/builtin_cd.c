@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 05:17:44 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/19 15:24:32 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/22 01:44:56 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@
 #include "libft.h"
 
 extern t_env *g_env;
-
-
-void	builtin_cd_chdir(char *path, int follow, t_ast *ast);
+extern char *g_pwd;
+extern char *g_oldpwd;
 
 int		builtin_cd_chdir_cdpath(char *path, int follow, t_ast *ast)
 {
@@ -64,7 +63,7 @@ void	builtin_cd_chdir(char *path, int follow, t_ast *ast)
 		ast->status = 0;
 		env_set(&g_env, "OLDPWD", env_get(g_env, "PWD")->value);
 		getcwd(buff, 8192);
-		env_set(&g_env, "PWD", buff);
+		env_set(&g_env, "PWD", buff);		
 	}
 }
 
