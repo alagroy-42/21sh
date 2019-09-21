@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/22 01:42:52 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/22 01:50:15 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 t_line	*g_line;
 t_env	*g_env = NULL;
-char	*g_pwd = NULL;
-char	*g_oldpwd = NULL;
+char	*g_pwd;
+char	*g_oldpwd;
 
 void	core(t_line *line)
 {
@@ -39,33 +39,15 @@ void	core(t_line *line)
 	ft_ast_del(&ast);
 }
 
-int	init_cd()
-{
-	struct	stat	buf;
-	
-	if (!env_get(g_env, "PWD") || stat(env_get(g_env, "PWD")->value, &buf) < 0
-		|| !S_ISDIR(buf.st_mode)
-		|| access(env_get(g_env, "PWD")->value, X_OK) == -1)
-		env_set(&g_env, "PWD", "/");
-	if (chdir(env_get(g_env, "PWD")->value) < 0)
-	{
-		if (chdir("/") < 0)
-			return (0);
-		env_set(&g_env, "PWD", "/");
-	}
-	g_pwd = ft_strdup(env_get(g_env, "PWD")->value);
-	g_oldpwd = ft_strdup(g_pwd);
-	return (1);
-}
-
-int	set_default_env(char *exe_name)
+void	set_default_env(char *exe_name)
 {
 	t_env	*shlvl;
 	char	*str;
 	char**	atab;
+	char	pwd[8192];
 
-	if (!init_cd())
-		return (0);
+	getcwd(pwd, 8192);
+	env_set(&g_env, "PWD", pwd);
 	str = NULL;
 	if (!(shlvl = env_get(g_env, "SHLVL")))
 	{
@@ -79,11 +61,10 @@ int	set_default_env(char *exe_name)
 	}
 	ft_strdel(&str);
 	if ((atab = ft_strsplit(exe_name, '/')))
-		if ((str = ft_strstrjoin(env_get(g_env, "PWD")->value, "/", atab[ft_2dstrlen(atab) - 1])))
+		if ((str = ft_strstrjoin(pwd, "/", atab[ft_2dstrlen(atab) - 1])))
 			env_set(&g_env, "SHELL", str);
 	env_set(&g_env, "SHELL", str);
 	ft_strdel(&str);
-	return (1);
 }
 
 int		main(int ac, char **av, char **env)
