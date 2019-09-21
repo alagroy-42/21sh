@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/19 13:06:15 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/22 00:13:15 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	exec_ast_child(t_ast **ast)
 {
 	char	**envp;
 
-	if (!(envp = env_toenvp(g_env)))
+	if (!(envp = env_toenvp(g_env, 0, 0, 0)))
 		return ;
 	if (!ft_redir_router((*ast)->redir))
 		exit(EXIT_FAILURE);

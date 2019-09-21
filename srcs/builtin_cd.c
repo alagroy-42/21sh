@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 05:17:44 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/19 14:59:43 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/19 15:24:32 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,13 @@ void	builtin_cd_chdir(char *path, int follow, t_ast *ast)
 {
 	char			buff[8192];
 	struct	stat	buf;
+	int				c;
 
-	if (follow && readlink(path, buff, 8192) != -1)
+	if (follow && (c = readlink(path, buff, 8192)) != -1)
+	{
 		path = buff;
+		path[c] = '\0';
+	}
 	if (stat(path, &buf) < 0)
 	{
 		if (builtin_cd_chdir_cdpath(path, follow, ast))
@@ -77,7 +81,7 @@ int		builtin_cd_options(t_ast *ast)
 		|| !ft_strcmp(ast->args[1], "-PL")
 		|| !ft_strcmp(ast->args[1], "-LP")))
 	{
-		if (!(tab = malloc(sizeof(char**) * (ft_2dstrlen(ast->args) - 1))))
+		if (!(tab = malloc(sizeof(char**) * (ft_2dstrlen(ast->args)))))
 			return (0);	
 		i = 0;
 		j = 0;
@@ -90,6 +94,7 @@ int		builtin_cd_options(t_ast *ast)
 			}
 			tab[j++] = ft_strdup(ast->args[i++]);
 		}
+		tab[j] = NULL;
 
 		if (!ft_strcmp(ast->args[1], "-P")
 			|| !ft_strcmp(ast->args[1], "-LP"))

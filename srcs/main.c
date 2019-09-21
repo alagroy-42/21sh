@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/11 21:54:41 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/22 00:10:07 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		main(int ac, char **av, char **env)
 {
 	t_line	*line;
 
-	if (!(env_setup(env)))
+	if (!(env_setup(env, NULL, NULL)))
 	{
 		ft_putendl("env_setup error");
 		return (-1);
