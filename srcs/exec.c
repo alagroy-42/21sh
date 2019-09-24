@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/22 00:13:15 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/24 17:30:51 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,22 @@ void	exec_ast_child(t_ast **ast)
 void	exec_ast_fork(t_ast **ast)
 {
 	int		pid;
+	t_ast	*tmp;
 
 	g_lastpipefd = 0;
+	tmp = *ast;
+	while (tmp)
+	{
+		if (tmp->error)
+		{
+			exec_error(tmp);
+			while ((*ast)->pipe)
+				*ast = (*ast)->pipe;
+			(*ast)->status = -1;
+			return ;
+		}
+		tmp = tmp->pipe;
+	}
 	while (*ast)
 	{
 		term_unsetup();

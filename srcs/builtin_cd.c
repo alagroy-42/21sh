@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 05:17:44 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/24 17:10:00 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/24 17:15:36 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		builtin_cd_chdir_cdpath(char *path, int follow, t_ast *ast)
 		|| !(str = ft_strstrjoin(env_get(g_env, "CDPATH")->value, "/", path))
 		|| stat(str, &buf) < 0)
 		return (0);
-	builtin_cd_chdir(str, follow, ast);
+	builtin_cd_chdir(str, follow, ast, 1);
 	return (1);
 }
 
@@ -86,7 +86,7 @@ char	**ft_2dstrjoin_path(char **tab1, char **tab2)
 }
 
 
-void	set_pwd(char *path, int follow, t_ast *ast)
+void	set_pwd(char *path, int follow, t_ast *ast, int cdpath)
 {
 	char	buff[8192];
 	char	**pwd_tab;
@@ -146,6 +146,8 @@ void	set_pwd(char *path, int follow, t_ast *ast)
 		ast->status = 0;
 		env_set(&g_env, "PWD", pwd);
 		env_set(&g_env, "OLDPWD", oldpwd);
+		if (cdpath)
+			ft_putendl(pwd);
 		ft_strdel(&g_pwd);
 		ft_strdel(&g_oldpwd);
 		g_pwd = ft_strdup(pwd);
@@ -155,7 +157,7 @@ void	set_pwd(char *path, int follow, t_ast *ast)
 	}
 }
 
-void	builtin_cd_chdir(char *path, int follow, t_ast *ast)
+void	builtin_cd_chdir(char *path, int follow, t_ast *ast, int cdpath)
 {
 	char			buff[8192];
 	struct	stat	buf;
@@ -179,7 +181,7 @@ void	builtin_cd_chdir(char *path, int follow, t_ast *ast)
 	else if (access(path, X_OK) == -1)
 		ft_putstr_fd("cd: permission denied\n", 2);
 	else
-		set_pwd(path, follow, ast);	
+		set_pwd(path, follow, ast, cdpath);	
 }
 
 int		builtin_cd_options(t_ast *ast)
@@ -228,7 +230,7 @@ void	builtin_cd(t_ast *ast, t_env *env)
 	if (ft_2dstrlen(ast->args) == 1)
 	{
 		if (env_get(env, "HOME"))
-			builtin_cd_chdir(env_get(env, "HOME")->value, follow, ast);
+			builtin_cd_chdir(env_get(env, "HOME")->value, follow, ast, 0);
 		else
 			ft_putstr_fd("cd: HOME not set\n", 2);
 	}
@@ -241,7 +243,7 @@ void	builtin_cd(t_ast *ast, t_env *env)
 		if (!ft_strcmp(ast->args[1], "--"))
 		{
 			if (env_get(env, "HOME"))
-				builtin_cd_chdir(env_get(env, "HOME")->value, follow, ast);
+				builtin_cd_chdir(env_get(env, "HOME")->value, follow, ast, 0);
 			else
 				ft_putstr_fd("cd: HOME not set\n", 2);
 		}
@@ -250,12 +252,12 @@ void	builtin_cd(t_ast *ast, t_env *env)
 			if (env_get(env, "OLDPWD"))
 			{
 				ft_putendl(env_get(env, "OLDPWD")->value);
-				builtin_cd_chdir(env_get(env, "OLDPWD")->value, follow, ast);
+				builtin_cd_chdir(env_get(env, "OLDPWD")->value, follow, ast, 0);
 			}
 			else
 				ft_putstr_fd("cd: OLDPWD not set\n", 2);
 		}
 		else
-			builtin_cd_chdir(ast->args[1], follow, ast);
+			builtin_cd_chdir(ast->args[1], follow, ast, 0);
 	}
 }

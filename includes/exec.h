@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:15:20 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/22 00:52:18 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/24 17:15:53 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	builtin_setenv(t_ast *ast, t_env *env);
 void	builtin_unsetenv(t_ast *ast, t_env **env);
 void	builtin_env(t_ast *ast, t_env *env);
 void	builtin_cd(t_ast *ast, t_env *env);
-void	builtin_cd_chdir(char *path, int follow, t_ast *ast);
+void	builtin_cd_chdir(char *path, int follow, t_ast *ast, int cdpath);
 
 void	exec(t_ast *ast);
 void	ft_quit(int sig);
