@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/22 01:50:15 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/24 15:32:05 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	set_default_env(char *exe_name)
 
 	getcwd(pwd, 8192);
 	env_set(&g_env, "PWD", pwd);
+	g_pwd = ft_strdup(pwd);
+	g_oldpwd = ft_strdup(pwd);
 	str = NULL;
 	if (!(shlvl = env_get(g_env, "SHLVL")))
 	{

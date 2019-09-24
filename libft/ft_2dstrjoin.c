@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_2dstrjoin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 11:21:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/16 11:47:48 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/24 15:54:35 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	**ft_2dstrjoin(char **tab1, char **tab2)
 	while (tab2 && tab2[++i])
 		new_tab[++j] = tab2[i];
 	new_tab[len] = NULL;
-	free(tab1);
-	free(tab2);
+	//free(tab1);
+	//free(tab2);
 	return (new_tab);
 }
