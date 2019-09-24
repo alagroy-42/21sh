@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 21:36:10 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/23 14:32:17 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/24 17:34:06 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ int		ft_redir_router(t_redir *redir_list)
 		while (++i < 6)
 			if (g_tab[i].redir == tmp->type)
 				if (!g_tab[i].f(tmp))
+				{
+					ft_dprintf(2, "21sh: %s: not a valid file\n",
+							tmp->target);
 					return (0);
+				}
 		tmp = tmp->next;
 	}
 	return (1);
