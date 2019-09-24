@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 05:17:44 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/24 16:40:45 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/24 17:02:22 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,6 @@ void	set_pwd(char *path, int follow, t_ast *ast)
 		ft_strdel(&pwd);
 		pwd = ft_strdup(path);
 	}
-	else if (follow)
-	{
-		getcwd(buff, 8192);
-		pwd = ft_strdup(buff);
-	}
 	else
 	{
 		pwd_tab = ft_strsplit(pwd, '/');
@@ -142,6 +137,12 @@ void	set_pwd(char *path, int follow, t_ast *ast)
 		ft_putstr_fd("cd: error\n", 2);
 	else
 	{
+		if (follow)
+		{
+			getcwd(buff, 8192);
+			ft_strdel(&pwd);
+			pwd = ft_strdup(buff);
+		}
 		ast->status = 0;
 		env_set(&g_env, "PWD", pwd);
 		env_set(&g_env, "OLDPWD", oldpwd);
