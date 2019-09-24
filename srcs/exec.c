@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/24 17:30:51 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/24 19:19:05 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 extern t_env	*g_env;
 int				g_status = 0;
 int				g_lastpid = 42424242;
+int				g_ischild = 0;
 
 int g_pipefds[2];
 int g_lastpipefd;
@@ -64,6 +65,7 @@ void	exec_ast_child(t_ast **ast)
 {
 	char	**envp;
 
+	g_ischild = 1;
 	if (!(envp = env_toenvp(g_env, 0, 0, 0)))
 		return ;
 	if (!ft_redir_router((*ast)->redir))
@@ -137,10 +139,8 @@ void	exec(t_ast *ast)
 		{
 			if (!ast->pipe && !ft_strcmp(ast->cmd, "exit"))
 				return (builtin_exit(ast));
-			if (!ft_strcmp(ast->cmd, "setenv")
-				|| !ft_strcmp(ast->cmd, "unsetenv")
-				|| !ft_strcmp(ast->cmd, "cd")
-				|| !ft_strcmp(ast->cmd, "setenv"))
+
+			else if (is_cmd_builtin(ast->cmd) && !ast->pipe)
 				exec_builtin(ast);
 			else
 				exec_ast_fork(&ast);
@@ -148,8 +148,8 @@ void	exec(t_ast *ast)
 		if (ast->sep)
 		{
 			if (ast->sep->sep == semicol
-					|| (ast->sep->sep == and_if && ast->status == 0 && !ast->error)
-					|| (ast->sep->sep == or_if && ast->status != 0))
+				|| (ast->sep->sep == and_if && ast->status == 0 && !ast->error)
+				|| (ast->sep->sep == or_if && ast->status != 0))
 			{
 				ast = ast->sep->next;
 			}

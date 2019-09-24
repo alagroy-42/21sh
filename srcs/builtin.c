@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/22 00:18:20 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/24 19:20:15 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 #include "env.h"
 #include "libft.h"
 
-extern t_env *g_env;
+extern t_env	*g_env;
+extern int		g_ischild;
 
 void	builtin_exit(t_ast *ast)
 {
 	ast->status = 0;
 	if (ft_2dstrlen(ast->args) > 2)
 	{
-		ft_putendl("exit: too many arguments");
+		ft_putstr_fd("exit: too many arguments\n", 2);
 		ast->status = -1;
 		return ;
 	}
@@ -41,6 +42,8 @@ void	builtin_env(t_ast *ast, t_env *env)
 		ft_putendl(env->value);
 		env = env->next;
 	}
+	if (g_ischild)
+		exit(0);
 }
 
 void	builtin_setenv(t_ast *ast, t_env *env)
@@ -50,7 +53,7 @@ void	builtin_setenv(t_ast *ast, t_env *env)
 	ast->status = 0;
 	if (ft_2dstrlen(ast->args) == 1)
 	{
-		ft_putendl("setenv: not enough arguments");
+		ft_putstr_fd("setenv: not enough arguments\n", 2);
 		ast->status = -1;
 	}
 	else
@@ -61,10 +64,12 @@ void	builtin_setenv(t_ast *ast, t_env *env)
 			if (!env_set_string(env, ast->args[i++], 0, 0))
 			{
 				ast->status = -1;
-				return ft_putendl("setenv: `=': not a valid identifier");
+				return ft_putstr_fd("setenv: `=': not a valid identifier\n", 2);
 			}
 		}
 	}
+	if (g_ischild)
+		exit(0);
 }
 
 void	builtin_unsetenv(t_ast *ast, t_env **env)
@@ -75,7 +80,7 @@ void	builtin_unsetenv(t_ast *ast, t_env **env)
 	ast->status = 0;
 	if (ft_2dstrlen(ast->args) == 1)
 	{
-		ft_putendl("unsetenv: not enough arguments");
+		ft_putstr_fd("unsetenv: not enough arguments\n", 2);
 		ast->status = -1;
 	}
 	else
@@ -87,6 +92,8 @@ void	builtin_unsetenv(t_ast *ast, t_env **env)
 			i++;
 		}
 	}
+	if (g_ischild)
+		exit(0);
 }
 
 void	builtin_echo(t_ast *ast)
@@ -108,4 +115,6 @@ void	builtin_echo(t_ast *ast)
 		if (ft_strcmp(ast->args[1], "-n"))
 			ft_putstr("\n");
 	}
+	if (g_ischild)
+		exit(0);
 }

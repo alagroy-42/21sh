@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 05:17:44 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/24 17:15:36 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/24 19:09:57 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,19 @@
 extern t_env *g_env;
 extern char *g_pwd;
 extern char *g_oldpwd;
+extern int	g_ischild;
+
+void	ft_putendl_child(char *s)
+{
+	if (g_ischild)
+		ft_putendl(s);
+}
+
+void	ft_putstr_fd_child(char *s, int fd)
+{
+	if (g_ischild)
+		ft_putstr_fd(s, fd);
+}
 
 int		builtin_cd_chdir_cdpath(char *path, int follow, t_ast *ast)
 {
@@ -146,6 +159,7 @@ void	set_pwd(char *path, int follow, t_ast *ast, int cdpath)
 		ast->status = 0;
 		env_set(&g_env, "PWD", pwd);
 		env_set(&g_env, "OLDPWD", oldpwd);
+
 		if (cdpath)
 			ft_putendl(pwd);
 		ft_strdel(&g_pwd);
@@ -224,6 +238,11 @@ int		builtin_cd_options(t_ast *ast)
 void	builtin_cd(t_ast *ast, t_env *env)
 {
 	int follow;
+
+	if (g_ischild)
+		ft_putendl("CHILD");
+	else
+		ft_putendl("PARENT");
 
 	ast->status = -1;
 	follow = builtin_cd_options(ast);

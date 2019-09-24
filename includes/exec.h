@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:15:20 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/24 17:15:53 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/24 19:19:16 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define EXEC_H
 # include "ast.h"
 # include "env.h"
+
+void	ft_putendl_child(char *s);
+void	ft_putstr_fd_child(char *s, int fd);
+int		is_cmd_builtin(char *cmd);
 
 void	builtin_echo(t_ast *ast);
 void	builtin_exit(t_ast *ast);
