@@ -70,7 +70,7 @@ int		env_string_valuelen(char *s)
 	return (value_len);
 }
 
-int		env_set_string(t_env *env, char *s, int i, int j)
+int		env_set_string(t_env **env, char *s, int i, int j)
 {
 	int name_len;
 	char *name;
@@ -89,8 +89,19 @@ int		env_set_string(t_env *env, char *s, int i, int j)
 	i = name_len + 1;
 	while (s[i - 1] && s[i])
 		value[j++] = s[i++];
-	i = env_set(&env, name, value);
+	i = env_set(env, name, value);
 	free(name);
 	free(value);
 	return (i);
+}
+
+void	env_putendl(t_env *env)
+{
+	while (env)
+	{
+		ft_putstr(env->name);
+		ft_putstr("=");
+		ft_putendl(env->value);
+		env = env->next;
+	}
 }
