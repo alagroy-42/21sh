@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 05:17:44 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/24 17:02:22 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/24 17:10:00 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,12 @@ void	set_pwd(char *path, int follow, t_ast *ast)
 	pwd = ft_strdup(g_pwd);
 	oldpwd = ft_strdup(g_pwd);
 
-	if (path[0] == '/')
+	if (path[0] == '/' || follow)
 	{
 		ft_strdel(&pwd);
 		pwd = ft_strdup(path);
 	}
-	else
+	else if (!follow)
 	{
 		pwd_tab = ft_strsplit(pwd, '/');
 		path_tab = ft_strsplit(path, '/');
