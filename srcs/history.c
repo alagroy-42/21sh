@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 15:10:02 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 17:50:38 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/25 17:57:18 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,19 @@ void		history_push(t_line *line, char *line_str)
 	char	*cmd;
 	char	*join;
 
-	if (!line_str || line_str[0] == '\n' || !line->history)
+	join = NULL;
+	if (!line_str || line_str[0] == '\n')
 		return ;
-	if (!(join = ft_strjoin(line->history->content, "\n")))
+	if (line->history && !(join = ft_strjoin(line->history->content, "\n")))
 		return ;
 	if (line->history && !ft_strcmp(join, line_str))
 		return (ft_strdel(&join));
 	cmd = ft_strsub(line_str, 0, ft_strlen(line->line) - 1);
 	new_cmd = ft_lstnew(cmd, ft_strlen(cmd) + 1);
-	ft_lstadd(&line->history, new_cmd);
+	if (line->history)
+		ft_lstadd(&line->history, new_cmd);
+	else
+		line->history = new_cmd;
 	ft_strdel(&cmd);
 	ft_strdel(&join);
 }
