@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:23:14 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/13 18:29:47 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/25 13:11:50 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct		s_redir
 	int				fd;
 	int				fd_target;
 	char			**heredoc;
+	int				heredoc_bool;
 	struct s_redir	*next;
 }					t_redir;
 
@@ -77,5 +78,6 @@ void				ast_set(t_ast *ast);
 char				*special_param_replace(char *str, int *i);
 int					is_special_param(char c);
 void				ft_ast_del(t_ast **ast);
+int					ft_check_ast(t_ast *ast);
 
 #endif

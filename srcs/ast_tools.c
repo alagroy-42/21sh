@@ -6,14 +6,16 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 11:35:19 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/08/15 18:58:14 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/25 17:35:03 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "lexer_parser.h"
+#include "signal_21sh.h"
 
 extern t_line	*g_line;
+extern int		g_ctrlr;
 
 t_ast		*create_ast_node(int piped)
 {
@@ -42,8 +44,9 @@ static char	**ft_heredoc(t_list *tmp)
 	heredoc = NULL;
 	if (!isatty(STDIN_FILENO))
 		return (heredoc);
+	g_ctrlr = 1;
 	readline(line, INCOMPLETE);
-	while (ft_strcmp(line->line, limit))
+	while (line->line && ft_strcmp(line->line, limit) && g_ctrlr)
 	{
 		heredoc = ft_expend_2dstr(heredoc, line->line);
 		ft_strdel(&line->line);
@@ -69,10 +72,14 @@ t_list		*ft_create_redir(t_redir *redir, t_list *tmp)
 	else
 		redir->fd = -42;
 	redir->type = ((t_token *)tmp->content)->type * -1 - 10;
+	signal_ctrlr();
 	if (((t_token *)tmp->content)->type == DLESS)
 		redir->heredoc = ft_heredoc(tmp);
 	else
 		redir->heredoc = NULL;
+	signal(SIGINT, ft_ctrlc);
+	redir->heredoc_bool = g_ctrlr;
+	g_ctrlr = 0;
 	redir->next = NULL;
 	tmp = tmp->next;
 	redir->target = ft_strdup(((t_token *)tmp->content)->lexem);

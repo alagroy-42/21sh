@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/24 15:32:05 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/25 15:31:28 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	core(t_line *line)
 	parse_return = analize_line(line, &lex);
 	if (parse_return == -42)
 		ast = ast_init(lex);
-	if (ast && ast->cmd)
+	if (ast && ast->cmd && ft_check_ast(ast))
 		exec(ast);
 	ft_lstdel(&lex, ft_del_token);
 	ft_ast_del(&ast);

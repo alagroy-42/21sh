@@ -6,12 +6,12 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/11 19:35:55 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/25 17:31:53 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
-
+#include <errno.h>
 t_key		g_normal_tbl[] =\
 {
 	{K_LEFT, &k_left},
@@ -34,6 +34,7 @@ t_key		g_normal_tbl[] =\
 };
 
 t_key		*g_tbl;
+extern int	g_ctrlr;
 
 int			ft_putc(int c)
 {
@@ -93,8 +94,11 @@ int			readline(t_line *line, int status)
 	g_tbl = g_normal_tbl;
 	readline_init(line, status);
 	tputs(line->caps.im, 2, ft_putc);
+	errno = 0;
 	while ((ret = read(0, buf, 9)) && line->line)
 	{
+		if (ret == -1)
+			return (0);
 		buf[ret] = '\0';
 		if ((!ft_isprint(buf[0]) && buf[0] != '\n') || ret > 1)
 			ft_termcap(buf, line);
@@ -105,7 +109,7 @@ int			readline(t_line *line, int status)
 		if (buf[0] == 4 && ret == 1 && !line->line)
 			return (1);
 	}
-	if (!line->line)
+	if (!line->line && g_ctrlr)
 		ft_putstr_fd("21sh: Allocation error, processus can't continue.\n", 2);
 	return (0);
 }

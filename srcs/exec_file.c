@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 12:57:30 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 16:15:48 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/25 11:16:40 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	load_21shrc(t_line *line)
 	if (!(path = ft_strjoin(home->value, "/.21shrc")))
 		return ;
 	if ((fd = open(path, O_RDONLY | O_NOFOLLOW)) == -1)
-		return ;
+		return (ft_strdel(&path));
+	ft_strdel(&path);
 	while (gnl_nl(fd, &line->line) == 1)
 		core(line);
 	close(fd);
