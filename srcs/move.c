@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 18:12:35 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/26 17:37:17 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/26 19:18:41 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	k_backspace(t_line *line)
 	get_cursor_position(&line->pos.col, &line->pos.row);
 	tputs(line->caps.cr, 2, ft_putc);
 	tputs(line->caps.cd, 2, ft_putc);
-	up = (line->index + 3) / line->nb_col ? line->nb_col : 1;
+	up = (line->index + 3) / (line->nb_col ? line->nb_col : 1);
 	while (up--)
 		tgetputstr("up");
 	ft_dprintf(2, "%s%s", line->prompt, line->line);
