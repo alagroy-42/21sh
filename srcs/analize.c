@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 11:52:57 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/25 17:34:04 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/26 14:09:11 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	lex_routine(t_line *line, char *line_str, t_list **lex)
 				&& ((t_token *)tmp->content)->type > -4)
 		{
 			readline(line, INCOMPLETE);
-			return (!g_ctrlr ? 0 : 1);
+			return (g_ctrlr);
 		}
 		tmp = tmp->next;
 	}

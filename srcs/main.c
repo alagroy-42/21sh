@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/25 15:31:28 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/26 14:10:01 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 #include "env.h"
 #include "exec.h"
 
-t_line	*g_line;
-t_env	*g_env = NULL;
-char	*g_pwd;
-char	*g_oldpwd;
-
+t_line		*g_line;
+t_env		*g_env = NULL;
+char		*g_pwd;
+char		*g_oldpwd;
+extern int	g_ctrlr;
 void	core(t_line *line)
 {
 	t_list	*lex;
@@ -30,7 +30,9 @@ void	core(t_line *line)
 	ast = NULL;
 	lex = NULL;
 	parse_return = 0;
+	g_ctrlr = 1;
 	parse_return = analize_line(line, &lex);
+	g_ctrlr = 0;
 	if (parse_return == -42)
 		ast = ast_init(lex);
 	if (ast && ast->cmd && ft_check_ast(ast))

@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 22:53:28 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/23 14:24:02 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/26 14:32:37 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@ int		ft_greatand(t_redir *redir)
 	}
 	if (ft_strlen(redir->target) == 1 && ft_isdigit(redir->target[0]))
 	{
-		dup2(redir->target[0] - '0', redir->fd);
+		if (dup2(redir->target[0] - '0', redir->fd) == -1)
+			close(redir->fd);
 		return (1);
 	}
 	if ((redir->fd_target = open(redir->target,
 					O_CREAT | O_WRONLY | O_TRUNC, 0644)) == -1)
 		return (0);
-	dup2(redir->fd_target, redir->fd);
+	if (dup2(redir->fd_target, redir->fd) == -1)
+		close(redir->fd);
 	return (1);
 }
 
