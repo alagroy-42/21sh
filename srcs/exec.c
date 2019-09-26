@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/26 14:39:40 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/26 19:15:23 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
+
+
+
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
 
 extern t_env	*g_env;
 int				g_status = 0;
@@ -61,32 +69,138 @@ void	exec_error(t_ast *ast)
 	ft_putstr_fd("\n", 2);
 }
 
-void	exec_ast_child(t_ast **ast)
+// void	exec_ast_fork(t_ast **ast)
+// {
+// 	int		pid;
+// 	t_ast	*tmp;
+
+// 	g_lastpipefd = 0;
+// 	tmp = *ast;
+// 	while (tmp)
+// 	{
+// 		if (tmp->error)
+// 		{
+// 			exec_error(tmp);
+// 			while ((*ast)->pipe)
+// 				*ast = (*ast)->pipe;
+// 			(*ast)->status = -1;
+// 			return ;
+// 		}
+// 		tmp = tmp->pipe;
+// 	}
+// 	while (*ast)
+// 	{
+// 		term_unsetup();
+// 		pipe(g_pipefds);
+// 		pid = fork();
+// 		g_lastpid = pid;
+// 		if (!pid)
+// 			exec_ast_child(ast);
+// 		else if (pid != -1)
+// 		{
+// 			close(g_pipefds[1]);
+// 			waitpid(pid, &(*ast)->status, 0);
+// 			g_status = WIFSIGNALED((*ast)->status) ?
+// 				child_crash((*ast)->status, *ast) : WEXITSTATUS((*ast)->status);
+// 			if (g_lastpipefd)
+// 				close(g_lastpipefd);
+// 			g_lastpipefd = g_pipefds[0];
+// 			if (!(*ast)->pipe && close(g_lastpipefd) < 1)
+// 				return (term_setup());
+// 			*ast = (*ast)->pipe;
+// 		}
+// 		else
+// 			ft_putstr_fd("fork error", 2);
+// 		term_setup();
+// 	}
+// }
+
+
+void	exec_ast_child(t_ast *ast)
 {
 	char	**envp;
 
-	g_ischild = 1;
 	if (!(envp = env_toenvp(g_env, 0, 0, 0)))
 		return ;
-	dup2(g_lastpipefd, 0);
-	if ((*ast)->pipe != NULL)
-		dup2(g_pipefds[1], 1);
-	close(g_pipefds[0]);
-	if (!ft_redir_router((*ast)->redir))
-		exit(EXIT_FAILURE);
-	if (!(*ast)->path)
-		exec_builtin(*ast);
+	// if (!ft_redir_router((*ast)->redir))
+	// 	exit(EXIT_FAILURE);
+	if (!ast->path)
+		exec_builtin(ast);
 	else
-		execve((*ast)->path, (*ast)->args, envp);
+		execve(ast->path, ast->args, envp);
 	exit(1);
 }
 
-void	exec_ast_fork(t_ast **ast)
-{
-	int		pid;
-	t_ast	*tmp;
 
-	g_lastpipefd = 0;
+int		ast_pipe_size(t_ast *ast)
+{
+	int i;
+
+	i = 0;
+	while (ast)
+	{
+		i++;
+		ast = ast->pipe;
+	}
+	return (i);
+}
+
+t_ast	*ast_get_index(t_ast *ast, int index)
+{
+	int i;
+
+	i = 0;
+	while (ast)
+	{
+		if (i == index)
+			return (ast);
+		i++;
+		ast = ast->pipe;
+	}
+	return (NULL);
+}
+
+void	close_pipes(int **fds, int size)
+{
+	int i;
+
+	i = 0;
+	ft_putendl("CLOSE");
+	while (i < size)
+	{
+		close(fds[i][0]);
+		close(fds[i][1]);
+		free(fds[i++]);
+	}
+	free(fds);
+}
+
+void	exec_ast_single(t_ast *ast)
+{
+	int pid;
+
+	pid = fork();
+	if (!pid)
+		exec_ast_child(ast);
+	else if (pid == -1)
+		ft_putstr_fd("fork error", 2);
+	else
+	{
+		waitpid(pid, &ast->status, 0);
+		g_status = WIFSIGNALED(ast->status) ?
+			child_crash(ast->status, ast) : WEXITSTATUS(ast->status);
+	}
+}
+
+void	exec_ast_pipes(t_ast **ast, int size)
+{
+	int **fds;
+	int pid;
+	int last_read_fd;
+	int i;
+	int j;
+	t_ast *tmp;
+
 	tmp = *ast;
 	while (tmp)
 	{
@@ -100,31 +214,67 @@ void	exec_ast_fork(t_ast **ast)
 		}
 		tmp = tmp->pipe;
 	}
-	while (*ast)
+	fds = malloc(sizeof(int*) * size);
+	i = 0;
+	while (i < size)
 	{
-		term_unsetup();
-		pipe(g_pipefds);
+		fds[i] = malloc(sizeof(int) * 2);
+		pipe(fds[i]);
+		i++;
+	}
+	last_read_fd = 0;
+	i = 0;
+	while (i < size)
+	{
 		pid = fork();
-		g_lastpid = pid;
 		if (!pid)
-			exec_ast_child(ast);
-		else if (pid != -1)
 		{
-			close(g_pipefds[1]);
-			waitpid(pid, &(*ast)->status, 0);
-			g_status = WIFSIGNALED((*ast)->status) ?
-				child_crash((*ast)->status, *ast) : WEXITSTATUS((*ast)->status);
-			if (g_lastpipefd)
-				close(g_lastpipefd);
-			g_lastpipefd = g_pipefds[0];
-			if (!(*ast)->pipe && close(g_lastpipefd) < 1)
-				return (term_setup());
-			*ast = (*ast)->pipe;
+			g_ischild = 1;
+			dup2(last_read_fd, 0);
+			if (i != size - 1)
+				dup2(fds[i][1], 1);
+			j = 0;
+			while (j < size)
+			{
+				close(fds[j][0]);
+				close(fds[j][1]);
+				j++;
+			}
+			close(fds[i][0]);
+			exec_ast_child(ast_get_index(*ast, i));
+			exit(1);
 		}
 		else
-			ft_putstr_fd("fork error", 2);
-		term_setup();
+		{
+			close(fds[i][1]);
+			if (last_read_fd)
+				close(last_read_fd);
+			last_read_fd = fds[i][0];
+		}
+		i++;
 	}
+	while (*ast)
+	{
+		if ((*ast)->pipe)
+			*ast = (*ast)->pipe;
+		else
+			break;
+	}
+	while (wait(&(*ast)->status) != -1)
+		continue;
+}
+
+void	exec_ast_fork(t_ast **ast)
+{
+	int	ast_size;
+
+	term_unsetup();
+	ast_size = ast_pipe_size(*ast);
+	if (ast_size == 1)
+		exec_ast_single(*ast);
+	else if (ast_size > 1)
+		exec_ast_pipes(ast, ast_size);
+	term_setup();
 }
 
 void	exec(t_ast *ast)
