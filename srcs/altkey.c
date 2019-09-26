@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:21:16 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 19:44:45 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/26 17:43:26 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	k_altdown(t_line *line)
 		line->index += line->nb_col;
 		return ;
 	}
-	tputs(tgoto(line->caps.cm, (ft_strlen(line->line) + 3) % line->nb_col,
-				line->pos.row + 1), 2, ft_putc);
+	tputs(tgoto(line->caps.cm, (ft_strlen(line->line) + 3) % line->nb_col
+				? line->nb_col : 1, line->pos.row + 1), 2, ft_putc);
 	line->index = ft_strlen(line->line);
 }

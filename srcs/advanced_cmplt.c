@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 15:53:46 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/14 10:54:55 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/26 17:37:53 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	ft_putline(t_line *line)
 {
 	int		up;
 
-	up = (line->index + 3) / line->nb_col;
+	up = (line->index + 3) / line->nb_col ? line->nb_col : 1;
 	while (up--)
 		tgetputstr("up");
 	tputs(line->caps.cr, 2, ft_putc);
