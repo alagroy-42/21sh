@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/25 15:42:55 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/26 14:39:40 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ void	exec_ast_child(t_ast **ast)
 	g_ischild = 1;
 	if (!(envp = env_toenvp(g_env, 0, 0, 0)))
 		return ;
-	if (!ft_redir_router((*ast)->redir))
-		exit(EXIT_FAILURE);
 	dup2(g_lastpipefd, 0);
 	if ((*ast)->pipe != NULL)
 		dup2(g_pipefds[1], 1);
 	close(g_pipefds[0]);
+	if (!ft_redir_router((*ast)->redir))
+		exit(EXIT_FAILURE);
 	if (!(*ast)->path)
 		exec_builtin(*ast);
 	else
