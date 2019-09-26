@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/26 19:15:23 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/26 19:17:37 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,6 @@
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
-
-
-
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-
 
 extern t_env	*g_env;
 int				g_status = 0;
@@ -69,61 +61,14 @@ void	exec_error(t_ast *ast)
 	ft_putstr_fd("\n", 2);
 }
 
-// void	exec_ast_fork(t_ast **ast)
-// {
-// 	int		pid;
-// 	t_ast	*tmp;
-
-// 	g_lastpipefd = 0;
-// 	tmp = *ast;
-// 	while (tmp)
-// 	{
-// 		if (tmp->error)
-// 		{
-// 			exec_error(tmp);
-// 			while ((*ast)->pipe)
-// 				*ast = (*ast)->pipe;
-// 			(*ast)->status = -1;
-// 			return ;
-// 		}
-// 		tmp = tmp->pipe;
-// 	}
-// 	while (*ast)
-// 	{
-// 		term_unsetup();
-// 		pipe(g_pipefds);
-// 		pid = fork();
-// 		g_lastpid = pid;
-// 		if (!pid)
-// 			exec_ast_child(ast);
-// 		else if (pid != -1)
-// 		{
-// 			close(g_pipefds[1]);
-// 			waitpid(pid, &(*ast)->status, 0);
-// 			g_status = WIFSIGNALED((*ast)->status) ?
-// 				child_crash((*ast)->status, *ast) : WEXITSTATUS((*ast)->status);
-// 			if (g_lastpipefd)
-// 				close(g_lastpipefd);
-// 			g_lastpipefd = g_pipefds[0];
-// 			if (!(*ast)->pipe && close(g_lastpipefd) < 1)
-// 				return (term_setup());
-// 			*ast = (*ast)->pipe;
-// 		}
-// 		else
-// 			ft_putstr_fd("fork error", 2);
-// 		term_setup();
-// 	}
-// }
-
-
 void	exec_ast_child(t_ast *ast)
 {
 	char	**envp;
 
 	if (!(envp = env_toenvp(g_env, 0, 0, 0)))
 		return ;
-	// if (!ft_redir_router((*ast)->redir))
-	// 	exit(EXIT_FAILURE);
+	if (!ft_redir_router(ast->redir))
+		exit(EXIT_FAILURE);
 	if (!ast->path)
 		exec_builtin(ast);
 	else
@@ -158,21 +103,6 @@ t_ast	*ast_get_index(t_ast *ast, int index)
 		ast = ast->pipe;
 	}
 	return (NULL);
-}
-
-void	close_pipes(int **fds, int size)
-{
-	int i;
-
-	i = 0;
-	ft_putendl("CLOSE");
-	while (i < size)
-	{
-		close(fds[i][0]);
-		close(fds[i][1]);
-		free(fds[i++]);
-	}
-	free(fds);
 }
 
 void	exec_ast_single(t_ast *ast)
