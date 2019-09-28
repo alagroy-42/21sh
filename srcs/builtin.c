@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/28 22:07:25 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/28 22:50:24 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ extern int		g_ischild;
 
 void	builtin_exit(t_ast *ast)
 {
-	ast->status = 0;
 	if (ft_2dstrlen(ast->args) > 2)
 	{
-		ast->status = -1;
 		return (ft_putstr_fd("exit: too many arguments\n", 2));
 	}
 	else if (ft_2dstrlen(ast->args) == 2)
@@ -41,7 +39,6 @@ void	builtin_env(t_ast *ast)
 	int			pid;
 
 	i = 0;
-	ast->status = 0;
 	tmp = NULL;
 
 	if (ft_2dstrlen(ast->args) == 1)
@@ -100,7 +97,6 @@ void	builtin_setenv(t_ast *ast)
 {
 	int i;
 
-	ast->status = -1;
 	if (ft_2dstrlen(ast->args) < 2)
 		return ft_putstr_fd("setenv: not enough arguments\n", 2);
 	else
@@ -117,7 +113,6 @@ void	builtin_unsetenv(t_ast *ast)
 {
 	int i;
 
-	ast->status = -1;
 	if (ft_2dstrlen(ast->args) < 2)
 		return ft_putstr_fd("unsetenv: not enough arguments\n", 2);
 	else
@@ -133,7 +128,6 @@ void	builtin_echo(t_ast *ast)
 {
 	int i;
 
-	ast->status = 0;
 	if (ft_2dstrlen(ast->args) > 1)
 	{
 		i = 1;
@@ -149,4 +143,5 @@ void	builtin_echo(t_ast *ast)
 		if (ft_strcmp(ast->args[1], "-n"))
 			ft_putstr("\n");
 	}
+	ast->status = 0;
 }
