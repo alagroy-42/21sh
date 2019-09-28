@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/28 19:40:06 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/28 22:25:21 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_env		*g_env = NULL;
 char		*g_pwd;
 char		*g_oldpwd;
 extern int	g_ctrlr;
+
 void	core(t_line *line)
 {
 	t_list	*lex;
@@ -41,44 +42,31 @@ void	core(t_line *line)
 	ft_ast_del(&ast);
 }
 
-void	set_default_env(char *exe_name)
+void	env_init(char **envp)
 {
-	t_env	*shlvl;
-	char	*str;
-	char**	atab;
 	char	pwd[8192];
+	char	*str;
 
+	env_import_envp(&g_env, envp);
 	getcwd(pwd, 8192);
-	env_set(&g_env, "PWD", pwd);
 	g_pwd = ft_strdup(pwd);
 	g_oldpwd = ft_strdup(pwd);
-	str = NULL;
-	if (!(shlvl = env_get(g_env, "SHLVL")))
+	env_set(&g_env, "PWD", pwd);
+	if (env_get(g_env, "SHLVL")
+		&& (str = ft_itoa(ft_atoi(env_get(g_env, "SHLVL")->value) + 1)))
 	{
-		if ((str = ft_strdup("1")))
-			env_set(&g_env, "SHLVL", str);
+		env_set(&g_env, "SHLVL", str);
+		ft_strdel(&str);
 	}
 	else
-	{
-		if ((str = ft_strdup(ft_itoa(ft_atoi(shlvl->value) + 1))))
-			env_set(&g_env, "SHLVL", str);
-	}
-	ft_strdel(&str);
-	if ((atab = ft_strsplit(exe_name, '/')))
-		if ((str = ft_strstrjoin(pwd, "/", atab[ft_2dstrlen(atab) - 1])))
-			env_set(&g_env, "SHELL", str);
-	env_set(&g_env, "SHELL", str);
-	ft_strdel(&str);
+		env_set(&g_env, "SHLVL", "1");
 }
 
 int		main(int ac, char **av, char **envp)
 {
 	t_line	*line;
 
-	env_import_envp(&g_env, envp);
-	set_default_env(av[0]);
-	if (!env_get(g_env, "TERM"))
-		env_set(&g_env, "TERM", "xterm-256color");
+	env_init(envp);
 	if (!(line = (t_line *)malloc(sizeof(t_line))))
 		return (-1);
 	g_line = line;
@@ -87,7 +75,6 @@ int		main(int ac, char **av, char **envp)
 		return (-1);
 	if (ac > 1)
 		exec_file(ac, av, line);
-
 	while (readline(line, LINE) == 1)
 		core(line);
 	ft_quit(1);

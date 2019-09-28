@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:24:40 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/28 19:45:24 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/28 22:23:49 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ t_env	*env_import_string(t_env **env, char *str)
 {
 	int		i;
 	char	*name;
+	t_env	*tmp;
 
 	i = 0;
 	while (str[i] && str[i] != '=')
@@ -150,7 +151,9 @@ t_env	*env_import_string(t_env **env, char *str)
 	if (!str[i] || !(name = ft_strnew(i)))
 		return (NULL);
 	ft_strncpy(name, str, i);
-	return (env_set(env, name, str + i + 1));
+	tmp = env_set(env, name, str + i + 1);
+	ft_strdel(&name);
+	return (tmp);
 }
 
 void	env_import_envp(t_env **env, char **envp)
@@ -184,4 +187,15 @@ char	**env_export_envp(t_env *env)
 		i++;
 	}
 	return (str);
+}
+
+void	env_putendl(t_env *env)
+{
+	while (env)
+	{
+		ft_putstr(env->name);
+		ft_putstr("=");
+		ft_putendl(env->value);
+		env = env->next;
+	}
 }

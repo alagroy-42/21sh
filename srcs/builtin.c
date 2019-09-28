@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/28 21:50:01 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/28 22:07:25 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,74 +32,68 @@ void	builtin_exit(t_ast *ast)
 	ft_quit(0);
 }
 
-void	builtin_env(t_ast *ast, t_env *env)
+void	builtin_env(t_ast *ast)
 {
-	t_env		*new_env;
-	int			i;
-	//struct stat	buf;
-//	int			pid;
+	t_env	*tmp;
+	int		i;
 
-	ast->status = 0;
-	new_env = NULL;
+	struct stat	buf;
+	int			pid;
+
 	i = 0;
+	ast->status = 0;
+	tmp = NULL;
+
 	if (ft_2dstrlen(ast->args) == 1)
+		env_putendl(g_env);
+	else if (ft_2dstrlen(ast->args) >= 2)
 	{
-		while (env)
+		if (ast->args[1][0] == '-' && ft_strcmp(ast->args[1], "-i"))
 		{
-			ft_putstr(env->name);
-			ft_putstr("=");
-			ft_putendl(env->value);
-			env = env->next;
+			ft_putstr_fd("env: illegal option -- ", 2);
+		}
+		else if (ast->args[1][0] == '-')
+		{
+			if (ft_2dstrlen(ast->args) >= 3)
+			{
+				i = 2;
+				while (ast->args[i] && ft_strchr(ast->args[i], '='))
+					env_import_string(&tmp, ast->args[i++]);
+				if (i == ft_2dstrlen(ast->args))
+					env_putendl(tmp);
+				else
+				{
+					if (access(ast->args[i], F_OK) == -1)
+					{
+						ft_putstr_fd("env: ", 2);
+						ft_putstr_fd(ast->args[i], 2);
+						ft_putstr_fd(": no such file or directory\n", 2);
+					}
+					else if (access(ast->args[i], X_OK) == -1 || stat(ast->args[i], &buf)
+						|| S_ISDIR(buf.st_mode))
+					{
+						ft_putstr_fd("env: ", 2);
+						ft_putstr_fd(ast->args[i], 2);
+						ft_putstr_fd(": permission denied\n", 2);
+					}
+					else
+					{
+						pid = fork();
+						if (!pid)
+							execve(ast->args[i], ast->args + i, env_export_envp(g_env));
+						else if (pid != 1)
+							waitpid(pid, NULL, 0);
+						else
+							ft_putstr_fd("env: fork error\n", 2);
+					}
+				}
+			}
+		}
+		else
+		{
+			//ft_putendl(ast->args[1]);
 		}
 	}
-	// else if (ft_2dstrlen(ast->args) >= 2)
-	// {
-	// 	if (ast->args[1][0] == '-' && ft_strcmp(ast->args[1], "-i"))
-	// 	{
-	// 		ft_putstr_fd("env: illegal option -- ", 2);
-	// 	}
-	// 	else if (ast->args[1][0] == '-')
-	// 	{
-	// 		if (ft_2dstrlen(ast->args) >= 3)
-	// 		{
-	// 			i = 2;
-	// 			while (ast->args[i] && ft_strchr(ast->args[i], '='))
-	// 				env_set_string(&new_env, ast->args[i++], 0, 0);
-	// 			if (i == ft_2dstrlen(ast->args))
-	// 				env_putendl(new_env);
-	// 			else
-	// 			{
-	// 				if (access(ast->args[i], F_OK) == -1)
-	// 				{
-	// 					ft_putstr_fd("env: ", 2);
-	// 					ft_putstr_fd(ast->args[i], 2);
-	// 					ft_putstr_fd(": no such file or directory\n", 2);
-	// 				}
-	// 				else if (access(ast->args[i], X_OK) == -1 || stat(ast->args[i], &buf)
-	// 					|| S_ISDIR(buf.st_mode))
-	// 				{
-	// 					ft_putstr_fd("env: ", 2);
-	// 					ft_putstr_fd(ast->args[i], 2);
-	// 					ft_putstr_fd(": permission denied\n", 2);
-	// 				}
-	// 				else
-	// 				{
-	// 					pid = fork();
-	// 					if (!pid)
-	// 						execve(ast->args[i], ast->args + i, env_export_envp(g_env));
-	// 					else if (pid != 1)
-	// 						waitpid(pid, NULL, 0);
-	// 					else
-	// 						ft_putstr_fd("env: fork error\n", 2);
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		//ft_putendl(ast->args[1]);
-	// 	}
-	// }
 }
 
 void	builtin_setenv(t_ast *ast)

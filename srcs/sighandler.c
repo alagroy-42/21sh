@@ -6,17 +6,21 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:49:50 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/25 11:37:49 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/28 22:21:25 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signal_21sh.h"
 #include "readline.h"
+#include "env.h"
 
 extern t_line	*g_line;
 extern int		g_lastpid;
 extern int		g_status;
 extern int		g_ctrlr;
+extern char		*g_pwd;
+extern char		*g_oldpwd;
+extern t_env	*g_env;
 
 void	ft_quit(int code)
 {
@@ -32,6 +36,9 @@ void	ft_quit(int code)
 	}
 	term_unsetup();
 	close(fd);
+	ft_strdel(&g_pwd);
+	ft_strdel(&g_oldpwd);
+	env_destroy(&g_env);
 	exit(code);
 }
 

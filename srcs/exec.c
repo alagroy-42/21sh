@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/28 19:32:33 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/28 22:07:12 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ void	exec_builtin(t_ast *ast)
 	else if (!ft_strcmp(ast->cmd, "exit"))
 		builtin_exit(ast);
 	else if (!ft_strcmp(ast->cmd, "env"))
-		builtin_env(ast, g_env);
+		builtin_env(ast);
 	else if (!ft_strcmp(ast->cmd, "setenv"))
 		builtin_setenv(ast);
 	else if (!ft_strcmp(ast->cmd, "unsetenv"))
-		builtin_unsetenv(ast);	
+		builtin_unsetenv(ast);
 	if (g_ischild)
 		exit(ast->status);
 }
