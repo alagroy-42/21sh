@@ -6,7 +6,7 @@
 #    By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/13 09:44:51 by alagroy-          #+#    #+#              #
-#    Updated: 2019/09/22 00:37:13 by pcharrie         ###   ########.fr        #
+#    Updated: 2019/09/28 19:23:26 by pcharrie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = 21sh
 CC = gcc
 
 SRCS_NAME = altkey.c ast_generate.c ast_set.c ast_tools.c builtin.c builtin_cd.c ctrl_key.c debugging.c \
-			env.c env_str.c env_utils.c exec.c history.c lexer.c machine_func.c machine_specialchar_func.c \
+			env.c exec.c history.c lexer.c machine_func.c machine_specialchar_func.c \
 			main.c move.c parser.c readline.c readline_tools.c terminit.c \
 			analize.c visumod.c visumove.c readline_aux.c visu_op.c redir.c \
 			input.c output.c signal.c autocomplete.c lite_parser.c \

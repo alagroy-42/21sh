@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/26 14:10:01 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/28 19:40:06 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,11 @@ void	set_default_env(char *exe_name)
 	ft_strdel(&str);
 }
 
-int		main(int ac, char **av, char **env)
+int		main(int ac, char **av, char **envp)
 {
 	t_line	*line;
 
-	if (!(env_setup(env, NULL, NULL)))
-	{
-		ft_putendl("env_setup error");
-		return (-1);
-	}
+	env_import_envp(&g_env, envp);
 	set_default_env(av[0]);
 	if (!env_get(g_env, "TERM"))
 		env_set(&g_env, "TERM", "xterm-256color");
@@ -91,6 +87,7 @@ int		main(int ac, char **av, char **env)
 		return (-1);
 	if (ac > 1)
 		exec_file(ac, av, line);
+
 	while (readline(line, LINE) == 1)
 		core(line);
 	ft_quit(1);

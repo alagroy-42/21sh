@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/26 19:17:37 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/28 19:32:33 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,22 @@ int				g_ischild = 0;
 int g_pipefds[2];
 int g_lastpipefd;
 
-int		exec_builtin(t_ast *ast)
+void	exec_builtin(t_ast *ast)
 {
-	if (!ft_strcmp(ast->cmd, "exit") || !ft_strcmp(ast->cmd, "quit"))
-		builtin_exit(ast);
-	else if (!ft_strcmp(ast->cmd, "env"))
-		builtin_env(ast, g_env);
-	else if (!ft_strcmp(ast->cmd, "cd"))
+	if (!ft_strcmp(ast->cmd, "cd"))
 		builtin_cd(ast, g_env);
 	else if (!ft_strcmp(ast->cmd, "echo"))
 		builtin_echo(ast);
+	else if (!ft_strcmp(ast->cmd, "exit"))
+		builtin_exit(ast);
+	else if (!ft_strcmp(ast->cmd, "env"))
+		builtin_env(ast, g_env);
 	else if (!ft_strcmp(ast->cmd, "setenv"))
-		builtin_setenv(ast, g_env);
+		builtin_setenv(ast);
 	else if (!ft_strcmp(ast->cmd, "unsetenv"))
-		builtin_unsetenv(ast, &g_env);
-	else
-		return (0);
-	return (1);
+		builtin_unsetenv(ast);	
+	if (g_ischild)
+		exit(ast->status);
 }
 
 void	exec_error(t_ast *ast)
@@ -63,16 +62,12 @@ void	exec_error(t_ast *ast)
 
 void	exec_ast_child(t_ast *ast)
 {
-	char	**envp;
-
-	if (!(envp = env_toenvp(g_env, 0, 0, 0)))
-		return ;
 	if (!ft_redir_router(ast->redir))
 		exit(EXIT_FAILURE);
 	if (!ast->path)
 		exec_builtin(ast);
 	else
-		execve(ast->path, ast->args, envp);
+		execve(ast->path, ast->args, env_export_envp(g_env));
 	exit(1);
 }
 

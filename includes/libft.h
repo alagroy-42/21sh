@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alagroy- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 14:14:32 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 14:40:45 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/09/28 19:35:38 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,7 @@ char			**ft_2dstrjoin(char **tab1, char **tab2);
 int				ft_strichr(char *s, char c);
 int				ft_strirchr(char *s, char c);
 int				gnl_nl(int fd, char **line);
+char			**ft_2dstrnew(int size);
+void			ft_2dstrdel(char **tab);
 
 #endif

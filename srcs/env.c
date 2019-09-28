@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:24:40 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/22 00:43:47 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/28 19:45:24 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,61 +15,44 @@
 
 extern t_env *g_env;
 
-int		env_setup(char **envp, t_env *tmp, t_env *tmp2)
+t_env	*env_new(char *name, char *value)
 {
-	while (*envp)
+	t_env *env;
+
+	if (!(env = malloc(sizeof(t_env))))
 	{
-		if (!(tmp = malloc(sizeof(t_env))))
-		{
-			env_destroy(&g_env);
-			return (0);
-		}
-		if (!(env_setup_setenvptoenv(*envp, tmp)))
-		{
-			env_destroy(&g_env);
-			return (0);
-		}
-		tmp->next = NULL;
-		if (!g_env)
-			g_env = tmp;
-		else
-		{
-			tmp2 = g_env;
-			while (tmp2->next)
-				tmp2 = tmp2->next;
-			tmp2->next = tmp;
-		}
-		envp++;
+		env_free(&env);
+		return (NULL);
 	}
-	return (1);
+	env->name = ft_strdup(name);
+	env->value = ft_strdup(value);
+	if (!env->name || !env->value)
+	{
+		env_free(&env);
+		return (NULL);
+	}
+	env->next = NULL;
+	return (env);
 }
 
-int		env_setup_setenvptoenv(char *envp, t_env *env)
+void	env_free(t_env **env)
 {
-	size_t name_len;
-	int i;
-
-	name_len = env_string_namelen(envp);
-	if (name_len == ft_strlen(envp))
-		return (0);
-	if (!(env->name = ft_strnew(name_len)))
-		return (0);
-	if (!(env->value = ft_strnew(env_string_valuelen(envp))))
+	if (env && *env)
 	{
-		ft_strdel(&env->name);
-		return (0);
+		if ((*env)->name)
+		{
+			free((*env)->name);
+			(*env)->name = NULL;
+		}
+		if ((*env)->value)
+		{
+			free((*env)->value);
+			(*env)->value = NULL;
+		}
+		(*env)->next = NULL;
+		free(*env);
+		*env = NULL;
 	}
-	i = 0;
-	while (envp[i] && envp[i] != '=')
-	{
-		env->name[i] = envp[i];
-		i++;
-	}
-	i++;
-	name_len = 0;
-	while (envp[i])
-		env->value[name_len++] = envp[i++];
-	return (1);
 }
 
 void	env_destroy(t_env **env)
@@ -80,29 +63,33 @@ void	env_destroy(t_env **env)
 	{
 		while (*env)
 		{
-			if ((*env)->name)
-				free((*env)->name);
-			if ((*env)->value)
-				free((*env)->value);
 			tmp = (*env)->next;
-			free(*env);
+			env_free(env);
 			*env = tmp;
 		}
 	}
 }
 
-int		env_set(t_env **env, char *name, char *value)
+t_env	*env_set(t_env **env, char *name, char *value)
 {
 	t_env *tmp;
+	t_env *tmp2;
 
+	if (!env)
+		return (NULL);
 	if (!*env)
-		return ((*env = env_new(name, value)) ? 1 : 0);
-	if (env_edit(*env, name, value))
-		return (1);
-	tmp = env_get_last(*env);
-	if (!(tmp->next = env_new(name, value)))
-		return (0);
-	return (1);
+		return ((*env = env_new(name, value)));
+	if ((tmp = env_get(*env, name)))
+	{
+		ft_strdel(&tmp->value);
+		return ((tmp->value = ft_strdup(value)) ? tmp : NULL);
+	}
+	tmp = env_new(name, value);
+	tmp2 = *env;
+	while (tmp2->next)
+		tmp2 = tmp2->next;
+	tmp2->next = tmp;
+	return (tmp);
 }
 
 void	env_remove(t_env **env, char *name)
@@ -120,10 +107,81 @@ void	env_remove(t_env **env, char *name)
 				*env = curr->next;
 			else
 				prev->next = curr->next;
-			free(curr);
+			env_free(&curr);
 			return ;
 		}
 		prev = curr;
 		curr = curr->next;
 	}
+}
+
+t_env	*env_get(t_env *env, char *name)
+{
+	while (env)
+	{
+		if (!ft_strcmp(env->name, name))
+			return (env);
+		env = env->next;
+	}
+	return (NULL);
+}
+
+int		env_size(t_env *env)
+{
+	int i;
+
+	i = 0;
+	while (env)
+	{
+		i++;
+		env = env->next;
+	}
+	return (i);
+}
+
+t_env	*env_import_string(t_env **env, char *str)
+{
+	int		i;
+	char	*name;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	if (!str[i] || !(name = ft_strnew(i)))
+		return (NULL);
+	ft_strncpy(name, str, i);
+	return (env_set(env, name, str + i + 1));
+}
+
+void	env_import_envp(t_env **env, char **envp)
+{
+	int i;
+
+	i = 0;
+	while (envp[i])
+		env_import_string(env, envp[i++]);
+}
+
+char	**env_export_envp(t_env *env)
+{
+	char	**str;
+	int		i;
+
+	if (!(str = ft_2dstrnew((env_size(env)))))
+		return (NULL);
+	i = 0;
+	while (env)
+	{
+		if (!(str[i] = ft_strnew(ft_strlen(env->name) + ft_strlen(env->value))))
+		{
+			ft_2dstrdel(str);
+			return (NULL);
+		}
+		ft_strcpy(str[i], env->name);
+		str[i][ft_strlen(env->name)] = '=';
+		ft_strcpy(str[i] + ft_strlen(env->name) + 1, env->value);
+		env = env->next;
+		i++;
+	}
+	return (str);
 }
