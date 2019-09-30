@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:24:40 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/28 22:23:49 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/30 17:05:54 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ char	**env_export_envp(t_env *env)
 	i = 0;
 	while (env)
 	{
-		if (!(str[i] = ft_strnew(ft_strlen(env->name) + ft_strlen(env->value))))
+		if (!(str[i] = ft_strnew(ft_strlen(env->name) + ft_strlen(env->value) + 1)))
 		{
 			ft_2dstrdel(str);
 			return (NULL);

@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 20:18:49 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/28 22:50:21 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/30 17:02:23 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,21 @@ int		is_cmd_builtin(char *cmd)
 int		ast_set_path_by_path(char **path, t_ast *ast)
 {
 	char	*cmd_path;
+	int		i;
 
-	while (*path)
+	i = 0;
+	while (path[i])
 	{
-		if (!(cmd_path = ft_strstrjoin(*path, "/", ast->cmd)))
+		if (!(cmd_path = ft_strstrjoin(path[i], "/", ast->cmd)))
 			return (0);
 		if (access(cmd_path, F_OK | X_OK) != -1)
 		{
-			ast->path = cmd_path;
+			ast->path = ft_strdup(cmd_path);
+			ft_strdel(&cmd_path);
 			return (1);
 		}
-		path++;
+		ft_strdel(&cmd_path);
+		i++;
 	}
 	return (0);
 }
@@ -67,6 +71,7 @@ void	ast_set_path(t_ast *ast)
 
 	ast->error = 0;
 	ast->status = -1;
+	path = NULL;
 	if (is_cmd_builtin(ast->cmd))
 		ast->path = NULL;
 	else if (is_cmd_file(ast->cmd))
@@ -86,6 +91,8 @@ void	ast_set_path(t_ast *ast)
 			|| !ast_set_path_by_path(path, ast))
 			ast->error = 3;
 	}
+	if (path != NULL)
+		ft_2dstrdel(path);
 }
 
 void	ast_set(t_ast *ast)
