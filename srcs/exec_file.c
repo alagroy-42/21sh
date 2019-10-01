@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 12:57:30 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/01 13:16:43 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/01 15:08:37 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,8 @@ void	load_21shrc(t_line *line)
 	int		fd;
 
 	g_filemode = 1;
-	if (!(home = env_get(g_env, "HOME")))
-	{
-		g_filemode = 0;
-		return ;
-	}
-	if (!(path = ft_strjoin(home->value, "/.21shrc")))
+	if (!(home = env_get(g_env, "HOME"))
+			|| !(path = ft_strjoin(home->value, "/.21shrc")))	
 	{
 		g_filemode = 0;
 		return ;

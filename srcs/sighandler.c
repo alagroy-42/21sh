@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:49:50 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/01 14:49:43 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/01 16:50:28 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_ctrlc(int sig)
 	{
 		kill(g_lastpid, sig);
 		ft_putchar('\n');
-		if (!g_filemode && !ft_strcmp(g_line->prompt, ">  "))
+		if (!g_filemode && g_line->prompt && !ft_strcmp(g_line->prompt, ">  "))
 			return (ft_strdel(&g_line->line));
 		if (g_line->line && sig == SIGINT)
 		{

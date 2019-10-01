@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 16:27:56 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/01 09:18:07 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/01 19:24:14 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	readline_init(t_line *line, int status)
 	line->last_arrow = UP;
 	line->index = 0;
 	line->line = ft_strnew(0);
-	get_cursor_position(&line->pos.col, &line->pos.row);
-	if (line->pos.col != 0)
-		ft_dprintf(2, "\033[30;47m%%\033[0;0m\n");
+	ft_dprintf(2, "\033[30;47m%%\033[0;0m%*s", line->nb_col - 1, "");
+	tputs(line->caps.cr, 2, ft_putc);
+	tputs(line->caps.cd, 2, ft_putc);
 	ft_strdel(&line->prompt);
 	line->prompt = ft_strdup(status == LINE ? "$> " : ">  ");
 	ft_putstr_fd(line->prompt, 2);
@@ -70,7 +70,7 @@ void	right(t_line *line, int len)
 	int	i;
 
 	dow = len / (line->nb_col ? line->nb_col : 1);
-	nd = (len % line->nb_col ? line->nb_col : 1);
+	nd = len % (line->nb_col ? line->nb_col : 1);
 	i = -1;
 	while (++i < dow)
 	{
