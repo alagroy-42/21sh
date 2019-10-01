@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 05:17:44 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/24 19:09:57 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/09/26 19:55:54 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,11 +238,6 @@ int		builtin_cd_options(t_ast *ast)
 void	builtin_cd(t_ast *ast, t_env *env)
 {
 	int follow;
-
-	if (g_ischild)
-		ft_putendl("CHILD");
-	else
-		ft_putendl("PARENT");
 
 	ast->status = -1;
 	follow = builtin_cd_options(ast);

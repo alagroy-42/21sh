@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:53:48 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/26 14:33:00 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/01 14:37:18 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_key		g_normal_tbl[] =\
 
 t_key		*g_tbl;
 extern int	g_ctrlr;
+int			g_filemode = 0;
 
 int			ft_putc(int c)
 {
@@ -89,8 +90,8 @@ int			readline(t_line *line, int status)
 	char	buf[10];
 	int		ret;
 
-	if (!isatty(STDIN_FILENO))
-		return (gnl_nl(0, &line->line));
+	if (!isatty(STDIN_FILENO) || g_filemode)
+		return (gnl_nl(g_filemode ? line->curr_fd : 0, &line->line));
 	g_tbl = g_normal_tbl;
 	readline_init(line, status);
 	tputs(line->caps.im, 2, ft_putc);

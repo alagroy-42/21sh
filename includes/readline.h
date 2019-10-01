@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/26 16:39:21 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/01 13:16:10 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct			s_line
 	int			nb_line;
 	int			last_arrow;
 	char		*history_file;
+	int			curr_fd;
 	t_visu		visu;
 	t_autocmplt	cmplt;
 }						t_line;
@@ -110,6 +111,7 @@ typedef struct			s_key
 extern t_key			*g_tbl;
 extern t_key			g_normal_tbl[];
 extern t_key			g_visutab[];
+extern int				g_filemode;
 
 int						readline(t_line *line, int status);
 int						ft_putc(int c);

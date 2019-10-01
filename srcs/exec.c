@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/30 17:00:45 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/01 14:58:46 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int		exec_error(t_ast *ast)
 
 void	exec_ast_child(t_ast *ast, char **envp)
 {
+	if (!ft_redir_router(ast->redir))
+		exit(EXIT_FAILURE);
 	if (!ast->path)
 		exec_builtin(ast);
 	else
@@ -94,7 +96,11 @@ void	exec_ast_single(t_ast *ast, char **envp)
 
 	pid = fork();
 	if (!pid)
+	{
+		if (!ft_redir_router(ast->redir))
+			exit(EXIT_FAILURE);
 		exec_ast_child(ast, envp);
+	}
 	else if (pid == -1)
 		ft_putstr_fd("fork error", 2);
 	else
@@ -132,8 +138,6 @@ void	exec(t_ast *ast)
 			ast_pipes_end(&ast);
 		else if (ast->cmd)
 		{
-			if (!ft_redir_router(ast->redir))
-				exit(EXIT_FAILURE);
 			if (!ast->pipe)
 			{
 				if (!exec_builtin(ast))
