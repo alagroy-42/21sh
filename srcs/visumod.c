@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 17:01:42 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/11 19:35:29 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/02 15:06:18 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	reset_visu(t_line *line)
 		left(line, len);
 	else if (line->visu.begin + line->visu.offset != (int)ft_strlen(line->line))
 		left(line, 1);
+	ft_strdel(&sub);
 }
 
 void	print_visu(t_line *line)
@@ -66,6 +67,7 @@ void	print_visu(t_line *line)
 		left(line, len);
 	else if (line->visu.begin + line->visu.offset != (int)ft_strlen(line->line))
 		left(line, 1);
+	ft_strdel(&sub);
 }
 
 void	k_visuinit(t_line *line)

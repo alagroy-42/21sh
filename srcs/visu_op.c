@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 17:17:29 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/26 19:21:33 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/02 15:34:48 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,16 @@ void	k_altv(t_line *line)
 	line->line = ft_insert_str(line->line, ft_strdup(line->visu.clipboard),
 			line->index);
 	get_cursor_position(&line->pos.col, &line->pos.row);
+	len = ft_strlen(line->visu.clipboard);
 	while (up--)
 		tgetputstr("up");
 	tputs(line->caps.cr, 2, ft_putc);
 	tputs(line->caps.cd, 2, ft_putc);
 	ft_dprintf(2, "%s%s", line->prompt, line->line);
+	if (line->nb_line * line->nb_col < (line->pos.row + 1) * line->nb_col
+			+ (line->pos.col + 1) + len)
+		line->pos.row -= (len / line->nb_col) + 1;
 	tputs(tgoto(line->caps.cm, line->pos.col, line->pos.row), 2, ft_putc);
-	len = ft_strlen(line->visu.clipboard);
 	while (len--)
 		k_right(line);
 }
