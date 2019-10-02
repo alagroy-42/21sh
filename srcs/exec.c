@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/01 14:58:46 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/02 13:45:16 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	exec_ast_single(t_ast *ast, char **envp)
 	int pid;
 
 	pid = fork();
+	g_lastpid = pid;
 	if (!pid)
 	{
 		if (!ft_redir_router(ast->redir))

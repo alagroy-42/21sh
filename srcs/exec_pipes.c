@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 15:12:24 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/01 14:57:25 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/02 13:50:48 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <sys/wait.h>
 
 extern int	g_ischild;
+extern int	g_lastpid;
 
 int		ast_pipes_size(t_ast *ast)
 {
@@ -71,6 +72,7 @@ void	exec_ast_pipes(t_ast **ast, int size, char **envp)
 	while (i < size)
 	{
 		pid = fork();
+		g_lastpid = pid;
 		if (!pid)
 		{
 			g_ischild = 1;
@@ -97,6 +99,10 @@ void	exec_ast_pipes(t_ast **ast, int size, char **envp)
 		}
 		i++;
 	}
+	i = -1;
+	while (++i < size)
+		free(fds[i]);
+	free(fds);
 	ast_pipes_end(ast);
 	while (wait(&(*ast)->status) != -1)
 		continue;
