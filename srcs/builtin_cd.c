@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 05:17:44 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/26 19:55:54 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/02 06:10:45 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,16 @@ int		builtin_cd_chdir_cdpath(char *path, int follow, t_ast *ast)
 	char			*str;
 	struct	stat	buf;
 
+	str = NULL;
 	if (!env_get(g_env, "CDPATH")
 		|| !(str = ft_strstrjoin(env_get(g_env, "CDPATH")->value, "/", path))
 		|| stat(str, &buf) < 0)
+	{
+		ft_strdel(&str);
 		return (0);
+	}
 	builtin_cd_chdir(str, follow, ast, 1);
+	ft_strdel(&str);
 	return (1);
 }
 
@@ -108,6 +113,7 @@ void	set_pwd(char *path, int follow, t_ast *ast, int cdpath)
 	int		j;
 	char	*pwd;
 	char	*oldpwd;
+	char	**join_tab;
 
 	pwd = ft_strdup(g_pwd);
 	oldpwd = ft_strdup(g_pwd);
@@ -132,20 +138,29 @@ void	set_pwd(char *path, int follow, t_ast *ast, int cdpath)
 					pwd_tab[i--] = NULL;
 				j++;
 			}
-			pwd_tab = ft_2dstrjoin_path(pwd_tab, path_tab + j);
+			join_tab = ft_2dstrjoin_path(pwd_tab, path_tab + j);
+			ft_2dstrdel(pwd_tab);
+			pwd_tab = join_tab;
 			i = ft_2dstrlen(pwd_tab) - 1;
 			if (path_tab[j])
 				j++;
 		}
 
-		pwd = ft_2dstr_to_path(ft_2dstrjoin(pwd_tab, path_tab + j));
+		join_tab = ft_2dstrjoin(pwd_tab, path_tab + j);
+		ft_strdel(&pwd);
+		pwd = ft_2dstr_to_path(join_tab);
+		ft_2dstrdel(join_tab);
 		if (!ft_strlen(pwd))
 		{
 			ft_strdel(&pwd);
 			pwd = ft_strdup("/");
 		}
+		ft_2dstrdel(pwd_tab);
+		ft_2dstrdel(path_tab);
 	}
 
+	ft_strdel(&g_pwd);
+	ft_strdel(&g_oldpwd);
 	if (chdir(pwd) < 0)
 		ft_putstr_fd("cd: error\n", 2);
 	else
@@ -162,13 +177,11 @@ void	set_pwd(char *path, int follow, t_ast *ast, int cdpath)
 
 		if (cdpath)
 			ft_putendl(pwd);
-		ft_strdel(&g_pwd);
-		ft_strdel(&g_oldpwd);
 		g_pwd = ft_strdup(pwd);
 		g_oldpwd = ft_strdup(oldpwd);
-		ft_strdel(&pwd);
-		ft_strdel(&oldpwd);
 	}
+	ft_strdel(&pwd);
+	ft_strdel(&oldpwd);
 }
 
 void	builtin_cd_chdir(char *path, int follow, t_ast *ast, int cdpath)
@@ -195,7 +208,7 @@ void	builtin_cd_chdir(char *path, int follow, t_ast *ast, int cdpath)
 	else if (access(path, X_OK) == -1)
 		ft_putstr_fd("cd: permission denied\n", 2);
 	else
-		set_pwd(path, follow, ast, cdpath);	
+		set_pwd(path, follow, ast, cdpath);
 }
 
 int		builtin_cd_options(t_ast *ast)
@@ -212,7 +225,7 @@ int		builtin_cd_options(t_ast *ast)
 		|| !ft_strcmp(ast->args[1], "-LP")))
 	{
 		if (!(tab = malloc(sizeof(char**) * (ft_2dstrlen(ast->args)))))
-			return (0);	
+			return (0);
 		i = 0;
 		j = 0;
 		while (i < ft_2dstrlen(ast->args))
