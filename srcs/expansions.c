@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 15:32:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/25 15:36:47 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/03 18:52:01 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,14 @@ static char	*tilde_replace(char *str)
 
 	env = env_get(g_env, "HOME");
 	i = -1;
-	if (!env)
+	if (!env || !str)
 		return (str);
 	while (str[++i])
 		if (str[i] == '~')
 		{
 			str = ft_delete_flags(str, i, 1);
 			str = ft_insert_str(str, ft_strdup(env->value), i);
-			i += ft_strlen(env->value);
+			i += ft_strlen(env->value) - 1;
 		}
 	return (str);
 }
