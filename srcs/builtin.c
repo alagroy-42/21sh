@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 04:09:29 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 04:50:18 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ extern int		g_ischild;
 int		exec_builtin(t_ast *ast)
 {
 	if (!ft_strcmp(ast->cmd, "cd"))
-		builtin_cd(ast, g_env);
+		builtin_cd(ast);
 	else if (!ft_strcmp(ast->cmd, "echo"))
 		builtin_echo(ast);
 	else if (!ft_strcmp(ast->cmd, "exit"))

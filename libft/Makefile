@@ -6,7 +6,7 @@
 #    By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 15:29:46 by alagroy-          #+#    #+#              #
-#    Updated: 2019/09/28 19:35:53 by pcharrie         ###   ########.fr        #
+#    Updated: 2019/10/03 05:34:50 by pcharrie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,8 @@ SRCS = ft_strcat.c ft_strchr.c ft_strcmp.c ft_strcpy.c ft_strdup.c \
 	   get_next_line.c aux.c edit_string.c fill_content.c flags.c ft_printf.c \
 	   itoa.c precision_min_size.c tools.c ft_free_2da.c ft_print_2da.c \
 	   ft_str2ddel.c ft_strreplace.c ft_print_strlist.c ft_expend_2dstr.c \
-	   ft_2dstrlen.c ft_2dstrjoin.c ft_strichr.c ft_strirchr.c gnl_nl.c \
-	   ft_2dstrnew.c ft_2dstrdel.c
+	   ft_2dstrlen.c ft_2dstrjoin.c ft_2dstrjoin_nodel.c ft_strichr.c \
+	   ft_strirchr.c gnl_nl.c ft_2dstrnew.c ft_2dstrdel.c
 
 OBJ = $(SRCS:.c=.o)
 

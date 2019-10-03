@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_2dstrjoin.c                                     :+:      :+:    :+:   */
+/*   ft_2dstrjoin_nodel.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/16 11:21:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/03 05:22:04 by pcharrie         ###   ########.fr       */
+/*   Created: 2019/07/16 11:21:03 by pcharrie          #+#    #+#             */
+/*   Updated: 2019/10/03 05:34:03 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	**ft_2dstrjoin(char **tab1, char **tab2)
+char	**ft_2dstrjoin_nodel(char **tab1, char **tab2)
 {
 	char	**new_tab;
 	int		i;
@@ -30,7 +30,5 @@ char	**ft_2dstrjoin(char **tab1, char **tab2)
 	while (tab2 && tab2[++i])
 		new_tab[++j] = tab2[i];
 	new_tab[len] = NULL;
-	ft_2dstrdel(tab1);
-	ft_2dstrdel(tab2);
 	return (new_tab);
 }

@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 19:34:24 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/28 19:36:31 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 06:28:34 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	**ft_2dstrnew(int size)
 {
-	char **tab;
-	int i;
+	char	**tab;
+	int		i;
 
 	if (!(tab = malloc(sizeof(char *) * (size + 1))))
 		return (NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alagroy- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 14:14:32 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 14:40:45 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/03 05:34:21 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,10 @@ void			ft_print_strlist(t_list *list);
 char			**ft_expend_2dstr(char **tab, char *str);
 int				ft_2dstrlen(char **tab);
 char			**ft_2dstrjoin(char **tab1, char **tab2);
+char			**ft_2dstrjoin_nodel(char **tab1, char **tab2);
 int				ft_strichr(char *s, char c);
 int				ft_strirchr(char *s, char c);
 int				gnl_nl(int fd, char **line);
+void			ft_2dstrdel(char **tab);
 
 #endif

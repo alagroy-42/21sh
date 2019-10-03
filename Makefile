@@ -6,7 +6,7 @@
 #    By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/13 09:44:51 by alagroy-          #+#    #+#              #
-#    Updated: 2019/10/03 04:13:42 by pcharrie         ###   ########.fr        #
+#    Updated: 2019/10/03 06:23:14 by pcharrie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,9 @@ SRCS_NAME = altkey.c ast_generate.c ast_set.c ast_tools.c builtin.c \
 			machine_func.c machine_specialchar_func.c main.c move.c parser.c \
 			readline.c readline_tools.c terminit.c analize.c visumod.c \
 			visumove.c readline_aux.c visu_op.c redir.c input.c output.c \
-			signal.c autocomplete.c lite_parser.c autocmplt_tools.c \
-			expansions.c advanced_cmplt.c special_param.c sighandler.c leaks.c \
-			ctrlr.c exec_file.c
+			set_pwd.c set_pwd_utils.c signal.c autocomplete.c lite_parser.c \
+			autocmplt_tools.c expansions.c advanced_cmplt.c special_param.c \
+			sighandler.c leaks.c ctrlr.c exec_file.c
 
 SRCS = $(addprefix srcs/, $(SRCS_NAME))
 

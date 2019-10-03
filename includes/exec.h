@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:15:20 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 04:11:18 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 06:29:05 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ void	builtin_exit(t_ast *ast);
 void	builtin_setenv(t_ast *ast);
 void	builtin_unsetenv(t_ast *ast);
 void	builtin_env(t_ast *ast);
-void	builtin_cd(t_ast *ast, t_env *env);
+void	builtin_cd(t_ast *ast);
 void	builtin_cd_chdir(char *path, int follow, t_ast *ast, int cdpath);
+void	set_pwd(char *path, int follow, t_ast *ast, int cdpath);
+char	**ft_2dstrjoin_path(char **tab1, char **tab2);
+char	*ft_2dstr_to_path(char **tab1);
 
 void	exec(t_ast *ast);
 int		exec_builtin(t_ast *ast);
