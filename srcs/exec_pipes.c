@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 15:12:24 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 04:02:15 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 13:59:32 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void	exec_ast_pipes(t_ast **ast, int size, char **envp)
 	ast_pipes_end(ast);
 	while (wait(&(*ast)->status) != -1)
 		continue;
+	exec_ast_pipes_closefds(size);
 	while (++i < size)
 		free(g_fds[i]);
 	free(g_fds);
