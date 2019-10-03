@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 03:51:43 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 04:09:29 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,27 @@
 
 extern t_env	*g_env;
 extern int		g_ischild;
+
+int		exec_builtin(t_ast *ast)
+{
+	if (!ft_strcmp(ast->cmd, "cd"))
+		builtin_cd(ast, g_env);
+	else if (!ft_strcmp(ast->cmd, "echo"))
+		builtin_echo(ast);
+	else if (!ft_strcmp(ast->cmd, "exit"))
+		builtin_exit(ast);
+	else if (!ft_strcmp(ast->cmd, "env"))
+		builtin_env(ast);
+	else if (!ft_strcmp(ast->cmd, "setenv"))
+		builtin_setenv(ast);
+	else if (!ft_strcmp(ast->cmd, "unsetenv"))
+		builtin_unsetenv(ast);
+	else if (g_ischild)
+		exit(ast->status);
+	else
+		return (0);
+	return (1);
+}
 
 void	builtin_exit(t_ast *ast)
 {

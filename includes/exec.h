@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:15:20 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 03:36:31 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 04:11:18 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ void	builtin_cd(t_ast *ast, t_env *env);
 void	builtin_cd_chdir(char *path, int follow, t_ast *ast, int cdpath);
 
 void	exec(t_ast *ast);
+int		exec_builtin(t_ast *ast);
 void	exec_ast_pipes(t_ast **ast, int size, char **envp);
+int		exec_error(t_ast *ast);
 t_ast	*ast_get_index(t_ast *ast, int index);
 void	ast_pipes_end(t_ast **ast);
 void	exec_ast_child(t_ast *ast, char **envp);
