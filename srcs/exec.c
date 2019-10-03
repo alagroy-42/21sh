@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 04:10:44 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 14:18:11 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,13 @@ void	exec_ast_child(t_ast *ast, char **envp)
 {
 	if (!ft_redir_router(ast->redir))
 		exit(EXIT_FAILURE);
-	if (!ast->path)
-		exec_builtin(ast);
-	else
-		execve(ast->path, ast->args, envp);
+	if (!exec_error(ast))
+	{
+		if (!ast->path)
+			exec_builtin(ast);
+		else
+			execve(ast->path, ast->args, envp);
+	}
 	exit(1);
 }
 
@@ -95,9 +98,7 @@ void	exec(t_ast *ast)
 	while (ast)
 	{
 		expansions_handle(ast);
-		if (exec_error(ast))
-			ast_pipes_end(&ast);
-		else if (ast->cmd)
+		if (ast->cmd)
 		{
 			if (!ast->pipe)
 			{
@@ -110,3 +111,4 @@ void	exec(t_ast *ast)
 		exec_ast_next(&ast);
 	}
 }
+
