@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 04:10:37 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 04:11:27 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 13:18:24 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <signal.h>
 #include <sys/wait.h>
 
+extern int	g_ischild;
+
 void	ast_pipes_end(t_ast **ast)
 {
 	while ((*ast)->pipe)
@@ -29,7 +31,7 @@ void	exec_error_put(t_ast *ast)
 {
 	if (!ast->error)
 		return ;
-	if (!ft_redir_router(ast->redir))
+	if (g_ischild && !ft_redir_router(ast->redir))
 		exit(EXIT_FAILURE);
 	ft_putstr_fd(ast->cmd, 2);
 	ft_putstr_fd(": ", 2);
@@ -58,7 +60,10 @@ int		exec_error(t_ast *ast)
 		{
 			pid = fork();
 			if (!pid)
+			{
+				g_ischild = 1;
 				exec_error_put(ast);
+			}
 			else if (pid != -1)
 				wait(NULL);
 		}
