@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 05:17:44 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/02 06:10:45 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 03:46:47 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,6 @@ extern t_env *g_env;
 extern char *g_pwd;
 extern char *g_oldpwd;
 extern int	g_ischild;
-
-void	ft_putendl_child(char *s)
-{
-	if (g_ischild)
-		ft_putendl(s);
-}
-
-void	ft_putstr_fd_child(char *s, int fd)
-{
-	if (g_ischild)
-		ft_putstr_fd(s, fd);
-}
 
 int		builtin_cd_chdir_cdpath(char *path, int follow, t_ast *ast)
 {

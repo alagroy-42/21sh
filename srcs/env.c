@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:24:40 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/30 17:05:54 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 03:10:25 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,87 +115,3 @@ void	env_remove(t_env **env, char *name)
 	}
 }
 
-t_env	*env_get(t_env *env, char *name)
-{
-	while (env)
-	{
-		if (!ft_strcmp(env->name, name))
-			return (env);
-		env = env->next;
-	}
-	return (NULL);
-}
-
-int		env_size(t_env *env)
-{
-	int i;
-
-	i = 0;
-	while (env)
-	{
-		i++;
-		env = env->next;
-	}
-	return (i);
-}
-
-t_env	*env_import_string(t_env **env, char *str)
-{
-	int		i;
-	char	*name;
-	t_env	*tmp;
-
-	i = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	if (!str[i] || !(name = ft_strnew(i)))
-		return (NULL);
-	ft_strncpy(name, str, i);
-	tmp = env_set(env, name, str + i + 1);
-	ft_strdel(&name);
-	return (tmp);
-}
-
-void	env_import_envp(t_env **env, char **envp)
-{
-	int i;
-
-	i = 0;
-	while (envp[i])
-		env_import_string(env, envp[i++]);
-}
-
-char	**env_export_envp(t_env *env)
-{
-	char	**str;
-	int		i;
-
-	if (!(str = ft_2dstrnew((env_size(env)))))
-		return (NULL);
-	i = 0;
-	while (env)
-	{
-		if (!(str[i] = ft_strnew(ft_strlen(env->name) + ft_strlen(env->value) + 1)))
-		{
-			ft_2dstrdel(str);
-			return (NULL);
-		}
-		ft_strcpy(str[i], env->name);
-		str[i][ft_strlen(env->name)] = '=';
-		ft_strcpy(str[i] + ft_strlen(env->name) + 1, env->value);
-		env = env->next;
-		i++;
-	}
-	return (str);
-}
-
-void	env_putendl(t_env *env)
-{
-	while (env)
-	{
-		ft_putstr(env->name);
-		ft_putstr("=");
-		ft_putendl(env->value);
-		env = env->next;
-	}
-}

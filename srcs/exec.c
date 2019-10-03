@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/02 13:45:16 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/03 03:25:10 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,28 @@ void	ast_pipes_end(t_ast **ast)
 		*ast = (*ast)->pipe;
 }
 
+void	exec_error_put(t_ast *ast)
+{
+	if (!ast->error)
+		return ;
+	if (!ft_redir_router(ast->redir))
+		exit(EXIT_FAILURE);
+	ft_putstr_fd(ast->cmd, 2);
+	ft_putstr_fd(": ", 2);
+	if (ast->error == 1)
+		ft_putstr_fd("no such file or directory\n", 2);
+	else if (ast->error == 2)
+		ft_putstr_fd("permission denied\n", 2);
+	else if (ast->error == 3)
+		ft_putstr_fd("command not found\n", 2);
+	else
+		ft_putstr_fd("unknown error\n", 2);
+}
+
 int		exec_error(t_ast *ast)
 {
-
+	int pid;
+	
 	while (ast)
 	{
 		if (!ast->error)
@@ -64,16 +83,22 @@ int		exec_error(t_ast *ast)
 			ast = ast->pipe;
 			continue ;
 		}
-		ft_putstr_fd(ast->cmd, 2);
-		ft_putstr_fd(": ", 2);
-		if (ast->error == 1)
-			ft_putstr_fd("no such file or directory\n", 2);
-		else if (ast->error == 2)
-			ft_putstr_fd("permission denied\n", 2);
-		else if (ast->error == 3)
-			ft_putstr_fd("command not found\n", 2);
+		if (ast->pipe)
+		{
+			pid = fork();
+			if (!pid)
+			{
+				g_ischild = 1;
+				exec_error_put(ast);
+				exit(0);
+			}
+			else if (pid == -1)
+				ft_putstr_fd("fork error", 2);
+			else
+				wait(NULL);
+		}
 		else
-			ft_putstr_fd("unknown error\n", 2);
+			exec_error_put(ast);
 		return (1);
 	}
 	return (0);
@@ -97,11 +122,7 @@ void	exec_ast_single(t_ast *ast, char **envp)
 	pid = fork();
 	g_lastpid = pid;
 	if (!pid)
-	{
-		if (!ft_redir_router(ast->redir))
-			exit(EXIT_FAILURE);
 		exec_ast_child(ast, envp);
-	}
 	else if (pid == -1)
 		ft_putstr_fd("fork error", 2);
 	else

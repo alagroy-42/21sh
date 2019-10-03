@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:15:20 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/30 16:54:56 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 03:36:31 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 # include "ast.h"
 # include "env.h"
 
-void	ft_putendl_child(char *s);
-void	ft_putstr_fd_child(char *s, int fd);
+int		is_cmd_file(char *cmd);
 int		is_cmd_builtin(char *cmd);
 
 void	builtin_echo(t_ast *ast);
