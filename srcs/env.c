@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:24:40 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 03:10:25 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 03:51:58 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,3 @@ void	env_remove(t_env **env, char *name)
 		curr = curr->next;
 	}
 }
-

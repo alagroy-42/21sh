@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 20:18:49 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/30 17:02:23 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 03:53:44 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,10 @@ void	ast_set_path(t_ast *ast)
 		else
 			ast->path = ft_strdup(ast->cmd);
 	}
-	else
-	{
-		if (!(env_path = env_get(g_env, "PATH"))
-			|| !(path = ft_strsplit(env_path->value, ':'))
-			|| !ast_set_path_by_path(path, ast))
-			ast->error = 3;
-	}
+	else if (!(env_path = env_get(g_env, "PATH"))
+		|| !(path = ft_strsplit(env_path->value, ':'))
+		|| !ast_set_path_by_path(path, ast))
+		ast->error = 3;
 	if (path != NULL)
 		ft_2dstrdel(path);
 }

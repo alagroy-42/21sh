@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 15:12:24 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 03:22:03 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 04:02:15 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 
 extern int	g_ischild;
 extern int	g_lastpid;
+
+int			**g_fds;
+int			g_last_read_fd;
 
 int		ast_pipes_size(t_ast *ast)
 {
@@ -50,53 +53,61 @@ t_ast	*ast_get_index(t_ast *ast, int index)
 	return (NULL);
 }
 
+void	exec_ast_pipes_closefds(int size)
+{
+	int j;
+
+	j = -1;
+	while (++j < size)
+	{
+		close(g_fds[j][0]);
+		close(g_fds[j][1]);
+	}
+}
+
+void	exec_ast_pipes_fork(t_ast **ast, int i, char **envp, int size)
+{
+	int pid;
+
+	pid = fork();
+	g_lastpid = pid;
+	if (!pid)
+	{
+		g_ischild = 1;
+		dup2(g_last_read_fd, 0);
+		if (i != size - 1)
+			dup2(g_fds[i][1], 1);
+		exec_ast_pipes_closefds(size);
+		close(g_fds[i][0]);
+		exec_ast_child(ast_get_index(*ast, i), envp);
+		exit(1);
+	}
+	else if (pid != -1)
+	{
+		close(g_fds[i][1]);
+		if (g_last_read_fd)
+			close(g_last_read_fd);
+		g_last_read_fd = g_fds[i][0];
+	}
+}
 
 void	exec_ast_pipes(t_ast **ast, int size, char **envp)
 {
-	int **fds;
-	int pid;
-	int last_read_fd;
 	int i;
-	int j;
 
-	fds = malloc(sizeof(int*) * size);
+	g_fds = malloc(sizeof(int*) * size);
 	i = 0;
 	while (i < size)
 	{
-		fds[i] = malloc(sizeof(int) * 2);
-		pipe(fds[i]);
+		g_fds[i] = malloc(sizeof(int) * 2);
+		pipe(g_fds[i]);
 		i++;
 	}
-	last_read_fd = 0;
+	g_last_read_fd = 0;
 	i = 0;
 	while (i < size)
 	{
-		pid = fork();
-		g_lastpid = pid;
-		if (!pid)
-		{
-			g_ischild = 1;
-			dup2(last_read_fd, 0);
-			if (i != size - 1)
-				dup2(fds[i][1], 1);
-			j = 0;
-			while (j < size)
-			{
-				close(fds[j][0]);
-				close(fds[j][1]);
-				j++;
-			}
-			close(fds[i][0]);
-			exec_ast_child(ast_get_index(*ast, i), envp);
-			exit(1);
-		}
-		else
-		{
-			close(fds[i][1]);
-			if (last_read_fd)
-				close(last_read_fd);
-			last_read_fd = fds[i][0];
-		}
+		exec_ast_pipes_fork(ast, i, envp, size);
 		i++;
 	}
 	i = -1;
@@ -104,6 +115,6 @@ void	exec_ast_pipes(t_ast **ast, int size, char **envp)
 	while (wait(&(*ast)->status) != -1)
 		continue;
 	while (++i < size)
-		free(fds[i]);
-	free(fds);
+		free(g_fds[i]);
+	free(g_fds);
 }

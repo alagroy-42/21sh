@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/09/30 00:44:28 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 03:51:43 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	builtin_setenv(t_ast *ast)
 	int i;
 
 	if (ft_2dstrlen(ast->args) < 2)
-		return ft_putstr_fd("setenv: not enough arguments\n", 2);
+		return (ft_putstr_fd("setenv: not enough arguments\n", 2));
 	else
 	{
 		i = 1;
@@ -52,7 +52,7 @@ void	builtin_unsetenv(t_ast *ast)
 	int i;
 
 	if (ft_2dstrlen(ast->args) < 2)
-		return ft_putstr_fd("unsetenv: not enough arguments\n", 2);
+		return (ft_putstr_fd("unsetenv: not enough arguments\n", 2));
 	else
 	{
 		i = 1;
