@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 16:07:53 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/03 17:24:35 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int g_lastpipefd;
 
 void	exec_ast_child(t_ast *ast, char **envp)
 {
-	ft_redir_router(ast->redir);
+	if (!(ft_redir_router(ast->redir)))
+		exit(EXIT_SUCCESS);
 	if (!exec_error(ast))
 	{
 		if (!ast->path)

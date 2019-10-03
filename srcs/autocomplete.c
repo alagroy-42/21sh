@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 10:16:36 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/14 10:13:41 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/03 17:35:09 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static char	**find_in_env(char *cmplt)
 		tmp = find_in_path(split[i], cmplt);
 		cmplt_tab = ft_2dstrjoin(cmplt_tab, tmp);
 	}
+	ft_2dstrdel(split);
 	i = -1;
 	while (g_builtins[++i])
 	{
