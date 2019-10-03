@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 11:21:03 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 05:34:03 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 15:45:09 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ char	**ft_2dstrjoin_nodel(char **tab1, char **tab2)
 	i = -1;
 	j = -1;
 	while (tab1 && tab1[++i])
-		new_tab[++j] = tab1[i];
+		new_tab[++j] = ft_strdup(tab1[i]);
 	i = -1;
 	while (tab2 && tab2[++i])
-		new_tab[++j] = tab2[i];
+		new_tab[++j] = ft_strdup(tab2[i]);
 	new_tab[len] = NULL;
 	return (new_tab);
 }
