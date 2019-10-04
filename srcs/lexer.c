@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 09:53:09 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 16:39:59 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/04 14:46:51 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static t_list	*lex_error_handle(t_list *token_list)
 	{
 		if (((t_token *)tmp->content)->type == ERROR)
 		{
-			ft_printf("21sh: parse error near '%s'\n",
+			ft_dprintf(2, "21sh: parse error near '%s'\n",
 					((t_token *)tmp->content)->lexem);
 			ft_lstdel(&token_list, ft_del_token);
 			return (NULL);

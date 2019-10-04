@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 16:36:42 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 16:36:44 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/04 14:06:01 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ extern int	g_lastpid;
 
 int		is_special_param(char c)
 {
-	if (c == '?' || c == '!' || c == '$' || c == '#')
+	if (c == '?' || c == '!' || c == '$' || c == '#' || !c)
 		return (1);
 	else
 		return (0);
@@ -29,6 +29,8 @@ char	*special_param_replace(char *str, int *i)
 	int		len;
 
 	value = NULL;
+	if (str[*i + 1] == '\0')
+		return (str);
 	if (str[*i + 1] == '?')
 		value = ft_itoa(g_status);
 	else if (str[*i + 1] == '!')
