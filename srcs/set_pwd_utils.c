@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 06:19:15 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/04 10:06:57 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/04 10:18:29 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	**ft_2dstrjoin_path(char **tab1, char **tab2, int *k)
 		if (ft_strcmp(tab2[*k], "..") && ft_strcmp(tab2[*k], "."))
 			new_tab[j++] = ft_strdup(tab2[(*k)++]);
 		else
-			break;
+			break ;
 	}
 	new_tab[len] = NULL;
 	return (new_tab);

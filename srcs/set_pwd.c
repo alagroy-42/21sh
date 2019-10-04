@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 04:55:11 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/04 10:13:10 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/04 10:17:30 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	set_pwd_nofollow(char *path, char **pwd, char **pwd_tab, int i)
 		while (path_tab[j] && (!ft_strcmp(path_tab[j], "..")
 			|| !ft_strcmp(path_tab[j], ".")))
 			if (!ft_strcmp(path_tab[j++], ".."))
-				ft_strdel(&pwd_tab[i--]);
+				if (i > -1)
+					ft_strdel(&pwd_tab[i--]);
 		join_tab = ft_2dstrjoin_path(pwd_tab, path_tab, &j);
 		ft_2dstrdel(pwd_tab);
 		pwd_tab = join_tab;
