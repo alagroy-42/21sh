@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 17:24:35 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/04 15:21:59 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	exec(t_ast *ast)
 	while (ast)
 	{
 		expansions_handle(ast);
-		if (ast->cmd)
+		if (ast->cmd && ast->cmd[0])
 		{
 			if (!ast->pipe)
 			{
