@@ -6,7 +6,7 @@
 #    By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 15:29:46 by alagroy-          #+#    #+#              #
-#    Updated: 2019/10/03 05:34:50 by pcharrie         ###   ########.fr        #
+#    Updated: 2019/10/04 08:49:46 by pcharrie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = libft.a
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 
 SRCS = ft_strcat.c ft_strchr.c ft_strcmp.c ft_strcpy.c ft_strdup.c \
 	   ft_strlcat.c ft_strlen.c ft_strncmp.c ft_strncpy.c ft_strnstr.c \
