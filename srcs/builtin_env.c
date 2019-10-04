@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 00:44:31 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 03:44:39 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/04 13:58:04 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,21 +68,24 @@ void	builtin_env_exec_fork(t_ast *ast, t_env *env, int i)
 {
 	int			pid;
 	char		*path;
+	char		**envp;
 
 	path = builtin_env_getpath(ast->args[i]);
+	envp = env_export_envp(env);
 	if (!builtin_env_exec_error(ast, path, i))
 		return (ft_strdel(&path));
 	else
 	{
 		pid = fork();
 		if (!pid)
-			execve(path, ast->args + i, env_export_envp(env));
+			execve(path, ast->args + i, envp);
 		else if (pid != 1)
 			waitpid(pid, NULL, 0);
 		else
 			ft_putstr_fd("env: fork error\n", 2);
-		ft_strdel(&path);
 	}
+	ft_strdel(&path);
+	ft_2dstrdel(envp);
 }
 
 void	builtin_env_exec(t_ast *ast)
@@ -106,6 +109,7 @@ void	builtin_env_exec(t_ast *ast)
 	}
 	else
 		builtin_env_exec_fork(ast, env, i);
+	env_destroy(&env);
 }
 
 void	builtin_env(t_ast *ast)
