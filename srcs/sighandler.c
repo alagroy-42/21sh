@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:49:50 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/04 14:49:21 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/04 16:28:28 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	ft_quit(int code)
 	close(fd);
 	ft_strdel(&g_pwd);
 	ft_strdel(&g_oldpwd);
+	destroy_line(g_line);
 	env_destroy(&g_env);
 	exit(code);
 }

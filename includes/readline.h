@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/01 13:16:10 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/04 16:29:22 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,5 +167,7 @@ void					exec_file(int ac, char **av, t_line *line);
 void					core(t_line *line);
 void					load_21shrc(t_line *line);
 void					cmplt_end(t_line *line, char *cmlplt_word, char *path);
+void					ft_del_history(void *content, size_t content_size);
+void					destroy_line(t_line *line);
 
 #endif

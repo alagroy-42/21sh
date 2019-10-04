@@ -6,12 +6,29 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 18:16:55 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/11 22:07:31 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/04 16:34:57 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "lexer_parser.h"
+#include "readline.h"
+
+void		ft_del_history(void *content, size_t content_size)
+{
+	ft_strdel((char **)(&content));
+	content_size = 0;
+}
+
+void		destroy_line(t_line *line)
+{
+	ft_strdel(&line->line);
+	ft_strdel(&line->prompt);
+	ft_strdel(&line->history_file);
+	ft_lstdel(&line->history, ft_del_history);
+	free(line);
+	line = NULL;
+}
 
 void		ft_del_token(void *content, size_t content_size)
 {
