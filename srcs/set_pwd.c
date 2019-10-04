@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 04:55:11 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/04 10:12:32 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/04 10:13:10 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,6 @@ void	set_pwd(char *path, int follow, t_ast *ast, int cdpath)
 	}
 	else if (!follow)
 		set_pwd_nofollow(path, &pwd, NULL, 0);
-	ft_putstr("pwd : ");
-	ft_putendl(pwd);
 	if (chdir(pwd) < 0)
 		ft_putstr_fd("cd: error\n", 2);
 	else
