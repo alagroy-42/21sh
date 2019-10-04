@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 05:17:44 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 04:56:31 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/04 14:17:33 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	builtin_cd_chdir(char *path, int follow, t_ast *ast, int cdpath)
 		ft_putstr_fd("cd: not a directory\n", 2);
 	else if (access(path, X_OK) == -1)
 		ft_putstr_fd("cd: permission denied\n", 2);
-	else
+	else if (!g_ischild)
 		set_pwd(path, follow, ast, cdpath);
 }
 
