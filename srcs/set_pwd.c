@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 04:55:11 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/04 10:17:30 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/04 11:23:58 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,8 @@ void	set_pwd_nofollow_del(char **pwd, char **pwd_tab, char **path_tab, int j)
 	join_tab = ft_2dstrjoin_nodel(pwd_tab, &path_tab[j]);
 	ft_strdel(pwd);
 	*pwd = ft_2dstr_to_path(join_tab);
-	ft_2dstrdel(join_tab);
 	ft_2dstrdel(pwd_tab);
 	ft_2dstrdel(path_tab);
-	if (!ft_strlen(*pwd))
-	{
-		ft_strdel(pwd);
-		*pwd = ft_strdup("/");
-	}
 }
 
 void	set_pwd_nofollow(char *path, char **pwd, char **pwd_tab, int i)
@@ -83,6 +77,35 @@ void	set_pwd_chdir(char **pwd, char **oldpwd, int cdpath, int follow)
 	g_oldpwd = ft_strdup(*oldpwd);
 }
 
+void	set_pwd_follow(char **pwd)
+{
+	char	**pwd_tab;
+	int		i;
+	int		j;
+	int		pwd_tab_len;
+
+	pwd_tab = ft_strsplit(*pwd, '/');
+	pwd_tab_len = ft_2dstrlen(pwd_tab);
+	i = -1;
+	while (pwd_tab[++i])
+	{
+		if (!ft_strcmp(pwd_tab[i], ".."))
+		{
+			ft_strdel(&pwd_tab[i]);
+			j = i;
+			while (!pwd_tab[j] && j > 0)
+				j--;
+			if (pwd_tab[j])
+				ft_strdel(&pwd_tab[j]);
+		}
+		else if (!ft_strcmp(pwd_tab[i], "."))
+			ft_strdel(&pwd_tab[i]);
+	}
+	pwd_tab = ft_2dstrclean(pwd_tab, pwd_tab_len);
+	ft_strdel(pwd);
+	*pwd = ft_2dstr_to_path(pwd_tab);
+}
+
 void	set_pwd(char *path, int follow, t_ast *ast, int cdpath)
 {
 	char	*pwd;
@@ -94,9 +117,11 @@ void	set_pwd(char *path, int follow, t_ast *ast, int cdpath)
 	{
 		ft_strdel(&pwd);
 		pwd = ft_strdup(path);
+		set_pwd_follow(&pwd);
 	}
 	else if (!follow)
 		set_pwd_nofollow(path, &pwd, NULL, 0);
+	set_pwd_check_pwd(&pwd);
 	if (chdir(pwd) < 0)
 		ft_putstr_fd("cd: error\n", 2);
 	else

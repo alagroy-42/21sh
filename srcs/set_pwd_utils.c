@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 06:19:15 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/04 10:18:29 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/04 11:24:21 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*ft_2dstr_to_path(char **tab1)
 		i++;
 	}
 	str[j] = '\0';
+	ft_2dstrdel(tab1);
 	return (str);
 }
 
@@ -77,4 +78,41 @@ char	**ft_2dstrjoin_path(char **tab1, char **tab2, int *k)
 	}
 	new_tab[len] = NULL;
 	return (new_tab);
+}
+
+char	**ft_2dstrclean(char **tab1, int size)
+{
+	int		i;
+	int		j;
+	char	**new_tab;
+
+	i = 0;
+	j = 0;
+	while (i < size)
+		if (tab1[i++])
+			j++;
+	if (!(new_tab = ft_2dstrnew(j)))
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (i < size)
+	{
+		if (tab1[i])
+			new_tab[j++] = ft_strdup(tab1[i]);
+		i++;
+	}
+	i = 0;
+	while (i < size)
+		ft_strdel(&tab1[i++]);
+	free(tab1);
+	return (new_tab);
+}
+
+void	set_pwd_check_pwd(char **pwd)
+{
+	if (!ft_strlen(*pwd))
+	{
+		ft_strdel(pwd);
+		*pwd = ft_strdup("/");
+	}
 }

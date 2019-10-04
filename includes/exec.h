@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:15:20 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/04 09:53:37 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/04 11:24:26 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	builtin_cd_chdir(char *path, int follow, t_ast *ast, int cdpath);
 void	set_pwd(char *path, int follow, t_ast *ast, int cdpath);
 char	**ft_2dstrjoin_path(char **tab1, char **tab2, int *k);
 char	*ft_2dstr_to_path(char **tab1);
+char	**ft_2dstrclean(char **tab1, int size);
+void	set_pwd_check_pwd(char **pwd);
 
 void	exec(t_ast *ast);
 int		exec_builtin(t_ast *ast);
