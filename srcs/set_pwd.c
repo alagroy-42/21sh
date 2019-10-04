@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 04:55:11 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/04 11:23:58 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/05 01:49:02 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	set_pwd_chdir(char **pwd, char **oldpwd, int cdpath, int follow)
 	g_oldpwd = ft_strdup(*oldpwd);
 }
 
-void	set_pwd_follow(char **pwd)
+void	set_pwd_follow_path(char **pwd)
 {
 	char	**pwd_tab;
 	int		i;
@@ -116,8 +116,10 @@ void	set_pwd(char *path, int follow, t_ast *ast, int cdpath)
 	if (path[0] == '/' || follow)
 	{
 		ft_strdel(&pwd);
-		pwd = ft_strdup(path);
-		set_pwd_follow(&pwd);
+		pwd = (follow && path[0] != '/' ?
+			ft_strstrjoin(g_pwd, "/", path) : ft_strdup(path));
+		ft_putendl(pwd);
+		set_pwd_follow_path(&pwd);
 	}
 	else if (!follow)
 		set_pwd_nofollow(path, &pwd, NULL, 0);
