@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 04:50:18 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/05 07:05:32 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int		exec_builtin(t_ast *ast)
 		builtin_setenv(ast);
 	else if (!ft_strcmp(ast->cmd, "unsetenv"))
 		builtin_unsetenv(ast);
-	else if (g_ischild)
-		exit(ast->status);
 	else
 		return (0);
 	return (1);

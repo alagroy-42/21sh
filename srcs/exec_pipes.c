@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 15:12:24 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/05 06:47:53 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/05 07:08:13 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,12 @@ void	exec_ast_pipes_fork(t_ast **ast, int i, char **envp, int size)
 	g_lastpid = pid;
 	if (!pid)
 	{
-		g_ischild = 1;
 		dup2(g_last_read_fd, 0);
 		if (i != size - 1)
 			dup2(g_fds[i][1], 1);
 		exec_ast_pipes_closefds(size);
 		close(g_fds[i][0]);
 		exec_ast_child(ast_get_index(*ast, i), envp);
-		exit((*ast)->status);
 	}
 	else if (pid != -1)
 	{
