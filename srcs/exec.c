@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/04 18:10:40 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/05 06:48:05 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	exec_ast_child(t_ast *ast, char **envp)
 		else
 			execve(ast->path, ast->args, envp);
 	}
-	exit(1);
+	exit(ast->status);
 }
 
 void	exec_ast_single(t_ast *ast, char **envp)
