@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 18:16:55 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/04 16:34:57 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/08 14:24:12 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		destroy_line(t_line *line)
 
 void		ft_del_token(void *content, size_t content_size)
 {
-	free(((t_token *)content)->lexem);
+	ft_strdel(&((t_token *)content)->lexem);
 	((t_token *)content)->lexem = NULL;
 	free(content);
 	content = NULL;

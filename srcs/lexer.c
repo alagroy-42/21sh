@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 09:53:09 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/04 14:46:51 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/08 14:30:57 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static t_list	*merge_token(t_list *token_list)
 			lexem_free = ((t_token *)tmp->content)->lexem;
 			((t_token *)tmp->content)->lexem =
 				ft_strjoin(lexem_free, ((t_token *)tmp->next->content)->lexem);
+			ft_strdel(&lexem_free);
 			if (!((t_token *)tmp->content)->lexem)
 				return (NULL);
 			((t_token *)tmp->content)->type =
