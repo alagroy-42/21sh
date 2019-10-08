@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/04 16:29:22 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/08 15:56:56 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ typedef struct			s_line
 	int			last_arrow;
 	char		*history_file;
 	int			curr_fd;
+	int			line_bool;
 	t_visu		visu;
 	t_autocmplt	cmplt;
 }						t_line;

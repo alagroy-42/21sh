@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/16 16:11:46 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/24 17:43:14 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/08 15:57:54 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,6 @@ void		k_ctrlr(t_line *line)
 	signal_ctrlr();
 	ctrlr_loop(buf, tmp, line);
 	signal(SIGINT, ft_ctrlc);
-	g_ctrlr = 0;
+	if (line->line_bool)
+		g_ctrlr = 0;
 }

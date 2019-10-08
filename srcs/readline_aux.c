@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 16:27:56 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/01 19:24:14 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/08 15:53:39 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	readline_init(t_line *line, int status)
 	tputs(line->caps.cd, 2, ft_putc);
 	ft_strdel(&line->prompt);
 	line->prompt = ft_strdup(status == LINE ? "$> " : ">  ");
+	line->line_bool = status == LINE ? 1 : 0;
 	ft_putstr_fd(line->prompt, 2);
 }
 
