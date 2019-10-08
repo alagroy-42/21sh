@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 00:44:31 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/04 13:58:04 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/08 16:18:41 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	*builtin_env_getpath(char *cmd)
 		ft_strdel(&path);
 		i++;
 	}
+	ft_2dstrdel(paths);
 	return (NULL);
 }
 
@@ -47,7 +48,7 @@ int		builtin_env_exec_error(t_ast *ast, char *path, int i)
 {
 	struct stat	buf;
 
-	if (access(path, F_OK) == -1)
+	if (!path || access(path, F_OK) == -1)
 	{
 		ft_putstr_fd("env: ", 2);
 		ft_putstr_fd(ast->args[i], 2);
@@ -71,18 +72,22 @@ void	builtin_env_exec_fork(t_ast *ast, t_env *env, int i)
 	char		**envp;
 
 	path = builtin_env_getpath(ast->args[i]);
-	envp = env_export_envp(env);
 	if (!builtin_env_exec_error(ast, path, i))
 		return (ft_strdel(&path));
 	else
 	{
+		envp = env_export_envp(env);
 		pid = fork();
 		if (!pid)
+		{
 			execve(path, ast->args + i, envp);
+			exit(0);
+		}
 		else if (pid != 1)
 			waitpid(pid, NULL, 0);
 		else
 			ft_putstr_fd("env: fork error\n", 2);
+		ft_2dstrdel(envp);
 	}
 	ft_strdel(&path);
 	ft_2dstrdel(envp);
