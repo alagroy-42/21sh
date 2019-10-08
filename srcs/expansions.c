@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 15:32:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/08 12:54:47 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/08 17:46:27 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*env_var_replace(char *str)
 	int		bool;
 
 	i = -1;
-	while (str && str[++i])
+	while (str && i < (int)ft_strlen(str) && str[++i])
 		if (str[i] == '$' && (bool = 1))
 		{
 			if (is_special_param(str[i + 1]))
@@ -63,6 +63,7 @@ static char	*env_var_replace(char *str)
 				str = ft_delete_flags(str, i, len_var);
 				i--;
 			}
+			ft_printf("\nstr: %s\n", str);
 		}
 	return (str);
 }
@@ -129,5 +130,6 @@ void		expansions_handle(t_ast *ast)
 	}
 	if (ast->redir)
 		redir_expansions(ast->redir);
-	ast->cmd = ast->args[0];
+	if (ast->args && ast->args[0])
+		ast->cmd = ast->args[0];
 }
