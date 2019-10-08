@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 00:44:31 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/08 16:18:41 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/08 16:25:23 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,12 @@ char	*builtin_env_getpath(char *cmd)
 	while (paths[i])
 	{
 		if (!(path = ft_strstrjoin(paths[i], "/", cmd)))
-			return (NULL);
+			continue ;
 		if (access(path, F_OK | X_OK) != -1)
+		{
+			ft_2dstrdel(paths);
 			return (path);
+		}
 		ft_strdel(&path);
 		i++;
 	}
@@ -90,7 +93,6 @@ void	builtin_env_exec_fork(t_ast *ast, t_env *env, int i)
 		ft_2dstrdel(envp);
 	}
 	ft_strdel(&path);
-	ft_2dstrdel(envp);
 }
 
 void	builtin_env_exec(t_ast *ast)
