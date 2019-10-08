@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/01 14:49:22 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/08 16:44:59 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int			init_line(t_line *line)
 	t_env	*name_term;
 
 	if (!(name_term = env_get(g_env, "TERM")) || !ft_strlen(name_term->value))
-		tgetent(NULL, "dumb");
+		tgetent(NULL, "xterm-256color");
 	else
 		tgetent(NULL, name_term->value);
 	tcgetattr(0, &(line->old_term));

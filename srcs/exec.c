@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/08 16:39:29 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/08 16:47:12 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,9 @@ void	exec_ast_fork(t_ast **ast)
 
 void	exec_ast_next(t_ast **ast)
 {
+	t_ast	*tmp;
+
+	tmp = *ast;
 	if ((*ast)->sep)
 	{
 		if ((*ast)->sep->sep == semicol
@@ -81,6 +84,16 @@ void	exec_ast_next(t_ast **ast)
 			&& !(*ast)->error) || ((*ast)->sep->sep == or_if
 			&& (*ast)->status != 0))
 			*ast = (*ast)->sep->next;
+		else if ((*ast)->sep->sep == or_if && (*ast)->status == 0)
+		{
+			while (tmp)
+			{
+				if (tmp->sep && tmp->sep->sep == and_if)
+					break ;
+				tmp = tmp->sep ? tmp->sep->next : NULL;
+			}
+			*ast = tmp;
+		}
 		else
 			*ast = NULL;
 	}
