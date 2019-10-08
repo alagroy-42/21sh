@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/08 12:54:31 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/08 16:39:29 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	exec_ast_single(t_ast *ast, char **envp)
 	if (!pid)
 		exec_ast_child(ast, envp);
 	else if (pid == -1)
-		ft_putstr_fd("fork error", 2);
+		ft_putstr_fd("21sh: fork error", 2);
 	else
 	{
 		waitpid(pid, &ast->status, 0);

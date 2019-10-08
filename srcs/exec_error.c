@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 04:10:37 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 14:17:33 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/08 16:36:50 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int		exec_error(t_ast *ast)
 {
 	if (!ast->error || (ast->error < 1 || ast->error > 3))
 		return (0);
+	ft_putstr_fd("21sh: ", 2);
 	ft_putstr_fd(ast->cmd, 2);
 	ft_putstr_fd(": ", 2);
 	if (ast->error == 1)

@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 00:44:31 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/08 16:25:23 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/08 16:37:12 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ int		builtin_env_exec_error(t_ast *ast, char *path, int i)
 
 	if (!path || access(path, F_OK) == -1)
 	{
-		ft_putstr_fd("env: ", 2);
+		ft_putstr_fd("21sh: env: ", 2);
 		ft_putstr_fd(ast->args[i], 2);
 		ft_putstr_fd(": no such file or directory\n", 2);
 		return (0);
 	}
 	if (access(path, X_OK) == -1 || stat(path, &buf) || S_ISDIR(buf.st_mode))
 	{
-		ft_putstr_fd("env: ", 2);
+		ft_putstr_fd("21sh: env: ", 2);
 		ft_putstr_fd(ast->args[i], 2);
 		ft_putstr_fd(": permission denied\n", 2);
 		return (0);
@@ -89,7 +89,7 @@ void	builtin_env_exec_fork(t_ast *ast, t_env *env, int i)
 		else if (pid != 1)
 			waitpid(pid, NULL, 0);
 		else
-			ft_putstr_fd("env: fork error\n", 2);
+			ft_putstr_fd("21sh: env: fork error\n", 2);
 		ft_2dstrdel(envp);
 	}
 	ft_strdel(&path);
@@ -137,7 +137,7 @@ void	builtin_env(t_ast *ast)
 	else if (ft_2dstrlen(ast->args) >= 2)
 	{
 		if (ast->args[1][0] == '-' && ft_strcmp(ast->args[1], "-i"))
-			ft_putstr_fd("env: illegal option -- ", 2);
+			ft_putstr_fd("21sh: env: illegal option -- ", 2);
 		else if (ast->args[1][0] == '-' && ft_2dstrlen(ast->args) >= 3)
 			builtin_env_exec(ast);
 	}
