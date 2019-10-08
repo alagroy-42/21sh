@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 15:32:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/03 18:52:01 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/08 12:54:47 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,4 +129,5 @@ void		expansions_handle(t_ast *ast)
 	}
 	if (ast->redir)
 		redir_expansions(ast->redir);
+	ast->cmd = ast->args[0];
 }
