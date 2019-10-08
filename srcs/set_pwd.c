@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 04:55:11 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/05 06:42:02 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/08 14:18:30 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,22 +110,22 @@ void	set_pwd(char *path, int follow, t_ast *ast, int cdpath)
 {
 	char	*pwd;
 	char	*oldpwd;
+	char	buff[8192];
 
 	pwd = ft_strdup(g_pwd);
 	oldpwd = ft_strdup(g_pwd);
 	if (path[0] == '/' || follow)
 	{
 		ft_strdel(&pwd);
+		getcwd(buff, 8192);
 		pwd = (follow && path[0] != '/' ?
-			ft_strstrjoin(g_pwd, "/", path) : ft_strdup(path));
+			ft_strstrjoin(buff, "/", path) : ft_strdup(path));
 		set_pwd_follow_path(&pwd);
 	}
 	else if (!follow)
 		set_pwd_nofollow(path, &pwd, NULL, 0);
 	set_pwd_check_pwd(&pwd);
-	if (chdir(pwd) < 0)
-		ft_putstr_fd("cd: error\n", 2);
-	else
+	if (chdir(pwd) != -1)
 	{
 		ast->status = 0;
 		set_pwd_chdir(&pwd, &oldpwd, cdpath, follow);
