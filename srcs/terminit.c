@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/08 17:38:47 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/08 18:19:40 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int			init_line(t_line *line)
 	line->term.c_cc[VTIME] = 0;
 	if (isatty(STDIN_FILENO) && tcsetattr(0, TCSANOW, &line->term) == -1)
 		return (-1);
-	ft_resize(SIGWINCH);
+	ft_resize(0);
 	line->history = NULL;
 	line->prompt = NULL;
 	line->line = NULL;
