@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 02:40:24 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 03:10:45 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/08 14:22:39 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_env	*env_import_string(t_env **env, char *str)
 	if (!str[i] || !(name = ft_strnew(i)))
 		return (NULL);
 	ft_strncpy(name, str, i);
-	tmp = env_set(env, name, str + i + 1);
+	tmp = (ft_strlen(name) ? env_set(env, name, str + i + 1) : NULL);
 	ft_strdel(&name);
 	return (tmp);
 }
