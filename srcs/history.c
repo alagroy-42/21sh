@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 15:10:02 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/25 17:57:18 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/09 14:51:52 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ void		k_up(t_line *line)
 		return (tgetputstr("bl"));
 	while (++i < line->history_index)
 		tmp = tmp->next;
-	while (line->index)
-		k_left(line);
+	tputs(tgoto(line->caps.cm, line->pos_beg.col, line->pos_beg.row), 2,
+			ft_putc);
+	line->index = 0;
 	tputs(line->caps.cr, 2, ft_putc);
 	tputs(line->caps.cd, 2, ft_putc);
 	tputs(line->prompt, 2, ft_putc);
@@ -88,8 +89,9 @@ void		k_down(t_line *line)
 		return (tgetputstr("bl"));
 	while (++i < line->history_index - 1)
 		tmp = tmp->next;
-	while (line->index)
-		k_left(line);
+	tputs(tgoto(line->caps.cm, line->pos_beg.col, line->pos_beg.row), 2,
+		ft_putc);
+	line->index = 0;
 	tputs(line->caps.cr, 2, ft_putc);
 	tputs(line->caps.cd, 2, ft_putc);
 	tputs(line->prompt, 2, ft_putc);
