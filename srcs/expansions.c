@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 15:32:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/08 17:46:27 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/09 15:02:11 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ static char	*env_var_replace(char *str)
 				str = ft_delete_flags(str, i, len_var);
 				i--;
 			}
-			ft_printf("\nstr: %s\n", str);
 		}
 	return (str);
 }

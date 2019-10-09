@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 14:14:32 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/03 05:34:21 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/03 05:34:11 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,11 @@ char			**ft_expend_2dstr(char **tab, char *str);
 int				ft_2dstrlen(char **tab);
 char			**ft_2dstrjoin(char **tab1, char **tab2);
 char			**ft_2dstrjoin_nodel(char **tab1, char **tab2);
+void			ft_2dstrdel(char **tab);
 int				ft_strichr(char *s, char c);
 int				ft_strirchr(char *s, char c);
 int				gnl_nl(int fd, char **line);
+char			**ft_2dstrnew(int size);
 void			ft_2dstrdel(char **tab);
 
 #endif

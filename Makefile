@@ -6,7 +6,7 @@
 #    By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/13 09:44:51 by alagroy-          #+#    #+#              #
-#    Updated: 2019/10/03 06:23:14 by pcharrie         ###   ########.fr        #
+#    Updated: 2019/10/09 15:03:35 by alagroy-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,11 +26,11 @@ SRCS_NAME = altkey.c ast_generate.c ast_set.c ast_tools.c builtin.c \
 
 SRCS = $(addprefix srcs/, $(SRCS_NAME))
 
-CFLAGS = -Wall -Werror -Wextra -g -I $(INCLUDES)
+CFLAGS = -Wall -Werror -Wextra -g $(INCLUDES)
 
-DFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address,undefined -I $(INCLUDES)
+DFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address,undefined $(INCLUDES)
 
-INCLUDES = includes
+INCLUDES = -I includes/ -I libft/
 
 OBJ_FILE = $(SRCS_NAME:.c=.o)
 
