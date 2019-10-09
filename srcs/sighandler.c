@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:49:50 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/08 18:20:40 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/09 11:48:01 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,19 +84,17 @@ void	ft_ctrlc(int sig)
 void	ft_resize(int sig)
 {
 	t_ws	ws;
-	int		up;
 
-	ioctl(0, TIOCGWINSZ, &ws);
-	g_line->nb_col = ws.ws_col;
-	g_line->nb_line = ws.ws_row;
 	if (sig == SIGWINCH)
 	{
-		up = (g_line->index + 3) / (g_line->nb_col ? g_line->nb_col : 1);
-		while (up--)
-			tgetputstr("up");
+		tputs(tgoto(g_line->caps.cm, g_line->pos_beg.col, g_line->pos.row),
+				2, ft_putc);
 		tgetputstr("cr");
 		tgetputstr("cd");
 		ft_dprintf(2, "%s%s", g_line->prompt, g_line->line);
 		left(g_line, ft_strlen(g_line->line) - g_line->index);
 	}
+	ioctl(0, TIOCGWINSZ, &ws);
+	g_line->nb_col = ws.ws_col;
+	g_line->nb_line = ws.ws_row;
 }

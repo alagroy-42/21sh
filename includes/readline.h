@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 10:48:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/08 15:56:56 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/09 11:47:11 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct			s_line
 	t_termios	old_term;
 	t_cap		caps;
 	t_pos		pos;
+	t_pos		pos_beg;
 	t_list		*history;
 	int			nb_col;
 	int			nb_line;
