@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/10 15:49:25 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/14 16:31:16 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,10 @@ void	exec_ast_next(t_ast **ast)
 			while (tmp)
 			{
 				if (tmp->sep && tmp->sep->sep == and_if)
+				{
+					tmp = tmp->sep->next;
 					break ;
+				}
 				tmp = tmp->sep ? tmp->sep->next : NULL;
 			}
 			*ast = tmp;
