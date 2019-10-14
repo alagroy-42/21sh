@@ -3,40 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alagroy- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/08 18:13:50 by alagroy-          #+#    #+#             */
-/*   Updated: 2018/12/15 17:22:49 by alagroy-         ###   ########.fr       */
+/*   Created: 2018/11/08 22:02:03 by pcharrie          #+#    #+#             */
+/*   Updated: 2019/10/09 17:45:45 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
 
-char	*ft_itoa(int n)
+static int	ft_itolen(int n)
 {
-	int		tmp;
-	int		nb_digit;
-	int		neg;
-	char	*rtrn;
+	int			i;
+	long int	nb;
 
-	nb_digit = 1;
-	tmp = n;
-	neg = (n < 0) ? 1 : 0;
-	while (tmp / 10 != 0)
+	nb = n;
+	i = 0;
+	if (nb < 0)
 	{
-		tmp /= 10;
-		nb_digit++;
+		i++;
+		nb = nb * -1;
 	}
-	if (!(rtrn = (char *)malloc((nb_digit + neg + 1) * sizeof(char))))
+	if (nb == 0)
+		i++;
+	while (nb > 0)
+	{
+		i++;
+		nb = nb / 10;
+	}
+	return (i);
+}
+
+char		*ft_itoa(int n)
+{
+	char	*str;
+	int		i;
+	int		signe;
+
+	i = ft_itolen(n);
+	if (!(str = (char *)malloc(sizeof(*str) * (i + 1))))
 		return (NULL);
-	rtrn[nb_digit + neg] = '\0';
-	nb_digit += neg;
-	n = neg ? -n : n;
-	while (--nb_digit >= neg)
+	str[i] = '\0';
+	i--;
+	signe = 1;
+	if (n < 0)
 	{
-		rtrn[nb_digit] = n % 10 + 48;
-		n /= 10;
+		str[0] = '-';
+		signe = -1;
 	}
-	neg ? rtrn[0] = '-' : 0;
-	return ((rtrn[1] == '.') ? ft_strsub("-2147483648", 0, 11) : rtrn);
+	if (n == 0)
+		str[0] = '0';
+	while (n != 0)
+	{
+		str[i] = (n % 10) * signe + 48;
+		n = n / 10;
+		i--;
+	}
+	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 04:55:11 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/08 14:18:30 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/09 18:34:54 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	set_pwd_nofollow(char *path, char **pwd, char **pwd_tab, int i)
 	path_tab = ft_strsplit(path, '/');
 	i = ft_2dstrlen(pwd_tab) - 1;
 	j = 0;
-	while (path_tab[j])
+	while (path_tab && path_tab[j])
 	{
 		while (path_tab[j] && (!ft_strcmp(path_tab[j], "..")
 			|| !ft_strcmp(path_tab[j], ".")))
@@ -87,7 +87,7 @@ void	set_pwd_follow_path(char **pwd)
 	pwd_tab = ft_strsplit(*pwd, '/');
 	pwd_tab_len = ft_2dstrlen(pwd_tab);
 	i = -1;
-	while (pwd_tab[++i])
+	while (pwd_tab && pwd_tab[++i])
 	{
 		if (!ft_strcmp(pwd_tab[i], ".."))
 		{
@@ -112,8 +112,9 @@ void	set_pwd(char *path, int follow, t_ast *ast, int cdpath)
 	char	*oldpwd;
 	char	buff[8192];
 
-	pwd = ft_strdup(g_pwd);
-	oldpwd = ft_strdup(g_pwd);
+	if (!(pwd = ft_strdup(g_pwd))
+		|| !(oldpwd = ft_strdup(g_pwd)))
+		return (ft_strdel(&pwd));
 	if (path[0] == '/' || follow)
 	{
 		ft_strdel(&pwd);

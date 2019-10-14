@@ -1,30 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_2dstrdel.c                                      :+:      :+:    :+:   */
+/*   exec_gfds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/28 19:34:56 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/09 15:48:17 by pcharrie         ###   ########.fr       */
+/*   Created: 2019/10/09 15:40:36 by pcharrie          #+#    #+#             */
+/*   Updated: 2019/10/09 15:45:24 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
+#include <stdlib.h>
 
-char	**ft_2dstrdel(char **tab)
+extern int	**g_fds;
+
+void	exec_gfds_free(int size)
 {
 	int i;
 
-	if (tab)
+	i = 0;
+	while (i < size)
+		free(g_fds[i++]);
+	free(g_fds);
+}
+
+int		exec_gfds_malloc(int size)
+{
+	int i;
+
+	if (!(g_fds = malloc(sizeof(int*) * size)))
+		return (0);
+	i = 0;
+	while (i < size)
 	{
-		i = 0;
-		while (tab[i])
+		if (!(g_fds[i] = malloc(sizeof(int) * 2)))
 		{
-			free(tab[i]);
-			i++;
+			exec_gfds_free(i);
+			return (0);
 		}
-		free(tab);
+		pipe(g_fds[i]);
+		i++;
 	}
-	return (NULL);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:23:14 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/25 13:11:50 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/10 15:28:10 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void				make_ast(t_ast *ast, t_list *tmp);
 void				display_ast(t_ast *ast);
 void				expansions_handle(t_ast *ast);
 void				ast_set(t_ast *ast);
+void				ast_set_file_errors(t_ast *ast);
 char				*special_param_replace(char *str, int *i);
 int					is_special_param(char c);
 void				ft_ast_del(t_ast **ast);

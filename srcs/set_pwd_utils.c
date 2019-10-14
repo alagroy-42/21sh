@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 06:19:15 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/04 11:24:21 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/09 18:27:18 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ char	*ft_2dstr_to_path(char **tab1)
 
 	i = 0;
 	total_len = 0;
-	while (tab1[i])
+	while (tab1 && tab1[i])
 		total_len += ft_strlen(tab1[i++]);
 	if (!(str = ft_strnew(total_len + ft_2dstrlen(tab1))))
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (tab1[i])
+	while (tab1 && tab1[i])
 	{
 		k = 0;
 		str[j++] = '/';
@@ -68,11 +68,13 @@ char	**ft_2dstrjoin_path(char **tab1, char **tab2, int *k)
 	i = 0;
 	j = 0;
 	while (tab1 && tab1[i])
-		new_tab[j++] = ft_strdup(tab1[i++]);
+		if (!(new_tab[j++] = ft_strdup(tab1[i++])))
+			return (ft_2dstrdel(new_tab));
 	while (tab2 && *k < ft_2dstrlen(tab2) && tab2[*k])
 	{
-		if (ft_strcmp(tab2[*k], "..") && ft_strcmp(tab2[*k], "."))
-			new_tab[j++] = ft_strdup(tab2[(*k)++]);
+		if ((ft_strcmp(tab2[*k], "..") && ft_strcmp(tab2[*k], "."))
+			&& !(new_tab[j++] = ft_strdup(tab2[(*k)++])))
+			return (ft_2dstrdel(new_tab));
 		else
 			break ;
 	}
@@ -98,7 +100,8 @@ char	**ft_2dstrclean(char **tab1, int size)
 	while (i < size)
 	{
 		if (tab1[i])
-			new_tab[j++] = ft_strdup(tab1[i]);
+			if (!(new_tab[j++] = ft_strdup(tab1[i])))
+				return (ft_2dstrdel(new_tab));
 		i++;
 	}
 	i = 0;

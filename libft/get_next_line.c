@@ -6,14 +6,15 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 11:12:14 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/01 14:46:39 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/09 17:38:31 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_end(char *read)
+int		ft_end(char *read, char *tmp)
 {
+	free(tmp);
 	free(read);
 	return (0);
 }
@@ -61,11 +62,11 @@ int		ft_line(const int fd, char **line, char **stock_buf)
 	if (!read)
 		return (-1);
 	if (read[0] == '\0' && ret == 0)
-		return (ft_end(read));
+		return (ft_end(read, *stock_buf));
 	nl_ptr = ft_strchr(read, '\n');
 	*line = nl_ptr ? ft_strsub(read, 0, nl_ptr - read) : ft_strdup(read);
 	tmp = *stock_buf;
-	*stock_buf = nl_ptr ? ft_strdup(nl_ptr + 1) : NULL;
+	*stock_buf = (nl_ptr && nl_ptr[1] ? ft_strdup(nl_ptr + 1) : NULL);
 	free(tmp);
 	free(read);
 	if (!*line || !stock_buf)

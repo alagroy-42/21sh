@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 05:17:44 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/08 16:37:34 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/09 18:36:20 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		builtin_cd_options(t_ast *ast, int i, int j, int follow)
 		|| !ft_strcmp(ast->args[1], "-LP")))
 	{
 		if (!(tab = malloc(sizeof(char**) * (ft_2dstrlen(ast->args)))))
-			return (0);
+			return (-1);
 		while (i < ft_2dstrlen(ast->args))
 		{
 			if (i == 1)
@@ -83,7 +83,8 @@ int		builtin_cd_options(t_ast *ast, int i, int j, int follow)
 				i++;
 				continue;
 			}
-			tab[j++] = ft_strdup(ast->args[i++]);
+			if (!(tab[j++] = ft_strdup(ast->args[i++])))
+				return (ft_2dstrdel(tab) ? -1 : -1);
 		}
 		tab[j] = NULL;
 		if (!ft_strcmp(ast->args[1], "-P") || !ft_strcmp(ast->args[1], "-LP"))
@@ -122,7 +123,8 @@ void	builtin_cd(t_ast *ast)
 	int follow;
 
 	ast->status = -1;
-	follow = builtin_cd_options(ast, 0, 0, 0);
+	if ((follow = builtin_cd_options(ast, 0, 0, 0)) < 0)
+		return ;
 	if (ft_2dstrlen(ast->args) == 1)
 	{
 		if (env_get(g_env, "HOME"))

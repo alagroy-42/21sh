@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/09 11:57:19 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/01/10 20:00:03 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/09 16:07:02 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ t_flags	ft_min_size(t_flags rtrn)
 	char	*tmp;
 	int		size;
 
-	size = rtrn.min_size - ft_strlen(rtrn.content);
+	size = rtrn.content ? rtrn.min_size - ft_strlen(rtrn.content)
+		: rtrn.min_size;
 	i = -1;
 	if (size < 0)
 		return (rtrn);

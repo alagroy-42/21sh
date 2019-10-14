@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:15:20 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/04 11:24:26 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/09 15:44:10 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	exec(t_ast *ast);
 int		exec_builtin(t_ast *ast);
 void	exec_ast_pipes(t_ast **ast, int size, char **envp);
 int		exec_error(t_ast *ast);
+void	exec_gfds_free(int size);
+int		exec_gfds_malloc(int size);
 t_ast	*ast_get_index(t_ast *ast, int index);
 void	ast_pipes_end(t_ast **ast);
 void	exec_ast_child(t_ast *ast, char **envp);

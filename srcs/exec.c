@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/08 16:47:12 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/10 15:49:25 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ extern t_env	*g_env;
 int				g_status = 0;
 int				g_lastpid = 42424242;
 int				g_ischild = 0;
+extern char		*g_pwd;
+extern char		*g_oldpwd;
 
 int g_pipefds[2];
 int g_lastpipefd;
@@ -34,6 +36,12 @@ void	exec_ast_child(t_ast *ast, char **envp)
 		exit(EXIT_FAILURE);
 	if (!exec_error(ast) && !exec_builtin(ast))
 		execve(ast->path, ast->args, envp);
+	else
+	{
+		env_destroy(&g_env);
+		ft_strdel(&g_pwd);
+		ft_strdel(&g_oldpwd);
+	}
 	exit(ast->status);
 }
 
@@ -103,6 +111,7 @@ void	exec_ast_next(t_ast **ast)
 
 void	exec(t_ast *ast)
 {
+	expansions_handle(ast);
 	ast_set(ast);
 	while (ast)
 	{

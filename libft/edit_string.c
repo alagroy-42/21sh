@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 20:22:32 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/16 09:35:18 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/09 16:38:40 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_insert_str(char *s, char *insert, int index)
 {
 	char	*rtrn;
 
+	if (!s || !insert)
+		return (NULL);
 	if (index > (int)ft_strlen(s))
 		return (NULL);
 	if (!(rtrn = (char *)malloc((ft_strlen(s) + ft_strlen(insert) + 1))))

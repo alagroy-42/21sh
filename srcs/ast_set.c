@@ -6,11 +6,10 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 20:18:49 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/03 03:53:44 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/10 15:29:13 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/stat.h>
 #include "ast.h"
 #include "env.h"
 
@@ -66,7 +65,6 @@ int		ast_set_path_by_path(char **path, t_ast *ast)
 void	ast_set_path(t_ast *ast)
 {
 	t_env		*env_path;
-	struct stat	buf;
 	char		**path;
 
 	ast->error = 0;
@@ -75,15 +73,7 @@ void	ast_set_path(t_ast *ast)
 	if (is_cmd_builtin(ast->cmd))
 		ast->path = NULL;
 	else if (is_cmd_file(ast->cmd))
-	{
-		if (access(ast->cmd, F_OK) == -1)
-			ast->error = 1;
-		else if (access(ast->cmd, X_OK) == -1 || stat(ast->cmd, &buf)
-			|| S_ISDIR(buf.st_mode))
-			ast->error = 2;
-		else
-			ast->path = ft_strdup(ast->cmd);
-	}
+		ast_set_file_errors(ast);
 	else if (!(env_path = env_get(g_env, "PATH"))
 		|| !(path = ft_strsplit(env_path->value, ':'))
 		|| !ast_set_path_by_path(path, ast))

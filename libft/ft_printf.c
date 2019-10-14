@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/11 18:13:18 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/02/13 18:04:57 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/09 16:08:10 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ char	*ft_fill_format(char *copy, char *flags, va_list ap, int *index_flags)
 	index = flags - copy;
 	current = ft_init_flags();
 	current = ft_fill_struct(flags, ap);
-	*index_flags += ft_strlen(current.content) - 1;
+	if (current.content)
+		*index_flags += ft_strlen(current.content) - 1;
 	current = ft_find_nb_char(current);
 	rtrn = ft_delete_flags(copy, index, current.nb_char);
 	rtrn = ft_insert_str(rtrn, current.content, index);

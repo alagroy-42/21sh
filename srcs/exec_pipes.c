@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 15:12:24 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/05 07:08:13 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/09 15:46:02 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 extern int	g_ischild;
 extern int	g_lastpid;
 
-int			**g_fds;
+extern int	**g_fds;
 int			g_last_read_fd;
 
 int		ast_pipes_size(t_ast *ast)
@@ -93,14 +93,8 @@ void	exec_ast_pipes(t_ast **ast, int size, char **envp)
 {
 	int i;
 
-	g_fds = malloc(sizeof(int*) * size);
-	i = 0;
-	while (i < size)
-	{
-		g_fds[i] = malloc(sizeof(int) * 2);
-		pipe(g_fds[i]);
-		i++;
-	}
+	if (!(exec_gfds_malloc(size)))
+		return ;
 	g_last_read_fd = 0;
 	i = 0;
 	while (i < size)
@@ -113,7 +107,5 @@ void	exec_ast_pipes(t_ast **ast, int size, char **envp)
 	while (wait(&(*ast)->status) != -1)
 		continue;
 	exec_ast_pipes_closefds(size);
-	while (++i < size)
-		free(g_fds[i]);
-	free(g_fds);
+	exec_gfds_free(size);
 }

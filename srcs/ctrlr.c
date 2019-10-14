@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/16 16:11:46 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/08 15:57:54 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/09 16:46:05 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	disp_result(t_line *line, char *tmp, int status)
 		ft_dprintf(2, "(reverse-i-search)'%s': %s", line->line, tmp);
 		left(line, ft_strlen(tmp) + ft_strlen(line->line) + 3);
 	}
-	else
+	else if (tmp)
 	{
 		ft_strdel(&line->line);
 		line->line = ft_strdup(tmp);

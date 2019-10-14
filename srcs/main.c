@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/01 15:39:20 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/09 18:44:47 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_env		*g_env = NULL;
 char		*g_pwd;
 char		*g_oldpwd;
 extern int	g_ctrlr;
+int			**g_fds;
 
 void	core(t_line *line)
 {
@@ -42,15 +43,19 @@ void	core(t_line *line)
 	ft_ast_del(&ast);
 }
 
-void	env_init(char **envp)
+int		env_init(char **envp)
 {
 	char	pwd[8192];
 	char	*str;
 
 	env_import_envp(&g_env, envp);
 	getcwd(pwd, 8192);
-	g_pwd = ft_strdup(pwd);
-	g_oldpwd = ft_strdup(pwd);
+	if (!(g_pwd = ft_strdup(pwd))
+		|| !(g_oldpwd = ft_strdup(pwd)))
+	{
+		ft_strdel(&g_pwd);
+		return (0);
+	}
 	env_set(&g_env, "PWD", pwd);
 	if (env_get(g_env, "SHLVL")
 		&& (str = ft_itoa(ft_atoi(env_get(g_env, "SHLVL")->value) + 1)))
@@ -60,14 +65,14 @@ void	env_init(char **envp)
 	}
 	else
 		env_set(&g_env, "SHLVL", "1");
+	return (1);
 }
 
 int		main(int ac, char **av, char **envp)
 {
 	t_line	*line;
 
-	env_init(envp);
-	if (!(line = (t_line *)malloc(sizeof(t_line))))
+	if (!(env_init(envp)) || !(line = (t_line *)malloc(sizeof(t_line))))
 		return (-1);
 	g_line = line;
 	signal_init();
