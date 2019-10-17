@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 18:42:55 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/09/09 17:44:20 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/17 17:35:04 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 
 void		k_ctrld(t_line *line)
 {
+	if (line->line[0] && line->index != (int)ft_strlen(line->line))
+	{
+		k_right(line);
+		k_backspace(line);
+		return ;
+	}
 	if (line->line[0])
 		return (tgetputstr("bl"));
 	ft_strdel(&line->line);

@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:49:50 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/09 17:26:15 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/17 17:28:48 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ft_ctrlc(int sig)
 		ft_putchar('\n');
 		if (!g_filemode && g_line->prompt && !ft_strcmp(g_line->prompt, ">  "))
 			return (ft_strdel(&g_line->line));
-		if (g_line->line && sig == SIGINT)
+		if (g_line->line)
 		{
 			free(g_line->line);
 			g_line->line = ft_strnew(0);
@@ -75,6 +75,8 @@ void	ft_ctrlc(int sig)
 			g_tbl = g_normal_tbl;
 			tgetputstr("cr");
 			tgetputstr("cd");
+			g_status = 128 + sig;
+			get_cursor_position(&g_line->pos_beg.col, &g_line->pos_beg.row);
 			g_line->history_index = 0;
 			ft_putstr_fd(g_line->prompt, 2);
 		}

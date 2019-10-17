@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 15:32:33 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/09 15:02:11 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/17 18:28:19 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	*env_var_replace(char *str)
 			while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
 				j++;
 			len_var = j - i;
-			if ((str = dollar_handle(str, &i, j, &bool)) && bool)
+			if (len_var > 1 && (str = dollar_handle(str, &i, j, &bool)) && bool)
 			{
 				str = ft_delete_flags(str, i, len_var);
 				i--;
@@ -77,7 +77,7 @@ static char	*tilde_replace(char *str)
 	if (!env || !str)
 		return (str);
 	while (str[++i])
-		if (str[i] == '~')
+		if (str[i] == '~' && i == 0 && (!str[i + 1] || str[i + 1] == '/'))
 		{
 			str = ft_delete_flags(str, i, 1);
 			str = ft_insert_str(str, ft_strdup(env->value), i);
@@ -122,10 +122,10 @@ void		expansions_handle(t_ast *ast)
 	i = -1;
 	while (ast->args && ast->args[++i])
 	{
-		if (ft_strchr(ast->args[i], '~'))
-			ast->args[i] = tilde_replace(ast->args[i]);
 		if (ft_strchr(ast->args[i], '$'))
 			ast->args[i] = env_var_replace(ast->args[i]);
+		if (ft_strchr(ast->args[i], '~'))
+			ast->args[i] = tilde_replace(ast->args[i]);
 	}
 	if (ast->redir)
 		redir_expansions(ast->redir);
