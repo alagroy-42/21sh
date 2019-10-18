@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 09:51:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/09 18:44:47 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/18 12:52:38 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ int		main(int ac, char **av, char **envp)
 	if (!(env_init(envp)) || !(line = (t_line *)malloc(sizeof(t_line))))
 		return (-1);
 	g_line = line;
-	signal_init();
 	if (init_line(line))
 		return (-1);
+	signal_init();
 	if (ac > 1)
 		exec_file(ac, av, line);
 	while (readline(line, LINE) == 1)
