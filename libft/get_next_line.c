@@ -5,94 +5,120 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/23 11:12:14 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/09 17:38:31 by alagroy-         ###   ########.fr       */
+/*   Created: 2018/11/13 18:01:23 by pcharrie          #+#    #+#             */
+/*   Updated: 2019/10/18 19:51:36 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+#include <stdlib.h>
 #include "libft.h"
 
-int		ft_end(char *read, char *tmp)
+static void		reset_fd_lst_buff(t_gnllist *fd_lst)
 {
-	free(tmp);
-	free(read);
-	return (0);
+	long long i;
+
+	i = 0;
+	while (i < BUFF_SIZE)
+		fd_lst->buff[i++] = '\0';
+	fd_lst->i = 0;
 }
 
-char	*ft_read(const int fd, int *ret)
+static t_gnllist	*get_fd_lst(int fd)
 {
-	char	buf[BUFF_SIZE + 1];
-	char	*join;
-	char	*tmp;
+	static t_gnllist	*lst = NULL;
+	t_gnllist			*fd_lst;
 
-	if (!(join = ft_strnew(0)))
-		return (NULL);
-	while ((*ret = read(fd, buf, BUFF_SIZE)))
+	fd_lst = lst;
+	while (fd_lst != NULL)
 	{
-		if (*ret == -1)
-			return (NULL);
-		buf[*ret] = '\0';
-		tmp = join;
-		if (!(join = ft_strjoin(join, buf)))
-		{
-			free(tmp);
-			return (NULL);
-		}
-		free(tmp);
-		if (ft_strchr(join, '\n'))
-			break ;
+		if (fd_lst->fd == fd)
+			return (fd_lst);
+		fd_lst = fd_lst->next;
 	}
-	return (join);
+	if (fd_lst != NULL)
+		return (fd_lst);
+	if (!(fd_lst = (t_gnllist *)malloc(sizeof(*fd_lst))))
+		return (NULL);
+	fd_lst->next = NULL;
+	fd_lst->fd = fd;
+	reset_fd_lst_buff(fd_lst);
+	if (lst == NULL)
+		lst = fd_lst;
+	else
+	{
+		fd_lst->next = lst;
+		lst = fd_lst;
+	}
+	return (fd_lst);
 }
 
-int		ft_line(const int fd, char **line, char **stock_buf)
+static int		write_char_to_line(char **line, char c)
 {
-	int		ret;
-	char	*nl_ptr;
 	char	*tmp;
-	char	*read;
+	int		i;
+	int		j;
 
-	if (!(read = ft_read(fd, &ret)))
-		return (-1);
-	if (!*stock_buf)
-		*stock_buf = ft_strnew(0);
-	tmp = read;
-	read = ft_strjoin(*stock_buf, read);
+	i = 0;
+	while ((*line)[i])
+		i++;
+	if (!(tmp = (char *)malloc(sizeof(*tmp) * (i + 1))))
+		return (0);
+	j = -1;
+	while (++j < i)
+		tmp[j] = (*line)[j];
+	free(*line);
+	if (!(*line = (char *)malloc(sizeof(**line) * (i + 2))))
+	{
+		free(tmp);
+		return (0);
+	}
+	j = -1;
+	while (++j < i)
+		(*line)[j] = tmp[j];
 	free(tmp);
-	if (!read)
-		return (-1);
-	if (read[0] == '\0' && ret == 0)
-		return (ft_end(read, *stock_buf));
-	nl_ptr = ft_strchr(read, '\n');
-	*line = nl_ptr ? ft_strsub(read, 0, nl_ptr - read) : ft_strdup(read);
-	tmp = *stock_buf;
-	*stock_buf = (nl_ptr && nl_ptr[1] ? ft_strdup(nl_ptr + 1) : NULL);
-	free(tmp);
-	free(read);
-	if (!*line || !stock_buf)
-		return (-1);
+	(*line)[j++] = c;
+	(*line)[j] = '\0';
 	return (1);
 }
 
-int		get_next_line(const int fd, char **line)
+static int		end_of_file(char **line, int error)
 {
-	static char	*stock_buf[5000];
-	char		*nl_ptr;
-	char		*tmp;
-
-	if (fd < 0 || fd > 5000 || !line || read(fd, stock_buf[fd], 0) == -1 ||
-			BUFF_SIZE <= 0)
-		return (-1);
-	*line = NULL;
-	if (!stock_buf[fd] || !(nl_ptr = ft_strchr(stock_buf[fd], '\n')))
-		return (ft_line(fd, line, &stock_buf[fd]));
-	else
+	if (error)
 	{
-		*line = ft_strsub(stock_buf[fd], 0, (size_t)(nl_ptr - stock_buf[fd]));
-		tmp = stock_buf[fd];
-		stock_buf[fd] = ft_strdup(nl_ptr + 1);
-		free(tmp);
-		return (stock_buf[fd] ? 1 : -1);
+		free(*line);
+		return (-1);
 	}
-	return (-1);
+	if ((*line)[0] != '\0')
+		return (1);
+	free(*line);
+	return (0);
+}
+
+int				get_next_line(const int fd, char **line)
+{
+	t_gnllist			*fd_lst;
+	int				bytes_read;
+
+	if (fd < 0 || line == NULL || !(fd_lst = get_fd_lst(fd))
+		|| !(*line = (char *)malloc(sizeof(**line) * 1)))
+		return (-1);
+	(*line)[0] = '\0';
+	while (fd_lst->buff[fd_lst->i] != '\n')
+	{
+		if (fd_lst->buff[fd_lst->i] == '\0' || fd_lst->i == BUFF_SIZE)
+		{
+			reset_fd_lst_buff(fd_lst);
+			if (!(bytes_read = read(fd, fd_lst->buff, BUFF_SIZE)))
+				return (end_of_file(line, 0));
+			if (bytes_read == -1)
+				return (end_of_file(line, 1));
+		}
+		if (fd_lst->buff[fd_lst->i] && fd_lst->buff[fd_lst->i] != '\n')
+			if (!write_char_to_line(line, fd_lst->buff[fd_lst->i++]))
+				return (-1);
+	}
+	if (fd_lst->buff[fd_lst->i] == '\n')
+		fd_lst->i++;
+	return (1);
 }
