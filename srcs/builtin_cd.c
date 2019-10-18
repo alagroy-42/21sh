@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 05:17:44 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/09 18:36:20 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/18 23:27:51 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,32 +66,53 @@ void	builtin_cd_chdir(char *path, int follow, t_ast *ast, int cdpath)
 		set_pwd(path, follow, ast, cdpath);
 }
 
-int		builtin_cd_options(t_ast *ast, int i, int j, int follow)
+int		builtin_cd_resizeargs(t_ast *ast, int size)
 {
 	char	**tab;
+	int		i;
 
-	if (ft_2dstrlen(ast->args) >= 2 && (!ft_strcmp(ast->args[1], "-P")
-		|| !ft_strcmp(ast->args[1], "-L") || !ft_strcmp(ast->args[1], "-PL")
-		|| !ft_strcmp(ast->args[1], "-LP")))
+	if (!(tab = ft_2dstrnew(ft_2dstrlen(ast->args) - size + 1)) || !(tab[0] = ft_strdup(ast->args[0])))
 	{
-		if (!(tab = malloc(sizeof(char**) * (ft_2dstrlen(ast->args)))))
-			return (-1);
-		while (i < ft_2dstrlen(ast->args))
-		{
-			if (i == 1)
-			{
-				i++;
-				continue;
-			}
-			if (!(tab[j++] = ft_strdup(ast->args[i++])))
-				return (ft_2dstrdel(tab) ? -1 : -1);
-		}
-		tab[j] = NULL;
-		if (!ft_strcmp(ast->args[1], "-P") || !ft_strcmp(ast->args[1], "-LP"))
-			follow = 1;
-		ft_2dstrdel(ast->args);
-		ast->args = tab;
+		ft_2dstrdel(tab);
+		return (0);
 	}
+	i = 1;
+	while (ast->args[size])
+	{
+		if (!(tab[i++] = ft_strdup(ast->args[size++])))
+		{
+			ft_2dstrdel(tab);
+			return (0);
+		}
+	}
+	ft_2dstrdel(ast->args);
+	ast->args = tab;
+	return (1);
+}
+
+int		builtin_cd_options(t_ast *ast, int i, int j, int follow)
+{
+	i = 1;
+	while (ast->args[i] && ft_strlen(ast->args[i]) > 1 && ast->args[i][0] == '-' && ft_isalpha(ast->args[i][1]))
+	{
+		j = 1;
+		while (ast->args[i][j])
+		{
+			if (ast->args[i][j] != 'L' && ast->args[i][j] != 'P')
+			{
+				ft_putstr_fd("21sh: cd: -", 2);
+				ft_putchar_fd(ast->args[i][j], 2);
+				ft_putstr_fd(": invalid option\n", 2);
+				ft_putstr_fd("cd: usage: cd [-L|-P] [dir]\n", 2);
+				return (-1);
+			}
+			follow = (ast->args[i][j] == 'L' ? 0 : 1);
+			j++;
+		}
+		i++;
+	}
+	if (i > 1 && !(builtin_cd_resizeargs(ast, i)))
+		return (-1);
 	return (follow);
 }
 
@@ -122,7 +143,6 @@ void	builtin_cd(t_ast *ast)
 {
 	int follow;
 
-	ast->status = -1;
 	if ((follow = builtin_cd_options(ast, 0, 0, 0)) < 0)
 		return ;
 	if (ft_2dstrlen(ast->args) == 1)
