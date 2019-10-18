@@ -6,7 +6,7 @@
 #    By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/13 09:44:51 by alagroy-          #+#    #+#              #
-#    Updated: 2019/10/10 15:29:33 by pcharrie         ###   ########.fr        #
+#    Updated: 2019/10/18 20:07:17 by pcharrie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,9 +38,9 @@ OBJ = $(addprefix .obj/, $(OBJ_FILE))
 
 .obj/%.o: srcs/%.c
 	@mkdir .obj 2>/dev/null || true
-	@printf "\033[0;32m[21sh] Compilation [.o]\r"
+	@printf "\033[0;32m[21sh] Compilation [.o]\033[0;0m\r"
 	@$(CC) $(CFLAGS) -c $< -o $@
-	@printf "\033[0;32m[21sh] Compilation [.o]\r"
+	@printf "\033[0;32m[21sh] Compilation [.o]\033[0;0m\r"
 
 all: $(NAME)
 
@@ -48,21 +48,21 @@ debug:
 	$(CC) $(DFLAGS) libft/*.c $(SRCS) -ltermcap -o $(NAME)
 
 $(NAME): $(OBJ)
-	@printf "\033[0;32m[21sh] Compilation [OK]\n"
+	@printf "\033[0;32m[21sh] Compilation [OK]\033[0;0m\n"
 	@make -C libft
-	@printf "\033[0;32m[21sh] Linking [.o]\r"
+	@printf "\033[0;32m[21sh] Linking [.o]\033[0;0m\r"
 	@$(CC) $(CFLAGS) $(OBJ) -L libft -lft -ltermcap -o $(NAME)
-	@printf "\033[0;32m[21sh] Linking [OK]\n"
+	@printf "\033[0;32m[21sh] Linking [OK]\033[0;0m\n"
 
 clean:
 	@make -C libft clean
 	@rm -Rf .obj
-	@printf "\033[0;31m[21sh] Clean [OK]\n"
+	@printf "\033[0;31m[21sh] Clean [OK]\033[0;0m\n"
 
 fclean: clean
 	@rm -f $(NAME)
 	@rm -f libft/libft.a
-	@printf "\033[0;31m[21sh] Fclean [OK]\n"
+	@printf "\033[0;31m[21sh] Fclean [OK]\033[0;0m\n"
 
 re: fclean all
 
