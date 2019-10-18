@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/13 18:01:23 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/18 19:51:36 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/18 23:32:21 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "libft.h"
 
-static void		reset_fd_lst_buff(t_gnllist *fd_lst)
+static void			reset_fd_lst_buff(t_gnllist *fd_lst)
 {
 	long long i;
 
@@ -53,7 +53,7 @@ static t_gnllist	*get_fd_lst(int fd)
 	return (fd_lst);
 }
 
-static int		write_char_to_line(char **line, char c)
+static int			write_char_to_line(char **line, char c)
 {
 	char	*tmp;
 	int		i;
@@ -82,7 +82,7 @@ static int		write_char_to_line(char **line, char c)
 	return (1);
 }
 
-static int		end_of_file(char **line, int error)
+static int			end_of_file(char **line, int error)
 {
 	if (error)
 	{
@@ -95,10 +95,10 @@ static int		end_of_file(char **line, int error)
 	return (0);
 }
 
-int				get_next_line(const int fd, char **line)
+int					get_next_line(const int fd, char **line)
 {
-	t_gnllist			*fd_lst;
-	int				bytes_read;
+	t_gnllist	*fd_lst;
+	int			bytes_read;
 
 	if (fd < 0 || line == NULL || !(fd_lst = get_fd_lst(fd))
 		|| !(*line = (char *)malloc(sizeof(**line) * 1)))
