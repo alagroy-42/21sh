@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 18:42:55 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/17 17:35:04 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/20 21:00:36 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void		k_ctrld(t_line *line)
 void		k_ctrll(t_line *line)
 {
 	tgetputstr("cl");
+	line->pos_beg.col = 0;
+	line->pos_beg.row = 0;
 	tputs(line->prompt, 2, ft_putc);
 	tputs(line->line, 2, ft_putc);
 	get_back_to_index(line);
