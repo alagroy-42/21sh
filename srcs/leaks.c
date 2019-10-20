@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 18:16:55 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/18 12:31:25 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/20 22:08:47 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void		destroy_line(t_line *line)
 	ft_strdel(&line->prompt);
 	ft_strdel(&line->history_file);
 	ft_lstdel(&line->history, ft_del_history);
+	ft_strdel(&line->visu.clipboard);
 	free(line);
 	line = NULL;
 }
