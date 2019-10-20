@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:14:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/09 18:44:31 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/20 16:38:43 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 extern t_env	*g_env;
 extern int		g_ischild;
+extern int		g_status;
 
 int		exec_builtin(t_ast *ast)
 {
@@ -36,6 +37,8 @@ int		exec_builtin(t_ast *ast)
 		builtin_unsetenv(ast);
 	else
 		return (0);
+	if (!g_ischild)
+		g_status = ast->status;
 	return (1);
 }
 

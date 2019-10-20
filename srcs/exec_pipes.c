@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 15:12:24 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/09 15:46:02 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/20 16:52:24 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 extern int	g_ischild;
 extern int	g_lastpid;
-
+extern int	g_status;
 extern int	**g_fds;
 int			g_last_read_fd;
 
@@ -82,6 +82,8 @@ void	exec_ast_pipes_fork(t_ast **ast, int i, char **envp, int size)
 	}
 	else if (pid != -1)
 	{
+		if (ast_get_index(*ast, i))
+			ast_get_index(*ast, i)->pid = pid;
 		close(g_fds[i][1]);
 		if (g_last_read_fd)
 			close(g_last_read_fd);
@@ -92,6 +94,8 @@ void	exec_ast_pipes_fork(t_ast **ast, int i, char **envp, int size)
 void	exec_ast_pipes(t_ast **ast, int size, char **envp)
 {
 	int i;
+	int pid;
+	int status;
 
 	if (!(exec_gfds_malloc(size)))
 		return ;
@@ -103,9 +107,10 @@ void	exec_ast_pipes(t_ast **ast, int size, char **envp)
 		i++;
 	}
 	i = -1;
+	while ((pid = wait(&status)) != -1)
+		exec_wait_set_status(*ast, pid, status);
 	ast_pipes_end(ast);
-	while (wait(&(*ast)->status) != -1)
-		continue;
+	g_status = (*ast)->status;
 	exec_ast_pipes_closefds(size);
 	exec_gfds_free(size);
 }

@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 20:18:49 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/10 15:29:13 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/20 16:46:43 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void	ast_set_path(t_ast *ast)
 	char		**path;
 
 	ast->error = 0;
-	ast->status = -1;
+	ast->status = 1;
+	ast->pid = -1;
 	path = NULL;
 	if (is_cmd_builtin(ast->cmd))
 		ast->path = NULL;

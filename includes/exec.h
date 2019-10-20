@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 20:15:20 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/09 15:44:10 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/20 16:52:10 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	ast_pipes_end(t_ast **ast);
 void	exec_ast_child(t_ast *ast, char **envp);
 void	exec_ast_single(t_ast *ast, char **envp);
 void	exec_ast_fork(t_ast **ast);
+void	exec_wait_set_status(t_ast *ast, int pid, int status);
 int		ast_pipes_size(t_ast *ast);
 void	ft_quit(int sig);
 int		ft_redir_router(t_redir *redir_list);

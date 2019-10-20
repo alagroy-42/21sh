@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:23:14 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/10 15:28:10 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/20 16:46:37 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct		s_ast
 	t_sep			*sep;
 	struct s_ast	*pipe;
 	int				piped;
+	int				pid;
 }					t_ast;
 
 typedef struct		s_redir_router
