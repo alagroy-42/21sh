@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/13 18:01:23 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/18 23:32:21 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/20 20:44:03 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,15 @@ static int			end_of_file(char **line, int error)
 	if (error)
 	{
 		free(*line);
+		*line = NULL;
+		line = NULL;
 		return (-1);
 	}
 	if ((*line)[0] != '\0')
 		return (1);
 	free(*line);
+	*line = NULL;
+	line = NULL;
 	return (0);
 }
 
