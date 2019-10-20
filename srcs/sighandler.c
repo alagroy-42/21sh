@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 16:49:50 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/18 12:43:44 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/20 20:44:01 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	ft_resize(int sig)
 {
 	t_ws	ws;
 
-	if (sig == SIGWINCH)
+	if (sig == SIGWINCH && g_line)
 	{
 		tputs(tgoto(g_line->caps.cm, g_line->pos_beg.col, g_line->pos.row),
 				2, ft_putc);
