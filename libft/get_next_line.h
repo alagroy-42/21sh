@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/13 17:59:55 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/28 12:25:17 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/28 16:31:22 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <limits.h>
 
-# define BUFF_SIZE	10000
+# define BUFF_SIZE	1000
 
 int				get_next_line(const int fd, char **line);
 
