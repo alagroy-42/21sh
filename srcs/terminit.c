@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/18 12:54:41 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/28 15:09:53 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,21 @@ static void	make_history(t_line *line)
 	t_list	*new;
 	char	*content;
 	int		fd;
-	int		i;
 	t_env	*home;
 
-	i = 0;
+	fd = -1;
 	home = env_get(g_env, "HOME");
 	if (home && isatty(STDIN_FILENO))
 		line->history_file = ft_strjoin(home->value, "/.21sh_history");
 	else
 		line->history = NULL;
-	if ((fd = open(line->history_file, O_RDONLY | O_CREAT | O_NOFOLLOW,
-					0644)) == -1 || !isatty(STDIN_FILENO))
+	if (!home || !line->history_file)
+		return ;
+	if (((fd = open(line->history_file, O_RDONLY | O_CREAT | O_NOFOLLOW,
+						0644)) == -1 || !isatty(STDIN_FILENO)))
 		return ;
 	while (get_next_line(fd, &content) == 1)
 	{
-		i++;
 		new = ft_lstnew(content, ft_strlen(content) + 1);
 		if (new)
 			ft_lstend(&line->history, new);

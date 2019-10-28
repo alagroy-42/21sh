@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 18:16:55 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/20 22:08:47 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/28 15:04:49 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,15 @@ void		ft_del_history(void *content, size_t content_size)
 
 void		destroy_line(t_line *line)
 {
-	ft_strdel(&line->line);
-	ft_strdel(&line->prompt);
-	ft_strdel(&line->history_file);
+	if (line->line)
+		ft_strdel(&line->line);
+	if (line->prompt)
+		ft_strdel(&line->prompt);
+	if (line->history_file)
+		ft_strdel(&line->history_file);
 	ft_lstdel(&line->history, ft_del_history);
-	ft_strdel(&line->visu.clipboard);
+	if (line->visu.clipboard)
+		ft_strdel(&line->visu.clipboard);
 	free(line);
 	line = NULL;
 }
