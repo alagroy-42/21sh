@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 09:54:01 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/07/03 19:56:38 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/28 20:13:22 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int				ft_is_great(char c);
 int				ft_is_semicol(char c);
 int				ft_is_alpha(char c);
 int				ft_is_digit(char c);
-int				parse_cmd(t_list *token_list);
+int				parse_cmd(t_list *token_list, int state);
 int				analize_line(t_line *line, t_list **lex);
 int				lite_parser(char *str, int index);
 

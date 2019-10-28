@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/03 20:15:08 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/04 15:00:24 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/28 20:12:50 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,12 @@ static void	check_fd(t_list *token_list)
 	}
 }
 
-int			parse_cmd(t_list *token_list)
+int			parse_cmd(t_list *token_list, int state)
 {
 	t_list	*tmp;
 	int		i;
-	int		state;
 	int		symbol;
 
-	state = 0;
 	if (!token_list)
 		return (-1);
 	check_fd(token_list);
@@ -82,7 +80,8 @@ int			parse_cmd(t_list *token_list)
 	{
 		i = -1;
 		tmp = tmp == token_list && state == 0 ? tmp : tmp->next;
-		if (!tmp || ((t_token *)tmp->content)->type == -2)
+		if (!tmp || ((t_token *)tmp->content)->type == -2
+				|| ((t_token *)tmp->content)->type == -3)
 			return (-1);
 		while (++i < NBR_SYMBOL)
 			if (g_sym_tab[i] == ((t_token *)tmp->content)->type)
