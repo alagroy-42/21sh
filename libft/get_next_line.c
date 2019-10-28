@@ -6,123 +6,66 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/13 18:01:23 by pcharrie          #+#    #+#             */
-/*   Updated: 2019/10/20 20:44:03 by pcharrie         ###   ########.fr       */
+/*   Updated: 2019/10/28 12:24:46 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
-#include "libft.h"
+#include <limits.h>
+#include "get_next_line.h"
 
-static void			reset_fd_lst_buff(t_gnllist *fd_lst)
-{
-	long long i;
-
-	i = 0;
-	while (i < BUFF_SIZE)
-		fd_lst->buff[i++] = '\0';
-	fd_lst->i = 0;
-}
-
-static t_gnllist	*get_fd_lst(int fd)
-{
-	static t_gnllist	*lst = NULL;
-	t_gnllist			*fd_lst;
-
-	fd_lst = lst;
-	while (fd_lst != NULL)
-	{
-		if (fd_lst->fd == fd)
-			return (fd_lst);
-		fd_lst = fd_lst->next;
-	}
-	if (fd_lst != NULL)
-		return (fd_lst);
-	if (!(fd_lst = (t_gnllist *)malloc(sizeof(*fd_lst))))
-		return (NULL);
-	fd_lst->next = NULL;
-	fd_lst->fd = fd;
-	reset_fd_lst_buff(fd_lst);
-	if (lst == NULL)
-		lst = fd_lst;
-	else
-	{
-		fd_lst->next = lst;
-		lst = fd_lst;
-	}
-	return (fd_lst);
-}
-
-static int			write_char_to_line(char **line, char c)
+static int	write_line(char **line, char b[], int i, int j)
 {
 	char	*tmp;
-	int		i;
-	int		j;
+	int		k;
+	int		l;
 
-	i = 0;
-	while ((*line)[i])
-		i++;
-	if (!(tmp = (char *)malloc(sizeof(*tmp) * (i + 1))))
+	l = 0;
+	while (*line && (*line)[l])
+		l++;
+	if (!(tmp = malloc(sizeof(char) * (l + j - i + 1))))
 		return (0);
-	j = -1;
-	while (++j < i)
-		tmp[j] = (*line)[j];
-	free(*line);
-	if (!(*line = (char *)malloc(sizeof(**line) * (i + 2))))
+	k = 0;
+	while (*line && (*line)[k])
 	{
-		free(tmp);
-		return (0);
+		tmp[k] = (*line)[k];
+		k++;
 	}
-	j = -1;
-	while (++j < i)
-		(*line)[j] = tmp[j];
-	free(tmp);
-	(*line)[j++] = c;
-	(*line)[j] = '\0';
-	return (1);
-}
-
-static int			end_of_file(char **line, int error)
-{
-	if (error)
-	{
+	while (i < j)
+		tmp[k++] = b[i++];
+	tmp[k] = '\0';
+	if (*line)
 		free(*line);
-		*line = NULL;
-		line = NULL;
-		return (-1);
-	}
-	if ((*line)[0] != '\0')
-		return (1);
-	free(*line);
-	*line = NULL;
-	line = NULL;
-	return (0);
+	*line = tmp;
+	return (1);
 }
 
-int					get_next_line(const int fd, char **line)
+int			get_next_line(int fd, char **line)
 {
-	t_gnllist	*fd_lst;
-	int			bytes_read;
+	static t_gnl g;
 
-	if (fd < 0 || line == NULL || !(fd_lst = get_fd_lst(fd))
-		|| !(*line = (char *)malloc(sizeof(**line) * 1)))
-		return (-1);
-	(*line)[0] = '\0';
-	while (fd_lst->buff[fd_lst->i] != '\n')
+	(line ? *line = NULL : 0);
+	while (line)
 	{
-		if (fd_lst->buff[fd_lst->i] == '\0' || fd_lst->i == BUFF_SIZE)
+		if ((g.c[fd] < 1 || g.i[fd] == BUFF_SIZE)
+			|| (g.c[fd] < BUFF_SIZE && g.i[fd] == g.c[fd]))
 		{
-			reset_fd_lst_buff(fd_lst);
-			if (!(bytes_read = read(fd, fd_lst->buff, BUFF_SIZE)))
-				return (end_of_file(line, 0));
-			if (bytes_read == -1)
-				return (end_of_file(line, 1));
+			if ((g.c[fd] = read(fd, g.b[fd], BUFF_SIZE)) < 1)
+				return (*line == NULL ? g.c[fd] : 1);
+			g.i[fd] = 0;
 		}
-		if (fd_lst->buff[fd_lst->i] && fd_lst->buff[fd_lst->i] != '\n')
-			if (!write_char_to_line(line, fd_lst->buff[fd_lst->i++]))
-				return (-1);
+		g.j = g.i[fd];
+		while (g.b[fd][g.j] != '\n' && g.j < g.c[fd])
+			g.j++;
+		if (!write_line(line, g.b[fd], g.i[fd], g.j))
+			return (-1);
+		g.i[fd] = g.j;
+		if (g.b[fd][g.j] == '\n' || (g.c[fd] < BUFF_SIZE && g.j == g.c[fd]))
+		{
+			(g.b[fd][g.j] == '\n' ? g.i[fd]++ : 0);
+			return (1);
+		}
 	}
-	if (fd_lst->buff[fd_lst->i] == '\n')
-		fd_lst->i++;
-	return (1);
+	return (-1);
 }
