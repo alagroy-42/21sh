@@ -6,7 +6,7 @@
 /*   By: pcharrie <pcharrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 12:17:03 by alagroy-          #+#    #+#             */
-/*   Updated: 2019/10/28 15:09:53 by alagroy-         ###   ########.fr       */
+/*   Updated: 2019/10/28 16:09:16 by pcharrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int			init_line(t_line *line)
 		return (-1);
 	ft_resize(0);
 	line->history = NULL;
+	line->history_file = NULL;
 	line->prompt = NULL;
 	line->line = NULL;
 	line->visu.clipboard = NULL;
