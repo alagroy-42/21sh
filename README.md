@@ -11,8 +11,8 @@ make && ./21sh
 
 | KEY | ACTION |
 | --- | ------ |
-| Left arrow | go one character left |
-| Right arrow | go one character right |
+| Left arrow | Go one character left |
+| Right arrow | Go one character right |
 | Home | Go to the beginning of the line |
 | End | Go to the end of the line |
 | Backspace | Delete one character |
@@ -35,8 +35,8 @@ make && ./21sh
 
 - Pipes: |
 - Redirections: >, <, >>, <<
-- semicolon separator: ;
-- logical operators: &&, ||
+- Semicolon separator: ;
+- Logical operators: &&, ||
 - Environnement management
 - Builtins (POSIX compliant)
   - cd
